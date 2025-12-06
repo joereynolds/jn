@@ -7,8 +7,8 @@ The idea is to be frictionless and match the user's intentions as much as possib
 
 It should:
 
-- treat directories as books
-- treat files as notes
+- treat books as directories
+- treat notes as files
 - Work with any existing directories i.e. no need to create books, just point it at a dir if you want
 - Save config in `XDG_CONFIG_HOME`
 - Save books/notes in first in place specified by config, if not present, then
