@@ -114,6 +114,13 @@ The prefix and suffixes are config options and can be changed if desired.
 
 See config, to save you a click, the options are `note_prefix` and `note_suffix`.
 
+Once a note is created, its location is echoed to the terminal
+
+```
+> jn "Do the thing"
+> Created ~/Documents/notes/2025-12-05-do-the-thing.md
+```
+
 #### Adding a title
 
 You can of course add a title to your note if you don't want it inferred.
