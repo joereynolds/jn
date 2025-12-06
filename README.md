@@ -7,8 +7,8 @@ The idea is to be frictionless and match the user's intentions as much as possib
 
 It should:
 
-- treat directories as "books"
-- treat each note as a line in the file
+- treat directories as books
+- treat files as notes
 - Work with any existing directories i.e. no need to create books, just point it at a dir if you want
 - Save config in `XDG_CONFIG_HOME`
 - Save books/notes in first in place specified by config, if not present, then
@@ -18,16 +18,18 @@ It should:
 
 ### Config
 
-Config is another shell script comprised of variables you can set for yourself.
-Complete config below
+The config file is a shell script called `config.sh` that live inside `$XDG_CONFIG_HOME/jn/`.
+Usually this is `~/.config/jn/`.
+
+A complete configugration is below:
 
 ```
 notes_location="~/my-special-place" # default is XDG_DOCUMENTS_DIR
 grep_command="egrep" # default is "rg"
 find_command="find"  # default is "fd"
 fuzzy_command="fzy"  # default is "fzf"
-note_prefix=$(date)
-note_suffix=".md"
+note_prefix=$(date)  # What a note's prefix should be when saved
+note_suffix=".md"    # What a note's suffix should be when saved
 ```
 
 ### Questions
@@ -87,6 +89,13 @@ Pressing enter on the note will cat it to the terminal
 
 ### Adding books and notes
 
+#### Creating a book
+
+A book is optional. Conceptually it's where you store related notes.
+You might have a "vim" book containing tips about vim.
+A "docker" book containing tips about Docker, you get the idea.
+
+Books are optional, if you don't use books, it all just goes into the root directory
 
 #### Writing a note
 
@@ -116,5 +125,3 @@ jn "My note goes here" "instructions"
 ```
 
 Saves as 2025-12-05-instructions.md
-
-
