@@ -16,15 +16,14 @@ It should:
 - Incorporate fuzzy search if we have one available fzy/fzf etc...
 - Should be a config option for default edit style. Inline (on the terminal) or in your $EDITOR. Should also be able to override this with a flag
 
-### What language should we choose?
+### What language should we choose (ordered by preference)?
 
+- Chicken Scheme - Tempting... possibly. Good string handling, fast, testable, easy executables
 - Shell - Easiest install process ever, very well integrated with shell tools duh, but shell scripting hurts my soul
-- Chicken Scheme - Tempting... possibly. Good string handling, fast, easy executables
 - Lua - Compilation is a bit of a mare but is otherwise pretty good
-
-- C - String handling is wank, no thanks
-- Python - I know it well but it's balls, no thanks
 - TS - Don't like the tooling
+- Python - I know it well but I fancy a change and it's slow, no thanks
+- C - String handling is wank, no thanks
 
 ### Config
 
