@@ -62,7 +62,7 @@ Should use `tree` to display the list
 ### List all notes
 
 ```
-
+jn ls
 ```
 
 ### List all book notes
@@ -169,3 +169,19 @@ jn ":q! quits vim" #vim
 
 Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-q-quits-vim.md
 ```
+
+#### One note in multiple books
+
+Let's say you have a "programming" book and also a "python" book.
+
+In order to do so, just specify both books 
+
+i.e.
+
+```
+jn "a = 5 to assign in python" #python #programming
+```
+
+The above will create the note in "python" and create a symlink to it in "programming".
+
+The first link is the hard link, the rest are symlinks.
