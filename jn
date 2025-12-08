@@ -1,3 +1,5 @@
+version=0.1
+
 find_provider_fd_list_notes() {
     fd . $1 --type file
 }
@@ -33,7 +35,8 @@ list_notes() {
 }
 
 list_books() {
-    echo 'Books:'
+    echo 'Books'
+    echo '-----'
 
     while IFS= read -r book; do
 
@@ -85,11 +88,33 @@ jn__books__ls() {
     list_books
 }
 
+jn__help() {
+    usage="
+jn - a file-based command line notebook
+
+Usage:
+  jn [command]
+
+Available Commands:
+  book        Perform actions on books
+  ls          List all notes
+  config      Edit the jn config file
+  help        Display this help
+  version     Print the version number of Dnote
+"
+
+    echo "$usage"
+}
+
 jn() {
     if [ "$1" = "config" ]; then
         jn__config
     elif [[ "$1" = "book" ]]; then
         jn__books $@
+    elif [[ "$1" = "help" ]]; then
+        jn__help
+    elif [[ "$1" = "version" ]]; then
+        echo $version
     elif [[ "$1" == @* ]]; then
         jn__book $@
     elif [ "$1" = "ls" ]; then
@@ -104,16 +129,15 @@ jn() {
 source $(get_config_dir)/jn/config.sh
 
 _complete_jn() {
-    local cur
-    cur="${COMP_WORDS[COMP_CWORD]}"
-
-    # autocomplete any @books
+    local cur="${COMP_WORDS[COMP_CWORD]}"
     if [[ "$cur" == @* ]]; then
+        local books
+        books=$(find_provider_fd_list_books)
         local dir_list
-        books=$(find_provider_fd_list_books "$(get_notes_location)")
-        dir_list=$(basename "$books")
-        COMPREPLY=( $(compgen -W "${dir_list}" -- "${cur#@}") )
+        dir_list=$(echo "$books" | xargs -n1 basename)
+        COMPREPLY=( $(compgen -W "$dir_list" -- "${cur#@}") )
         COMPREPLY=( "${COMPREPLY[@]/#/@}" )
+        return
     fi
 }
 complete -F _complete_jn jn
