@@ -1,4 +1,3 @@
-# Use shell for now, if it gets unwieldy, switch
 find_provider_fd_list_notes() {
     fd . $1 --type file
 }
@@ -46,10 +45,8 @@ list_books() {
 }
 
 create_note() {
-    if [ $# -eq 1 ]; then
-        nice_name=$(echo "$1" | tr ' ' '-')
-    elif [ $# -eq 2 ]
-    then
+    nice_name=$(echo "$1" | tr ' ' '-')
+    if [ $# -eq 2 ]; then
         nice_name=$(echo $2)
     fi
 
@@ -106,4 +103,17 @@ jn() {
 
 source $(get_config_dir)/jn/config.sh
 
-jn "$@"
+_complete_jn() {
+    local cur
+    cur="${COMP_WORDS[COMP_CWORD]}"
+
+    # autocomplete any @books
+    if [[ "$cur" == @* ]]; then
+        local dir_list
+        books=$(find_provider_fd_list_books "$(get_notes_location)")
+        dir_list=$(basename "$books")
+        COMPREPLY=( $(compgen -W "${dir_list}" -- "${cur#@}") )
+        COMPREPLY=( "${COMPREPLY[@]/#/@}" )
+    fi
+}
+complete -F _complete_jn jn
