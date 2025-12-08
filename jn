@@ -64,11 +64,17 @@ Usage:
   jn [command]
 
 Available Commands:
-  book        Perform actions on books
-  ls          List all notes
-  config      Edit the jn config file
-  help        Display this help
-  version     Print the version number of Dnote
+  book         Show all books
+  @<book>      Show all notes for a book
+  /            Fuzzy search all notes
+  config       Edit the jn config file
+  help         Display this help
+  version      Print the version number of Dnote
+
+Examples:
+   
+   Show all notes for a book called "docker"
+       jn @docker
 "
 
     echo "$usage"
