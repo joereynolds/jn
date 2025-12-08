@@ -88,7 +88,7 @@ create_note() {
 
 edit_note() {
     notes=$(find_provider_fd_list_notes $(get_notes_location))
-    echo -e "$notes" | $(get_fuzzy_provider) | xargs $(get_editor)
+    $(get_editor) $(echo -e "$notes" | get_fuzzy_provider)
 }
 
 list_notes() {

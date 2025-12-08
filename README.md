@@ -82,6 +82,12 @@ Pressing enter on the note will cat it to the terminal
 
 ### Searching books and notes
 
+```
+jn /
+```
+
+This will open up a fuzzy finder of all of your notes.
+Select one and it will open up in `$EDITOR`.
 
 ### Adding books and notes
 
