@@ -1,5 +1,4 @@
 version=0.1
-
 yellow="\x1b[33m"
 red="\x1b[31m"
 green="\x1b[32m"
@@ -89,7 +88,7 @@ create_note() {
 
 edit_note() {
     notes=$(find_provider_fd_list_notes $(get_notes_location))
-    $notes | get_fuzzy_provider | xargs get_editor
+    echo -e "$notes" | $(get_fuzzy_provider) | xargs $(get_editor)
 }
 
 list_notes() {
@@ -131,6 +130,7 @@ jn() {
         echo $version
     elif [[ "$1" = "/" ]]; then
         edit_note
+        return
     elif [[ "$1" == @* ]]; then
         jn__book $@
     elif [ $# -eq 0 ]; then
