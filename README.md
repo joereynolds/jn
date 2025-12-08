@@ -18,17 +18,6 @@ It should:
 - Should be a config option for default edit style. Inline (on the terminal) or
   in your $EDITOR. Should also be able to override this with a flag
 
-### What language should we choose (ordered by preference)?
-
-- Chicken Scheme - Tempting... possibly. Good string handling, fast, testable,
-  easy executables
-- Shell - Easiest install process ever, very well integrated with shell tools
-  duh, but shell scripting hurts my soul
-- Lua - Compilation is a bit of a mare but is otherwise pretty good
-- TS - Don't like the tooling
-- Python - I know it well but I fancy a change and it's slow, no thanks
-- C - String handling is wank, no thanks
-
 ### Config
 
 The config file lives inside `$XDG_CONFIG_HOME/jn/`.
@@ -55,16 +44,16 @@ note_suffix=".md"    # What a note's suffix should be when saved
 jn
 ```
 
-### List all notes
+### List all notes for a book
 
 ```
-jn ls
+jn @<your-book>
 ```
 
-### List all book notes
+or
 
 ```
-jn <book> ls
+jn @<your-book> ls
 ```
 
 #### Fuzzy finding
