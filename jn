@@ -1,6 +1,6 @@
 # Use shell for now, if it gets unwieldy, switch
 find_provider_fd_list_notes() {
-    fd . $(get_notes_location) --type file
+    fd . $1 --type file
 }
 
 find_provider_fd_list_books() {
@@ -30,7 +30,7 @@ list_notes() {
 
         echo "$last_dir:$file_name ($line_count lines)"
 
-    done < <(find_provider_fd_list_notes)
+    done < <(find_provider_fd_list_notes $1)
 }
 
 list_books() {
@@ -72,27 +72,34 @@ jn__config() {
 }
 
 jn__book() {
-    if [ "$2" = "ls" ]; then
-        jn__book__ls
-    fi
+    jn__book__ls $1
 }
 
 jn__book__ls() {
+    book=$(echo "$1" | tr -d '@')
+    list_notes "$(get_notes_location)/$book"
+}
+
+jn__books() {
+    jn__books__ls
+}
+
+jn__books__ls() {
     list_books
 }
 
 jn() {
     if [ "$1" = "config" ]; then
         jn__config
-    elif [ "$1" = "book" ]; then
+    elif [[ "$1" = "book" ]]; then
+        jn__books $@
+    elif [[ "$1" == @* ]]; then
         jn__book $@
     elif [ "$1" = "ls" ]; then
-        list_notes
-    elif [ $# -eq 0 ]
-    then
-        list_books
-    elif [ $# -gt 0 ]
-    then
+        list_notes $(get_notes_location)
+    elif [ $# -eq 0 ]; then
+        list_books 
+    elif [ $# -gt 0 ]; then
         create_note "$@"
     fi
 }
