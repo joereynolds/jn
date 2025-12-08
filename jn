@@ -4,7 +4,7 @@ find_provider_fd_list_notes() {
 }
 
 find_provider_fd_list_books() {
-    fd . $(get_notes_location) --type directory --max-depth 1 | xargs -L1 basename
+    fd . $(get_notes_location) --type directory --max-depth 1
 }
 
 get_notes_location() {
@@ -35,7 +35,14 @@ list_notes() {
 
 list_books() {
     echo 'Books:'
-    find_provider_fd_list_books
+
+    while IFS= read -r book; do
+
+        note_count=$(ls $book | wc -l)
+        nice_name=$(basename $book)
+        echo "$nice_name ($note_count notes)"
+
+    done < <(find_provider_fd_list_books)
 }
 
 create_note() {
