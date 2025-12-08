@@ -116,7 +116,7 @@ list_books() {
 }
 
 _post_creation_notice() {
-    echo "Created $1"
+    echo -e "${green}Created $1${reset}"
 }
 
 jn() {
