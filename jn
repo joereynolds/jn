@@ -1,10 +1,4 @@
 # Use shell for now, if it gets unwieldy, switch
-
-# Move to config dir
-notes_location=~/Documents/work
-notes_prefix=$(date +%Y-%m-%d)
-notes_suffix=".md"
-
 find_provider_fd_list_notes() {
     fd . $(get_notes_location) --type file
 }
@@ -14,7 +8,7 @@ find_provider_fd_list_books() {
 }
 
 get_notes_location() {
-    echo $notes_location
+    echo $jn_notes_location
 }
 
 get_editor() {
@@ -42,7 +36,7 @@ create_note() {
         nice_name=$(echo $2)
     fi
 
-    file_path=$notes_location/$notes_prefix-$nice_name$notes_suffix
+    file_path=$jn_notes_location/$jn_notes_prefix-$nice_name$jn_notes_suffix
 
     echo "$1" > $file_path
     _post_creation_notice "$file_path"
@@ -85,5 +79,7 @@ jn() {
         create_note "$@"
     fi
 }
+
+source $(get_config_dir)/jn/config.sh
 
 jn "$@"
