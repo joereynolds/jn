@@ -20,7 +20,17 @@ get_config_dir() {
 }
 
 list_notes() {
-    find_provider_fd_list_notes
+
+    while IFS= read -r file_path; do
+
+        line_count=$(wc -l < "$file_path")
+        directory=$(dirname "$file_path")
+        last_dir=$(basename "$directory")
+        file_name=$(basename "$file_path")
+
+        echo "$last_dir:$file_name ($line_count lines)"
+
+    done < <(find_provider_fd_list_notes)
 }
 
 list_books() {
