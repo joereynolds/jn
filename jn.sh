@@ -9,6 +9,10 @@ find_provider_fd_list_notes() {
     fd . $(get_notes_location) --type file
 }
 
+find_provider_fd_list_books() {
+    fd . $(get_notes_location) --type directory --max-depth 1 | xargs -L1 basename
+}
+
 get_notes_location() {
     echo $notes_location
 }
@@ -27,7 +31,7 @@ list_notes() {
 
 list_books() {
     echo 'Books:'
-    ls -1 --color=never $notes_location
+    find_provider_fd_list_books
 }
 
 create_note() {
@@ -56,9 +60,21 @@ jn__config() {
     $(get_editor) $(get_config_dir)/jn/config.sh
 }
 
+jn__book() {
+    if [ "$2" = "ls" ]; then
+        jn__book__ls
+    fi
+}
+
+jn__book__ls() {
+    list_books
+}
+
 jn() {
     if [ "$1" = "config" ]; then
         jn__config
+    elif [ "$1" = "book" ]; then
+        jn__book $@
     elif [ "$1" = "ls" ]; then
         list_notes
     elif [ $# -eq 0 ]
