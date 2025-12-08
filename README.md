@@ -2,24 +2,28 @@
 
 ## What is it?
 
-A copy of DNote but filebased and imo better.
-The idea is to be frictionless and match the user's intentions as much as possible.
+A copy of DNote but filebased and imo better. The idea is to be frictionless
+and match the user's intentions as much as possible.
 
 It should:
 
 - treat books as directories
 - treat notes as files
-- Work with any existing directories i.e. no need to create books, just point it at a dir if you want
+- Work with any existing directories i.e. no need to create books, just point
+  it at a dir if you want
 - Save config in `XDG_CONFIG_HOME`
 - Save books/notes in first in place specified by config, if not present, then
   in `XDG_DOCUMENTS_DIR` and if not present, just the cwd?
 - Incorporate fuzzy search if we have one available fzy/fzf etc...
-- Should be a config option for default edit style. Inline (on the terminal) or in your $EDITOR. Should also be able to override this with a flag
+- Should be a config option for default edit style. Inline (on the terminal) or
+  in your $EDITOR. Should also be able to override this with a flag
 
 ### What language should we choose (ordered by preference)?
 
-- Chicken Scheme - Tempting... possibly. Good string handling, fast, testable, easy executables
-- Shell - Easiest install process ever, very well integrated with shell tools duh, but shell scripting hurts my soul
+- Chicken Scheme - Tempting... possibly. Good string handling, fast, testable,
+  easy executables
+- Shell - Easiest install process ever, very well integrated with shell tools
+  duh, but shell scripting hurts my soul
 - Lua - Compilation is a bit of a mare but is otherwise pretty good
 - TS - Don't like the tooling
 - Python - I know it well but I fancy a change and it's slow, no thanks
@@ -30,7 +34,7 @@ It should:
 The config file lives inside `$XDG_CONFIG_HOME/jn/`.
 Usually this is `~/.config/jn/`.
 
-A complete configugration is below:
+A complete configuration is below:
 
 ```
 notes_location="~/my-special-place" # default is XDG_DOCUMENTS_DIR
@@ -41,13 +45,7 @@ note_prefix=$(date)  # What a note's prefix should be when saved
 note_suffix=".md"    # What a note's suffix should be when saved
 ```
 
-### Questions
-
-- How should we go about tagging a note? Should we bother at all?
-    - For example if a note is both C and PYthon related and you have those two dirs, where would they want to put it? 
-
-
-Command examples
+## Commands
 
 ### Listing books and notes
 
@@ -56,8 +54,6 @@ Command examples
 ```
 jn
 ```
-
-Should use `tree` to display the list
 
 ### List all notes
 
@@ -73,8 +69,9 @@ jn <book> ls
 
 #### Fuzzy finding
 
-Pressing `<tab>` after any command will open up a fuzzy finder if one is available.
-If one is not available, it will fall back to default bash tab completion
+Pressing `<tab>` after any command will open up a fuzzy finder if one is
+available. If one is not available, it will fall back to default bash tab
+completion
 
 ##### Fuzzy find all notes
 
@@ -82,7 +79,8 @@ If one is not available, it will fall back to default bash tab completion
 jn <tab>
 ```
 
-Pressing enter will `cat` the selected file out to stdout (I think? Maybe open in $EDITOR but that feels clunky).
+Pressing enter will `cat` the selected file out to stdout (I think? Maybe open
+in $EDITOR but that feels clunky).
 
 ##### Fuzzy find all books
 
@@ -99,34 +97,36 @@ Pressing enter on the note will cat it to the terminal
 ### Adding books and notes
 
 
-
-
 #### Writing a note
 
 The complete syntax for writing a note is as follows:
 
 ```
-jn <your note> <your title> #<your book>
+jn <your note> <your title> @<your book>
 ```
 
 The first argument is mandatory, the other two are optional.
 
-Writing a note is as simple as 
+Writing a note is as simple as:
 
 ```
 jn "my note goes here"
 ```
-This will write it out to your configured place (`XDG_DOCUMENTS_DIR` by default).
 
-By default, it will save the note with a date prefix, the first N words (how many?) of the note and a markdown suffix.
+This will write it out to your configured place (`XDG_DOCUMENTS_DIR` by
+default).
+
+By default, it will save the note with a date prefix, the first N words (how
+many?) of the note and a markdown suffix.
 
 So `jn "my note goes here"` is saved as "2025-12-05-my-note-goes-here.md".
 
-The date and markdown extension are config options and can be changed if desired.
+The date and markdown extension are config options and can be changed if
+desired.
 
 See `note_prefix` and `note_suffix` in the config above.
 
-Once a note is created, its location is echoed to the terminal
+Once a note is created, its location is echoed to the terminal:
 
 ```
 > jn "Do the thing"
@@ -141,9 +141,8 @@ Doing
 
 ```
 jn "My note goes here" "instructions"
+> Created ~/Documents/notes/2025-12-05-instructions.md
 ```
-
-Saves as 2025-12-05-instructions.md
 
 #### Creating a book
 
@@ -151,21 +150,22 @@ A book is optional. Conceptually it's where you store related notes.
 You might have a "vim" book containing tips about vim.
 A "docker" book containing tips about Docker, you get the idea.
 
-Books are optional, if you don't use books, it all just goes into the root directory.
+If you don't use books, it all just goes into the root directory defined in
+your config.
 
 Books are created automatically when you make notes.
-It is the last argument in the chain and always begins with a "#"
+It is the last argument in the chain and begins with a "@"
 
 The following are valid:
 
 ```
-jn ":q! quits vim" "how-to-quit-vim" #vim
+jn ":q! quits vim" "how-to-quit-vim" @vim
 
 Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-how-to-quit-vim.md
 ```
 
 ```
-jn ":q! quits vim" #vim
+jn ":q! quits vim" @vim
 
 Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-q-quits-vim.md
 ```
@@ -173,15 +173,17 @@ Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-q-quits-vim.md
 #### One note in multiple books
 
 Let's say you have a "programming" book and also a "python" book.
+You want one note to appear in both places, but how?
 
 In order to do so, just specify both books 
 
 i.e.
 
 ```
-jn "a = 5 to assign in python" #python #programming
+jn "a = 5 to assign in python" @python @programming
 ```
 
-The above will create the note in "python" and create a symlink to it in "programming".
+The above will create the note in "python" and create a symlink to it in
+"programming".
 
 The first link is the hard link, the rest are symlinks.
