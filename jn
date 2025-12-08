@@ -1,5 +1,17 @@
 version=0.1
 
+yellow="\x1b[33m"
+red="\x1b[31m"
+green="\x1b[32m"
+blue="\x1b[34m"
+magenta="\x1b[35m"
+cyan="\x1b[36m"
+reset="\x1b[0m"
+
+find_provider_fd_most_recent() {
+    fd . --changed-within "2 weeks" $(get_notes_location)
+}
+
 find_provider_fd_list_notes() {
     fd . $1 --type file
 }
@@ -20,44 +32,6 @@ get_config_dir() {
     echo $XDG_CONFIG_HOME
 }
 
-list_notes() {
-
-    while IFS= read -r file_path; do
-
-        line_count=$(wc -l < "$file_path")
-        directory=$(dirname "$file_path")
-        last_dir=$(basename "$directory")
-        file_name=$(basename "$file_path")
-
-        echo "$last_dir:$file_name ($line_count lines)"
-
-    done < <(find_provider_fd_list_notes $1)
-}
-
-list_books() {
-    echo 'Books'
-    echo '-----'
-
-    while IFS= read -r book; do
-
-        note_count=$(ls $book | wc -l)
-        nice_name=$(basename $book)
-        echo "$nice_name ($note_count notes)"
-
-    done < <(find_provider_fd_list_books)
-}
-
-create_note() {
-    nice_name=$(echo "$1" | tr ' ' '-')
-    if [ $# -eq 2 ]; then
-        nice_name=$(echo $2)
-    fi
-
-    file_path=$jn_notes_location/$jn_notes_prefix-$nice_name$jn_notes_suffix
-
-    echo "$1" > $file_path
-    _post_creation_notice "$file_path"
-}
 
 _post_creation_notice() {
     echo "Created $1"
@@ -106,6 +80,42 @@ Available Commands:
     echo "$usage"
 }
 
+create_note() {
+    nice_name=$(echo "$1" | tr ' ' '-')
+    if [ $# -eq 2 ]; then
+        nice_name=$(echo $2)
+    fi
+
+    file_path=$jn_notes_location/$jn_notes_prefix-$nice_name$jn_notes_suffix
+
+    echo "$1" > $file_path
+    _post_creation_notice "$file_path"
+}
+
+list_notes() {
+
+    while IFS= read -r file_path; do
+
+        line_count=$(wc -l < "$file_path")
+        directory=$(dirname "$file_path")
+        last_dir=$(basename "$directory")
+        file_name=$(basename "$file_path")
+
+        echo -e "$file_name ${yellow}($line_count lines)${reset}"
+
+    done < <(find_provider_fd_list_notes $1)
+}
+
+list_books() {
+    while IFS= read -r book; do
+
+        note_count=$(ls $book | wc -l)
+        nice_name=$(basename $book)
+        echo -e "$nice_name ${yellow}($note_count notes)${reset}"
+
+    done < <(find_provider_fd_list_books)
+}
+
 jn() {
     if [ "$1" = "config" ]; then
         jn__config
@@ -117,8 +127,6 @@ jn() {
         echo $version
     elif [[ "$1" == @* ]]; then
         jn__book $@
-    elif [ "$1" = "ls" ]; then
-        list_notes $(get_notes_location)
     elif [ $# -eq 0 ]; then
         list_books 
     elif [ $# -gt 0 ]; then
