@@ -112,6 +112,10 @@ list_notes() {
 }
 
 list_books() {
+    # make agnostic
+    note_count=$(fd . $(get_notes_location) --type file --max-depth 1 | wc -l)
+    echo -e ". ${yellow}($note_count notes)${reset}"
+
     while IFS= read -r book; do
 
         note_count=$(ls $book | wc -l)
