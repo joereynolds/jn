@@ -34,7 +34,7 @@ get_editor() {
 }
 
 get_fuzzy_provider() {
-    fzy
+    "${jn_fuzzy_provider:-'fzf'}"
 }
 
 get_notes_location() {
