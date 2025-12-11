@@ -38,6 +38,7 @@ get_fuzzy_provider() {
 }
 
 get_notes_location() {
+    # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
     echo $jn_notes_location
 }
 
