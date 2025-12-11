@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 version=0.1
 yellow="\x1b[33m"
 red="\x1b[31m"
@@ -9,6 +11,10 @@ reset="\x1b[0m"
 
 find_provider_fd_list_books() {
     fd . $(get_notes_location) --type directory --max-depth 1
+}
+
+find_provider_fd_list_root() {
+    fd . $(get_notes_location) --type file --max-depth 1
 }
 
 find_provider_fd_list_notes() {
@@ -64,17 +70,17 @@ Usage:
   jn [command]
 
 Available Commands:
-  book         Show all books
-  @<book>      Show all notes for a book
-  /            Fuzzy search all notes
-  config       Edit the jn config file
-  help         Display this help
-  version      Print the version number of Dnote
+  book                    Show all books
+  @<book>                 Show all notes for a book
+  [Tab]                   Fuzzy search all notes
+  config, -c, --config    Edit the jn config file
+  help, -h, --help        Display this help
+  version, -v, --version  Print jn's version
 
 Examples:
    
-   Show all notes for a book called "docker"
-       jn @docker
+    Show all notes for a book called "docker"
+        jn @docker
 "
 
     echo "$usage"
@@ -112,8 +118,7 @@ list_notes() {
 }
 
 list_books() {
-    # make agnostic
-    note_count=$(fd . $(get_notes_location) --type file --max-depth 1 | wc -l)
+    note_count=$(find_provider_fd_list_root | wc -l)
     echo -e ". ${yellow}($note_count notes)${reset}"
 
     while IFS= read -r book; do
@@ -130,17 +135,14 @@ _post_creation_notice() {
 }
 
 jn() {
-    if [ "$1" = "config" ]; then
+    if [ "$1" = "config" ] || [ "$1" = "-c" ] || [ "$1" = "--config" ]; then
         jn__config
     elif [[ "$1" = "book" ]]; then
         jn__books $@
-    elif [[ "$1" = "help" ]]; then
+    elif [[ "$1" = "help" || "$1" = "-h" || "$1" = "--help" ]]; then
         jn__help
-    elif [[ "$1" = "version" ]]; then
+    elif [[ "$1" = "version" || "$1" = "-v" || "$1" = "--version" ]]; then
         echo $version
-    elif [[ "$1" = "/" ]]; then
-        edit_note
-        return
     elif [[ "$1" == @* ]]; then
         jn__book $@
     elif [ $# -eq 0 ]; then
@@ -156,11 +158,16 @@ _complete_jn() {
     local cur="${COMP_WORDS[COMP_CWORD]}"
     if [[ "$cur" == @* ]]; then
         local books
-        books=$(find_provider_fd_list_books)
         local dir_list
+
+        books=$(find_provider_fd_list_books)
         dir_list=$(echo "$books" | xargs -n1 basename)
+
         COMPREPLY=( $(compgen -W "$dir_list" -- "${cur#@}") )
         COMPREPLY=( "${COMPREPLY[@]/#/@}" )
+        return
+    elif [[ "$cur" == "" ]]; then
+        edit_note
         return
     fi
 }
