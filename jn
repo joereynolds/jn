@@ -109,9 +109,13 @@ edit_note() {
 }
 
 star_note() {
-    if [ -d "$(get_notes_location)/starred" ]; then
-        echo "creating starred directory"
+    if [ ! -d "$(get_notes_location)/starred" ]; then
+        mkdir  "$(get_notes_location)/starred"
     fi
+
+    notes=$(find_provider_fd_list_notes $(get_notes_location))
+    selected_note=$(echo -e "$notes" | get_fuzzy_provider)
+    ln -sf "$selected_note" "$(get_notes_location)/starred/"
 }
 
 list_notes() {
@@ -160,7 +164,7 @@ jn() {
         jn__book $@
     elif [[ "$1" == "/" ]]; then
         edit_note
-    elif [[ "$1" == "*" ]]; then
+    elif [[ "$1" == "star" ]]; then
         star_note
     elif [ $# -eq 0 ]; then
         list_books 
