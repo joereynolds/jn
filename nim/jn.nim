@@ -1,14 +1,17 @@
 import std/terminal
 import std/tables
+import config
 
-proc get_directories(): Table[string, int] =
+type DirectoryListing = Table[string, int]
+
+proc get_directories(): DirectoryListing =
     return {
         "root": 43,
         "rambles": 4,
         "random": 8
     }.toTable
 
-proc print_directories(directories: Table[string, int]) =
+proc print_directories(directories: DirectoryListing) =
     for directory, fileCount in directories:
         let noteCount = " (" & $fileCount & " notes" & ")"
 
@@ -40,3 +43,4 @@ Examples:
 
 echo get_usage()
 print_directories(get_directories())
+echo get_config_dir()
