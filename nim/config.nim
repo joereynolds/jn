@@ -1,12 +1,14 @@
 import std/envvars
 
-proc get_config_dir*(): string =
-    return getEnv(
+proc get_config_location*(): string =
+    let directory = getEnv(
         "XDG_CONFIG_HOME",
         "penis"
     )
 
-proc get_editor(): string =
+    return directory & "/jn/config.nim"
+
+proc get_editor*(): string =
     # TODO - first read from config
     # then env, then fallback
     return getEnv(
