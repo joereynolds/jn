@@ -1,3 +1,4 @@
+import std/parseopt
 import std/terminal
 import std/tables
 import config
@@ -41,6 +42,20 @@ Examples:
     """
     return usage
 
-echo get_usage()
-print_directories(get_directories())
-echo get_config_dir()
+
+
+# print_directories(get_directories())
+# echo get_config_dir()
+
+
+for kind, key, val in getopt():
+    case kind
+    of cmdend: discard
+    of cmdShortOption, cmdLongOption:
+        case key:
+            of "h", "help":
+                echo get_usage()
+            of "v", "version":
+                echo "0.1"
+    of cmdArgument:
+        discard
