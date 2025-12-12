@@ -1,7 +1,6 @@
 import std/envvars
-echo "here"
 
-proc get_config_dir(): string =
+proc get_config_dir*(): string =
     return getEnv(
         "XDG_CONFIG_HOME",
         "penis"
