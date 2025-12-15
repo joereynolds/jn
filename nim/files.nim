@@ -9,16 +9,19 @@ import config
 
 type DirectoryListing = Table[string, int]
 
-proc getFullNoteName(note: string): string =
+proc getFullNoteName(
+    note: string,
+    config: Config = config.configuration
+): string =
 
-    let dateFormat = config.configuration.getSectionValue(
+    let dateFormat = config.getSectionValue(
         "",
         "notes_prefix"
     )
 
     let prefix = now().format(dateFormat)
 
-    let suffix = config.configuration.getSectionValue(
+    let suffix = config.getSectionValue(
         "",
         "notes_suffix"
     )

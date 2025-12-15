@@ -2,6 +2,7 @@ import std/os
 import std/cmdline
 import std/parseopt
 import std/strutils
+import std/terminal
 
 import config
 import subcommands/cat
@@ -11,7 +12,7 @@ import files
 
 const version = "0.1"
 
-proc get_usage(): string =
+proc usage(): string =
     const usage="""
 jn - a file-based command line notebook
 
@@ -34,6 +35,10 @@ Examples:
     return usage
 
 
+try:
+    config.validate()
+except Exception as e:
+    stdout.styledWriteLine(fgYellow, e.msg)
 
 
 for kind, key, val in getopt():
@@ -41,7 +46,7 @@ for kind, key, val in getopt():
     of cmdShortOption, cmdLongOption:
         case key:
             of "h", "help":
-                echo get_usage()
+                echo usage()
             of "v", "version":
                 echo version
     of cmdArgument:
@@ -55,8 +60,8 @@ for kind, key, val in getopt():
             echo "Book stuff"
 
         else:
-            files.createNote("blah")
-            echo "handle strings here"
+            files.createNote(key)
+            echo key
     of cmdend: discard
 
 if paramCount() <= 0:
