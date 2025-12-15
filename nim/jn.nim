@@ -50,9 +50,11 @@ for kind, key, val in getopt():
     of cmdArgument:
         if key == "cat":
             cat.process()
+            quit()
 
         if key == "config":
             sconfig.process()
+            quit()
 
         if key.startsWith("@"):
             echo "Book stuff"
