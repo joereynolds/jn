@@ -3,6 +3,7 @@ import std/tables
 import std/terminal
 import std/times
 import std/parsecfg
+import std/strutils
 
 import config
 
@@ -26,7 +27,7 @@ proc getFullNoteName(
         "notes_suffix"
     )
 
-    let fullName = prefix & "-" & note & suffix
+    let fullName = prefix & "-" & note.replace(" ", "-") & suffix
 
     return fullName
 

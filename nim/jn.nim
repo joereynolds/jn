@@ -12,8 +12,7 @@ import files
 
 const version = "0.1"
 
-proc usage(): string =
-    const usage="""
+const usage="""
 jn - a file-based command line notebook
 
 Usage:
@@ -31,8 +30,7 @@ Examples:
    
     Show all notes for a book called 'docker'
         jn @docker
-    """
-    return usage
+"""
 
 
 try:
@@ -46,7 +44,7 @@ for kind, key, val in getopt():
     of cmdShortOption, cmdLongOption:
         case key:
             of "h", "help":
-                echo usage()
+                echo usage
             of "v", "version":
                 echo version
     of cmdArgument:
@@ -61,7 +59,6 @@ for kind, key, val in getopt():
 
         else:
             files.createNote(key)
-            echo key
     of cmdend: discard
 
 if paramCount() <= 0:
