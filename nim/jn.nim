@@ -1,9 +1,12 @@
 import std/os
 import std/cmdline
 import std/dirs
+import std/osproc
 import std/parseopt
 import std/terminal
 import std/tables
+import std/strutils
+import std/syncio
 
 import config
 
@@ -11,13 +14,13 @@ type DirectoryListing = Table[string, int]
 
 const version = "0.1"
 
-proc get_directories(): DirectoryListing =
+proc getDirectories(notesDir: string): DirectoryListing =
     var directories = initTable[string, int]()
 
-    for kind, path in walkDir(expandTilde("~/Documents/work/")):
+    for kind, path in walkDir(expandTilde(notesDir)):
         
         let path_as_key = lastPathPart(path)
-        if kind == pcDir:
+        if kind == pcDir and not isHidden(path):
             directories[path_as_key] = 0
 
             for other_kind, other_path in walkDir(path):
@@ -26,7 +29,15 @@ proc get_directories(): DirectoryListing =
 
     return directories
 
-proc print_directories(directories: DirectoryListing) =
+proc getNotes(notesDir: string): seq[string] =
+    var notes = @[""]
+
+    for note in walkDirRec(expandTilde(notesDir)):
+        notes.add(note)
+    return notes
+
+
+proc printDirectories(directories: DirectoryListing) =
     for directory, fileCount in directories:
         let noteCount = " (" & $fileCount & " notes" & ")"
 
@@ -70,14 +81,18 @@ for kind, key, val in getopt():
     of cmdArgument:
         case key:
             of "cat":
-                discard os.execShellCmd("ls")
+                let notes = getNotes(getNotesLocation())
+                let fuzzy = getFuzzyProvider()
+                var choice = execProcess("echo '" & notes.join("\n") & "' | " & fuzzy)
+                choice.stripLineEnd()
+                let content = readFile(choice)
+                echo content
+
             of "config":
-                let editor = get_editor()
-                let location = get_config_location()
-                discard os.execShellCmd(editor & " " & location)
+                discard os.execShellCmd(getEditor() & " " & getConfigLocation())
             else:
                 echo "handle strings here"
     of cmdend: discard
 
 if paramCount() <= 0:
-    print_directories(get_directories())
+    printDirectories(getDirectories(getNotesLocation()))

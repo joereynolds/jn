@@ -1,7 +1,7 @@
 import std/parsecfg
 import std/envvars
 
-proc get_config_location*(): string =
+proc getConfigLocation*(): string =
     let directory = getEnv(
         "XDG_CONFIG_HOME",
         "blah"
@@ -9,9 +9,9 @@ proc get_config_location*(): string =
 
     return directory & "/jn/config.ini"
 
-let config = loadConfig(get_config_location())
+let configuration* = loadConfig(getConfigLocation())
 
-proc get_editor*(): string =
+proc getEditor*(): string =
     # TODO - first read from config
     # then env, then fallback
     return getEnv(
@@ -19,10 +19,10 @@ proc get_editor*(): string =
         "vi"
     )
 
-proc get_fuzzy_provider(): string = 
+proc getFuzzyProvider*(): string = 
     # TODO - Read from config and fallback to fzf
     return "fzy"
 
-proc get_notes_location(): string =
+proc getNotesLocation*(): string =
     # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
-    return "blah"
+    return "~/Documents/work/"
