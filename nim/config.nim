@@ -17,7 +17,7 @@ proc getConfigLocation*(): string =
 
 let configuration* = loadConfig(getConfigLocation())
 
-proc validate*(config: Config = configuration) {.raises: [ValueError, KeyError].} =
+proc validate*(config: Config = configuration) {.raises: [ValueError].} =
     var errors: seq[string] = @[]
     
     let notesLocation = config.getSectionValue(
@@ -52,9 +52,12 @@ proc getEditor*(): string =
         "vi"
     )
 
-proc getFuzzyProvider*(): string = 
-    # TODO - Read from config and fallback to fzf
-    return "fzy"
+proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyError].} =
+    let fuzzyProvider = config.getSectionValue(
+        "",
+        "fuzzy_provider"
+    )
+    return fuzzyProvider
 
 proc getNotesLocation*(): string =
     # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
