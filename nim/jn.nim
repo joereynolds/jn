@@ -1,49 +1,14 @@
 import std/os
 import std/cmdline
-import std/dirs
-import std/osproc
 import std/parseopt
-import std/terminal
-import std/tables
-import std/strutils
-import std/syncio
 
 import config
+import subcommands/cat
+import subcommands/config as sconfig
+import files
 
-type DirectoryListing = Table[string, int]
 
 const version = "0.1"
-
-proc getDirectories(notesDir: string): DirectoryListing =
-    var directories = initTable[string, int]()
-
-    for kind, path in walkDir(expandTilde(notesDir)):
-        
-        let path_as_key = lastPathPart(path)
-        if kind == pcDir and not isHidden(path):
-            directories[path_as_key] = 0
-
-            for other_kind, other_path in walkDir(path):
-                if other_kind == pcFile:
-                    directories[path_as_key] += 1
-
-    return directories
-
-proc getNotes(notesDir: string): seq[string] =
-    var notes = @[""]
-
-    for note in walkDirRec(expandTilde(notesDir)):
-        notes.add(note)
-    return notes
-
-
-proc printDirectories(directories: DirectoryListing) =
-    for directory, fileCount in directories:
-        let noteCount = " (" & $fileCount & " notes" & ")"
-
-        stdout.write(directory)
-        stdout.styledWriteLine(fgYellow, noteCount)
-
 
 proc get_usage(): string =
     const usage="""
@@ -81,15 +46,11 @@ for kind, key, val in getopt():
     of cmdArgument:
         case key:
             of "cat":
-                let notes = getNotes(getNotesLocation())
-                let fuzzy = getFuzzyProvider()
-                var choice = execProcess("echo '" & notes.join("\n") & "' | " & fuzzy)
-                choice.stripLineEnd()
-                let content = readFile(choice)
-                echo content
+                cat.process()
 
             of "config":
-                discard os.execShellCmd(getEditor() & " " & getConfigLocation())
+                sconfig.process()
+
             else:
                 echo "handle strings here"
     of cmdend: discard
