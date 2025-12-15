@@ -1,12 +1,15 @@
+import std/parsecfg
 import std/envvars
 
 proc get_config_location*(): string =
     let directory = getEnv(
         "XDG_CONFIG_HOME",
-        "penis"
+        "blah"
     )
 
-    return directory & "/jn/config.nim"
+    return directory & "/jn/config.ini"
+
+let config = loadConfig(get_config_location())
 
 proc get_editor*(): string =
     # TODO - first read from config

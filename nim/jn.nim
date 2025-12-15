@@ -1,5 +1,6 @@
 import std/os
 import std/parseopt
+import std/cmdline
 import std/terminal
 import std/tables
 import config
@@ -47,13 +48,9 @@ Examples:
 
 
 
-# print_directories(get_directories())
-# echo get_config_dir()
-
 
 for kind, key, val in getopt():
     case kind
-    of cmdend: discard
     of cmdShortOption, cmdLongOption:
         case key:
             of "h", "help":
@@ -68,3 +65,7 @@ for kind, key, val in getopt():
                 let editor = get_editor()
                 let location = get_config_location()
                 discard os.execShellCmd(editor & " " & location)
+    of cmdend: discard
+
+if paramCount() <= 0:
+    print_directories(get_directories())
