@@ -1,11 +1,40 @@
 import std/os
 import std/tables
 import std/terminal
+import std/times
+import std/parsecfg
+
+import config
 
 
 type DirectoryListing = Table[string, int]
 
+proc getFullNoteName(note: string): string =
 
+    let dateFormat = config.configuration.getSectionValue(
+        "",
+        "notes_prefix"
+    )
+
+    let prefix = now().format(dateFormat)
+
+    let suffix = config.configuration.getSectionValue(
+        "",
+        "notes_suffix"
+    )
+
+    let fullName = prefix & "-" & note & suffix
+
+    return fullName
+
+proc createNote*(noteName: string) =
+
+    let name = getFullNoteName(noteName)
+
+    let message = "Created " & name
+    stdout.styledWriteLine(fgGreen, message)
+
+    
 proc getNotes*(notesDir: string): seq[string] =
     var notes = @[""]
 

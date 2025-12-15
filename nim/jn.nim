@@ -1,6 +1,7 @@
 import std/os
 import std/cmdline
 import std/parseopt
+import std/strutils
 
 import config
 import subcommands/cat
@@ -44,15 +45,18 @@ for kind, key, val in getopt():
             of "v", "version":
                 echo version
     of cmdArgument:
-        case key:
-            of "cat":
-                cat.process()
+        if key == "cat":
+            cat.process()
 
-            of "config":
-                sconfig.process()
+        if key == "config":
+            sconfig.process()
 
-            else:
-                echo "handle strings here"
+        if key.startsWith("@"):
+            echo "Book stuff"
+
+        else:
+            files.createNote("blah")
+            echo "handle strings here"
     of cmdend: discard
 
 if paramCount() <= 0:
