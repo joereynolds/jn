@@ -1,8 +1,10 @@
 import std/os
-import std/parseopt
 import std/cmdline
+import std/dirs
+import std/parseopt
 import std/terminal
 import std/tables
+
 import config
 
 type DirectoryListing = Table[string, int]
@@ -10,11 +12,19 @@ type DirectoryListing = Table[string, int]
 const version = "0.1"
 
 proc get_directories(): DirectoryListing =
-    return {
-        "root": 43,
-        "rambles": 4,
-        "random": 8
-    }.toTable
+    var directories = initTable[string, int]()
+
+    for kind, path in walkDir(expandTilde("~/Documents/work/")):
+        
+        let path_as_key = lastPathPart(path)
+        if kind == pcDir:
+            directories[path_as_key] = 0
+
+            for other_kind, other_path in walkDir(path):
+                if other_kind == pcFile:
+                    directories[path_as_key] += 1
+
+    return directories
 
 proc print_directories(directories: DirectoryListing) =
     for directory, fileCount in directories:
@@ -65,6 +75,8 @@ for kind, key, val in getopt():
                 let editor = get_editor()
                 let location = get_config_location()
                 discard os.execShellCmd(editor & " " & location)
+            else:
+                echo "handle strings here"
     of cmdend: discard
 
 if paramCount() <= 0:
