@@ -7,6 +7,7 @@ import std/terminal
 import config
 import subcommands/cat
 import subcommands/config as sconfig
+import subcommands/grep
 import files
 
 
@@ -54,6 +55,10 @@ for kind, key, val in getopt():
 
         if key == "config":
             sconfig.process()
+            quit()
+
+        if key == "grep":
+            grep.process("test search term")
             quit()
 
         if key.startsWith("@"):

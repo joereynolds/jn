@@ -30,7 +30,7 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
         "notes_prefix"
     )
 
-    if not dirExists(expandTilde(notesLocation)):
+    if not dirExists(os.expandTilde(notesLocation)):
         errors.add("The notes_location of " & notesLocation & " in your config does not exist")
 
     try:
