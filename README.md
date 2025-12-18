@@ -9,7 +9,7 @@ A command line notetaker with a filebased approach.
 
 ### Getting started
 
-Run `jn` and it will create a config file for you under `XDG_CONFIG_HOME`/jn/.
+Run `jn` and it will create a config file for you under `XDG_CONFIG_HOME/jn/`.
 This will most likely be `~/.config/jn/`
 
 Change `notes_location` to point to where you store your notes, and that's it.
@@ -80,7 +80,7 @@ will be opened in `$EDITOR`.
 jn grep <search-term>
 ```
 
-This will open up a fuzzy finder of all notes with `search-term` present
+This will open up a fuzzy finder of all notes with `search-term` present.
 Select one and it will open up in `$EDITOR`.
 
 
