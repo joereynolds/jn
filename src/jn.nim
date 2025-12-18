@@ -5,11 +5,7 @@ import std/strutils
 import std/terminal
 
 import config
-import subcommands/book
-import subcommands/cat
-import subcommands/config as sconfig
-import subcommands/edit
-import subcommands/grep
+import subcommands/[book, cat, config as sconfig, edit, grep, star]
 import files
 
 
@@ -24,15 +20,24 @@ Usage:
 Available Commands:
   book                    Show all books
   @<book>                 Show all notes for a book
-  /                       Fuzzy search all notes
-  config, -c, --config    Edit the jn config file
+  c,cat                   Fuzzy search and print note
+  conf,config             Open config in $EDITOR
+  e,edit                  Fuzzy search and open note in $EDITOR
+  /,grep,rg               Grep for term and fuzzy search to edit
+  s,star                  Mark a note as "starred"
   -h, --help              Display this help
   -v, --version           Print jn's version
 
 Examples:
    
-    Show all notes for a book called 'docker'
-        jn @docker
+Show all notes for a book called 'docker':
+  jn @docker
+
+Grep for a term:
+  jn grep "assignment"
+
+Greo using alternative command name:
+  jn / "assignment"
 """
 
 
@@ -53,7 +58,7 @@ for kind, key, val in getopt():
             of "v", "version":
                 echo version
     of cmdArgument:
-        if key == "cat":
+        if key in ["c", "cat"]:
             cat.process()
             quit()
 
@@ -63,6 +68,10 @@ for kind, key, val in getopt():
 
         if key in ["e", "edit"]:
             edit.process()
+            quit()
+
+        if key in ["s", "star"]:
+            star.process()
             quit()
 
         # TODO - Read grep program from config and inject as key here

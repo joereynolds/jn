@@ -77,4 +77,4 @@ proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyErr
         "notes_location"
     )
 
-    return notesLocation
+    return expandTilde(notesLocation)

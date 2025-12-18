@@ -5,7 +5,7 @@ import ../config
 
 
 proc getCommand*(searchTerm: string): string =
-    let location = os.expandTilde(getNotesLocation())
+    let location = getNotesLocation()
     return "rg '" & searchTerm & "' '" & location & "' --files-with-matches"
 
 proc execute*(command: string): string = 
