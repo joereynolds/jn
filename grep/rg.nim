@@ -1,4 +1,5 @@
 import std/os
+import std/osproc
 
 import ../config
 
@@ -6,3 +7,8 @@ import ../config
 proc getCommand*(searchTerm: string): string =
     let location = os.expandTilde(getNotesLocation())
     return "rg '" & searchTerm & "' '" & location & "' --files-with-matches"
+
+proc execute*(command: string): string = 
+    let command = getCommand(command)
+    let output = osproc.execProcess(command)
+    return output

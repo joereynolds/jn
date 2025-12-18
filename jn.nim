@@ -40,6 +40,8 @@ except Exception as e:
     stdout.styledWriteLine(fgYellow, e.msg)
 
 
+let params = commandLineParams()
+
 for kind, key, val in getopt():
     case kind
     of cmdShortOption, cmdLongOption:
@@ -58,7 +60,8 @@ for kind, key, val in getopt():
             quit()
 
         if key == "grep":
-            grep.process("test search term")
+            let searchTerm = if params.len > 1: params[1] else: ""
+            grep.process(searchTerm)
             quit()
 
         if key.startsWith("@"):
