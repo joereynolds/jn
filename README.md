@@ -2,26 +2,31 @@
 
 ## What is it?
 
-A copy of DNote but filebased and imo better. The idea is to be frictionless
-and match the user's intentions as much as possible.
+A command line notetaker with a filebased approach.
 
-It should:
+"books" are directories, "notes" are files, simple!
 
-- treat books as directories
-- treat notes as files
-- Work with any existing directories i.e. no need to create books, just point
-  it at a dir if you want
-- Save config in `XDG_CONFIG_HOME`
-- Save books/notes in first in place specified by config, if not present, then
-  in `XDG_DOCUMENTS_DIR` and if not present, just the cwd?
-- Incorporate fuzzy search if we have one available fzy/fzf etc...
-- Should be a config option for default edit style. Inline (on the terminal) or
-  in your $EDITOR. Should also be able to override this with a flag
+
+### Getting started
+
+Run `jn` and it will create a config file for you under `XDG_CONFIG_HOME`/jn/.
+This will most likely be `~/.config/jn/`
+
+Change `notes_location` to point to where you store your notes, and that's it.
+
 
 ### Config
 
 The config file lives inside `$XDG_CONFIG_HOME/jn/config.ini`.
 Usually this is `~/.config/jn/`.
+
+You can quickly edit the config file with
+
+```
+jn conf
+``` 
+
+(`jn config` also works)
 
 A complete configuration is below:
 
