@@ -1,0 +1,2 @@
+bin = @["jn"]
+srcDir = "src"
