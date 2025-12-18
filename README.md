@@ -44,18 +44,15 @@ A complete configuration is below:
 
 ```
 notes_location="~/my-special-place" # default is XDG_DOCUMENTS_DIR
-grep_command="egrep" # default is "rg"
-find_command="find"  # default is "fd"
-fuzzy_command="fzy"  # default is "fzf"
-note_prefix=$(date)  # What a note's prefix should be when saved
-note_suffix=".md"    # What a note's suffix should be when saved
+note_prefix="YYYY-MM-dd"            # What a note's prefix should be when saved
+note_suffix=".md"                   # What a note's suffix should be when saved
+
+fuzzy_provider="fzy"                # default is "fzf"
 ```
 
 ## Commands
 
-### Listing books and notes
-
-#### List all books
+### List all books
 
 ```
 jn
@@ -96,10 +93,7 @@ This will open up a fuzzy finder of all notes with `search-term` present.
 Select one and it will open up in `$EDITOR`.
 
 
-### Adding books and notes
-
-
-#### Writing a note
+### Writing a note
 
 The complete syntax for writing a note is as follows:
 
@@ -145,7 +139,7 @@ Once a note is created, its location is echoed to the terminal:
 > Created ~/Documents/notes/2025-12-05-do-the-thing.md
 ```
 
-#### Creating a book
+### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might
 have a "vim" book containing tips about vim. A "docker" book containing tips
@@ -165,7 +159,7 @@ jn "quitting-vim" @vim
 Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-quitting-vim.md
 ```
 
-#### One note in multiple books
+### One note in multiple books
 
 Let's say you have a "programming" book and also a "python" book.
 You want one note to appear in both places, but how?
