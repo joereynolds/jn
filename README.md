@@ -18,8 +18,14 @@ A command line notetaker with a filebased approach.
 Run `jn` and it will create a config file for you under `XDG_CONFIG_HOME/jn/`.
 This will most likely be `~/.config/jn/`
 
-Change `notes_location` to point to where you store your notes, and that's it.
+Change `notes_location` to point to where you store your notes.
 
+From there you can list all your notes with `jn` or create some with `jn "my
+note title"`.
+
+That's it!
+
+I recommend reading below to learn about everything you can do.
 
 ### Config
 
@@ -141,9 +147,9 @@ Once a note is created, its location is echoed to the terminal:
 
 #### Creating a book
 
-A book is optional. Conceptually it's where you store related notes.
-You might have a "vim" book containing tips about vim.
-A "docker" book containing tips about Docker, you get the idea.
+A book is optional. Conceptually it's where you store related notes. You might
+have a "vim" book containing tips about vim. A "docker" book containing tips
+about Docker, you get the idea.
 
 If you don't use books, it all just goes into the root directory defined in
 your config.

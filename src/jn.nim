@@ -18,7 +18,6 @@ Usage:
   jn [command]
 
 Available Commands:
-  book                    Show all books
   @<book>                 Show all notes for a book
   c,cat                   Fuzzy search and print note
   conf,config             Open config in $EDITOR
@@ -30,6 +29,9 @@ Available Commands:
 
 Examples:
    
+Show all books:
+  jn
+
 Show all notes for a book called 'docker':
   jn @docker
 
