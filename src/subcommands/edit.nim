@@ -14,4 +14,7 @@ proc process*() =
 
     choice.stripLineEnd()
 
+    if choice == "":
+        quit()
+
     discard os.execShellCmd(getEditor() & " " & quoteShell(choice))

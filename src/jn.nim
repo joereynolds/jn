@@ -5,6 +5,7 @@ import std/strutils
 import std/terminal
 
 import config
+import subcommands/book
 import subcommands/cat
 import subcommands/config as sconfig
 import subcommands/edit
@@ -71,7 +72,8 @@ for kind, key, val in getopt():
             quit()
 
         if key.startsWith("@"):
-            echo "Book stuff"
+            book.process(params)
+            quit()
 
         else:
             files.createNote(key)
