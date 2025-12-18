@@ -7,6 +7,7 @@ import std/terminal
 import config
 import subcommands/cat
 import subcommands/config as sconfig
+import subcommands/edit
 import subcommands/grep
 import files
 
@@ -57,6 +58,10 @@ for kind, key, val in getopt():
 
         if key == "config":
             sconfig.process()
+            quit()
+
+        if key in ["e", "edit"]:
+            edit.process()
             quit()
 
         # TODO - Read grep program from config and inject as key here
