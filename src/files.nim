@@ -27,7 +27,12 @@ proc getFullNoteName(
         "notes_suffix"
     )
 
-    let fullName = prefix & "-" & note.replace(" ", "-") & suffix
+    let location = config.getSectionValue(
+        "",
+        "notes_location"
+    )
+
+    let fullName = expandTilde(location) & prefix & "-" & note.replace(" ", "-") & suffix
 
     return fullName
 
@@ -35,6 +40,7 @@ proc createNote*(noteName: string) =
 
     let name = getFullNoteName(noteName)
 
+    discard os.execShellCmd(getEditor() & " " & name)
     let message = "Created " & name
     stdout.styledWriteLine(fgGreen, message)
 
