@@ -15,7 +15,7 @@ proc process*(searchTerm: string) =
         echo "No matches, quitting"
         quit()
     
-    var choice = execProcess("echo '" & matches & "' | " & fuzzy)
+    var choice = execProcess("echo " & quoteShell(matches) & " | " & fuzzy)
     choice.stripLineEnd()
 
-    discard os.execShellCmd(getEditor() & " " & choice)
+    discard os.execShellCmd(getEditor() & " " & quoteShell(choice))
