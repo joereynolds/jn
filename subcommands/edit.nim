@@ -8,7 +8,10 @@ import ../files
 proc process*() = 
     let notes = getNotes(getNotesLocation())
     let fuzzy = getFuzzyProvider()
-    var choice = execProcess("echo '" & notes.join("\n") & "' | " & fuzzy)
+    let noteChoices = quoteShell(notes.join("\n"))
+
+    var choice = execProcess("echo " & noteChoices & " | " & fuzzy)
+
     choice.stripLineEnd()
 
     discard os.execShellCmd(getEditor() & " " & choice)

@@ -56,7 +56,7 @@ for kind, key, val in getopt():
             cat.process()
             quit()
 
-        if key == "config":
+        if key in ["conf", "config"]:
             sconfig.process()
             quit()
 
