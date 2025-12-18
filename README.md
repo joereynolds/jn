@@ -20,7 +20,7 @@ It should:
 
 ### Config
 
-The config file lives inside `$XDG_CONFIG_HOME/jn/`.
+The config file lives inside `$XDG_CONFIG_HOME/jn/config.ini`.
 Usually this is `~/.config/jn/`.
 
 A complete configuration is below:
@@ -56,37 +56,18 @@ or
 jn @<your-book> ls
 ```
 
-#### Fuzzy finding
-
-Pressing `<tab>` after any command will open up a fuzzy finder if one is
-available. If one is not available, it will fall back to default bash tab
-completion
-
 ##### Fuzzy find all notes
-
-```
-jn <tab>
-```
-
-Pressing enter will `cat` the selected file out to stdout (I think? Maybe open
-in $EDITOR but that feels clunky).
 
 ##### Fuzzy find all books
 
-```
-jn book <tab>
-```
-
-Pressing enter will open up a new fuzzy finder for all notes in that book.
-Pressing enter on the note will cat it to the terminal
 
 ### Searching books and notes
 
 ```
-jn /
+jn grep <search-term>
 ```
 
-This will open up a fuzzy finder of all of your notes.
+This will open up a fuzzy finder of all notes with `search-term` present
 Select one and it will open up in `$EDITOR`.
 
 ### Adding books and notes

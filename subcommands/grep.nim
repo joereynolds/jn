@@ -18,6 +18,4 @@ proc process*(searchTerm: string) =
     var choice = execProcess("echo '" & matches & "' | " & fuzzy)
     choice.stripLineEnd()
 
-    echo "editing" &  choice
-
     discard os.execShellCmd(getEditor() & " " & choice)

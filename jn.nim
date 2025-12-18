@@ -59,7 +59,8 @@ for kind, key, val in getopt():
             sconfig.process()
             quit()
 
-        if key == "grep":
+        # TODO - Read grep program from config and inject as key here
+        if key in ["/", "grep", "rg"]:
             let searchTerm = if params.len > 1: params[1] else: ""
             grep.process(searchTerm)
             quit()
