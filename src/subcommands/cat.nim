@@ -11,6 +11,9 @@ proc process*() =
 
     var choice = execProcess("echo " & noteChoices & " | " & fuzzy)
     choice.stripLineEnd()
-    let content = readFile(choice)
 
+    if choice == "":
+        quit()
+
+    let content = readFile(choice)
     echo content
