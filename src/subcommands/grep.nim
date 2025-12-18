@@ -18,4 +18,7 @@ proc process*(searchTerm: string) =
     var choice = execProcess("echo " & quoteShell(matches) & " | " & fuzzy)
     choice.stripLineEnd()
 
+    if choice == "":
+        quit()
+
     discard os.execShellCmd(getEditor() & " " & quoteShell(choice))
