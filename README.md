@@ -6,6 +6,12 @@ A command line notetaker with a filebased approach.
 
 "books" are directories, "notes" are files, simple!
 
+## Goals
+
+- Be more convenient than the shell for finding and editing notes
+- Be frictionless
+- Be unixy
+
 
 ### Getting started
 
