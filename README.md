@@ -98,10 +98,10 @@ Select one and it will open up in `$EDITOR`.
 The complete syntax for writing a note is as follows:
 
 ```
-jn <your note> <your title> @<your book>
+jn <your note title> @<your book>
 ```
 
-The first argument is mandatory, the other two are optional.
+The first argument is mandatory, the rest is optional.
 
 Writing a note is as simple as:
 
@@ -112,12 +112,22 @@ jn "my note goes here"
 This will write it out to your configured place (`XDG_DOCUMENTS_DIR` by
 default).
 
-By default, it will save the note with a date prefix, the first N words (how
-many?) of the note and a markdown suffix.
+By default, it will save the note with a date prefix, your specified title, and
+a markdown extension.
 
-So `jn "my note goes here"` is saved as "2025-12-05-my-note-goes-here.md".
+i.e.
 
-The date and markdown extension are config options and can be changed if
+```
+jn "writing with vim"
+```
+
+Becomes
+
+```
+2025-12-05-writing-with-vim.md
+```
+
+The date and markdown extension are configurable options and can be changed if
 desired.
 
 See `note_prefix` and `note_suffix` in the config above.
@@ -127,17 +137,6 @@ Once a note is created, its location is echoed to the terminal:
 ```
 > jn "Do the thing"
 > Created ~/Documents/notes/2025-12-05-do-the-thing.md
-```
-
-#### Adding a title
-
-You can of course add a title to your note if you don't want it inferred.
-
-Doing
-
-```
-jn "My note goes here" "instructions"
-> Created ~/Documents/notes/2025-12-05-instructions.md
 ```
 
 #### Creating a book
@@ -155,15 +154,9 @@ It is the last argument in the chain and begins with a "@"
 The following are valid:
 
 ```
-jn ":q! quits vim" "how-to-quit-vim" @vim
+jn "quitting-vim" @vim
 
-Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-how-to-quit-vim.md
-```
-
-```
-jn ":q! quits vim" @vim
-
-Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-q-quits-vim.md
+Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-quitting-vim.md
 ```
 
 #### One note in multiple books
@@ -176,7 +169,7 @@ In order to do so, just specify both books
 i.e.
 
 ```
-jn "a = 5 to assign in python" @python @programming
+jn "python basics" @python @programming
 ```
 
 The above will create the note in "python" and create a symlink to it in
