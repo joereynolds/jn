@@ -50,17 +50,21 @@ proc getNotes*(notesDir: string): seq[string] =
 proc getDirectories*(notesDir: string): DirectoryListing =
     var directories = initTable[string, int]()
 
+    directories["."] = 0
 
     # Get all directories
     for kind, path in walkDir(expandTilde(notesDir)):
 
-        let path_as_key = lastPathPart(path)
+        if kind == pcFile:
+            directories["."] += 1
+
+        let pathAsKey = lastPathPart(path)
         if kind == pcDir and not isHidden(path):
-            directories[path_as_key] = 0
+            directories[pathAsKey] = 0
 
             # and count all notes
             for file in walkDirRec(path):
-                directories[path_as_key] += 1
+                directories[pathAsKey] += 1
 
     return directories
 
