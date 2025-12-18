@@ -38,7 +38,7 @@ proc createNote*(noteName: string) =
     let message = "Created " & name
     stdout.styledWriteLine(fgGreen, message)
 
-    
+
 proc getNotes*(notesDir: string): seq[string] =
     var notes = @[""]
 
@@ -51,7 +51,7 @@ proc getDirectories*(notesDir: string): DirectoryListing =
     var directories = initTable[string, int]()
 
     for kind, path in walkDir(expandTilde(notesDir)):
-        
+
         let path_as_key = lastPathPart(path)
         if kind == pcDir and not isHidden(path):
             directories[path_as_key] = 0

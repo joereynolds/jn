@@ -14,7 +14,7 @@ import files
 
 const version = "0.1"
 
-const usage="""
+const usage = """
 jn - a file-based command line notebook
 
 Usage:

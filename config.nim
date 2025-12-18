@@ -26,7 +26,7 @@ let configuration* = loadConfig(getConfigLocation())
 
 proc validate*(config: Config = configuration) {.raises: [ValueError].} =
     var errors: seq[string] = @[]
-    
+
     let notesLocation = config.getSectionValue(
         "",
         "notes_location"
@@ -48,12 +48,12 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
         errors.add(
             "The notes_prefix of " & notes_prefix & " in your config is an invalid date format"
         )
-    
+
     if errors.len > 0:
         raise (ref ValueError)(
             msg: errors.join("\n")
         )
-    
+
 
 proc getEditor*(): string =
     # TODO - first read from config
