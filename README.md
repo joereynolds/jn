@@ -50,18 +50,26 @@ jn
 jn @<your-book>
 ```
 
-or
+### Display your notes
 
 ```
-jn @<your-book> ls
+jn cat
 ```
 
-##### Fuzzy find all notes
+This will open a fuzzy finder for your notes, select the one you want and it
+will be output
 
-##### Fuzzy find all books
 
+### Edit your notes
 
-### Searching books and notes
+```
+jn edit
+```
+
+This will open a fuzzy finder for your notes, select the one you want and it
+will be opened in `$EDITOR`.
+
+### Search your notes
 
 ```
 jn grep <search-term>
@@ -69,6 +77,7 @@ jn grep <search-term>
 
 This will open up a fuzzy finder of all notes with `search-term` present
 Select one and it will open up in `$EDITOR`.
+
 
 ### Adding books and notes
 
