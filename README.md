@@ -12,6 +12,16 @@ A command line notetaker with a filebased approach.
 - Be frictionless
 - Be unixy
 
+## Why not use `jrnl`?
+
+They have different goals. Though they offer similar-ish functionality, their purpose and how they go about it is much different.
+
+jrnl is intended for quickly getting a thought out as fast as possible.
+
+jn is aimed at editing, searching, and displaying notes. 
+
+There may be some overlap between the two but they are aimed at different use cases.
+
 ### Requirements
 
 - ripgrep
