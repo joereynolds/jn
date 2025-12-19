@@ -72,9 +72,12 @@ proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyErr
 
 proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyError].} =
     # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
-    let notesLocation = config.getSectionValue(
+    var notesLocation = config.getSectionValue(
         "",
         "notes_location"
     )
+
+    if notesLocation[^1] != DirSep:
+        notesLocation.add(DirSep)
 
     return expandTilde(notesLocation)
