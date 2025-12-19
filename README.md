@@ -12,6 +12,10 @@ A command line notetaker with a filebased approach.
 - Be frictionless
 - Be unixy
 
+### Requirements
+
+- ripgrep
+- fzf or fzy
 
 ### Getting started
 
@@ -140,6 +144,7 @@ Once a note is created, its location is echoed to the terminal:
 ```
 
 ### Creating a book
+
 
 A book is optional. Conceptually it's where you store related notes. You might
 have a "vim" book containing tips about vim. A "docker" book containing tips
