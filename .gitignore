@@ -1,1 +1,9 @@
+# Ignore the exe
 jn
+
+
+# Test stuff
+nimcache/
+outputGotten.txt
+testresults/
+
