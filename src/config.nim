@@ -24,36 +24,6 @@ proc getConfigLocation*(): string =
 
 let configuration* = loadConfig(getConfigLocation())
 
-proc validate*(config: Config = configuration) {.raises: [ValueError].} =
-    var errors: seq[string] = @[]
-
-    let notesLocation = config.getSectionValue(
-        "",
-        "notes_location"
-    )
-
-    let notes_prefix = config.getSectionValue(
-        "",
-        "notes_prefix"
-    )
-
-    if not dirExists(os.expandTilde(notesLocation)):
-        errors.add(
-            "The notes_location of " & notesLocation & " in your config does not exist"
-        )
-
-    try:
-        discard now().format(notes_prefix)
-    except TimeFormatParseError:
-        errors.add(
-            "The notes_prefix of " & notes_prefix & " in your config is an invalid date format"
-        )
-
-    if errors.len > 0:
-        raise (ref ValueError)(
-            msg: errors.join("\n")
-        )
-
 
 proc getEditor*(): string =
     # TODO - first read from config
@@ -81,3 +51,31 @@ proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyErr
         notesLocation.add(DirSep)
 
     return expandTilde(notesLocation)
+
+proc validate*(config: Config = configuration) {.raises: [ValueError].} =
+    var errors: seq[string] = @[]
+    
+    let notesLocation = getNotesLocation()
+
+    let notes_prefix = config.getSectionValue(
+        "",
+        "notes_prefix"
+    )
+
+    if not dirExists(os.expandTilde(notesLocation)):
+        errors.add(
+            "The notes_location of " & notesLocation & " in your config does not exist"
+        )
+
+    try:
+        discard now().format(notes_prefix)
+    except TimeFormatParseError:
+        errors.add(
+            "The notes_prefix of " & notes_prefix & " in your config is an invalid date format"
+        )
+
+    if errors.len > 0:
+        raise (ref ValueError)(
+            msg: errors.join("\n")
+        )
+

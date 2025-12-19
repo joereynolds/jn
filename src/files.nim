@@ -27,13 +27,7 @@ proc getFullNoteName(
         "notes_suffix"
     )
 
-    var location = config.getSectionValue(
-        "",
-        "notes_location"
-    )
-
-    if location[^1] != DirSep:
-        location.add(DirSep)
+    let location = config.getNotesLocation()
 
     let fullName = expandTilde(location) & prefix & "-" & note.replace(" ", "-") & suffix
 
