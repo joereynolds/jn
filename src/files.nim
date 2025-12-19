@@ -48,7 +48,10 @@ proc createNote*(noteName: string) =
 proc getNotes*(notesDir: string): seq[string] =
     var notes = @[""]
 
-    for note in walkDirRec(expandTilde(notesDir)):
+    for note in walkDirRec(
+        expandTilde(notesDir),
+        yieldFilter = {pcFile, pcLinkToFile}
+    ):
         notes.add(note)
     return notes
 
@@ -69,7 +72,10 @@ proc getDirectories*(notesDir: string): DirectoryListing =
             directories[pathAsKey] = 0
 
             # and count all notes
-            for file in walkDirRec(path):
+            for file in walkDirRec(
+                path,
+                yieldFilter = {pcFile, pcLinkToFile}
+            ):
                 directories[pathAsKey] += 1
 
     return directories
