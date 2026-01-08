@@ -191,3 +191,18 @@ The above will create the note in "python" and create a symlink to it in
 "programming".
 
 The first link is the hard link, the rest are symlinks.
+
+## Developers
+
+To compile and run `jn`:
+
+```
+nimble build && jn
+
+```
+
+To run tests:
+
+```
+nimble test
+```
