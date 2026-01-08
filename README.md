@@ -192,6 +192,57 @@ The above will create the note in "python" and create a symlink to it in
 
 The first link is the hard link, the rest are symlinks.
 
+## Advanced Features
+
+### Templates (unimplemented)
+
+You can tell `jn` to infer a template from a note's title.
+
+For example, let's say after every time you go to the gym, you want to note
+down your measurements. It would be tedious to write it all out, or manually
+copy and tweak a few values from an old one.
+
+Instead, create a template, store it in templates dir (TODO where is this) and
+add this into your config:
+
+```
+example config here
+```
+
+Now everytime you create a title with "gym" in it, it will use that template.
+You can pass the `--no-template` flag if you don't want this behaviour for a
+particular note
+
+i.e.
+
+```
+jn --no-template "gym measurements september 2026"
+```
+
+### Categories
+
+Similar to templates, we have categories.
+
+A category is just a way of automatically moving our note into its correct
+place depending on the note title.
+
+For example, you could make all of your gym notes automatically go into "@gym"
+book, by doing the following:
+
+```
+example here
+```
+
+## Roadmap
+
+- [x] - cat subcommand
+- [x] - config subcommand
+- [x] - edit subcommand
+- [x] - grep subcommand
+- [x] - Ability to star notes
+- [ ] - Template support
+- [ ] - Automatic categorisation
+
 ## Developers
 
 To compile and run `jn`:
