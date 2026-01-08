@@ -1,6 +1,7 @@
 {.push raises: [].}
 
 import std/parsecfg
+import std/terminal
 import std/envvars
 import std/os
 import std/times
@@ -21,6 +22,29 @@ proc getConfigLocation*(): string =
     )
 
     return os.expandTilde(directory) & "/jn/config.ini"
+
+
+let configDirectory = splitFile(getConfigLocation()).dir
+
+if not dirExists configDirectory:
+    try:
+        createDir(configDirectory)
+    except OSError as e:
+        stdout.styledWriteLine(fgRed, e.msg)
+
+if not fileExists(getConfigLocation()):
+    try:
+        copyFile("config/config.ini", getConfigLocation())
+        stdout.styledWriteLine(
+            fgGreen, 
+            "No config found, created one at " & getConfigLocation()
+        )
+    except OSError:
+        stdout.styledWriteLine(
+            fgRed, 
+            "No config found, and could not create one. " & 
+            "Please create one manually at " & getConfigLocation()
+        )
 
 let configuration* = loadConfig(getConfigLocation())
 
@@ -56,11 +80,7 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
     var errors: seq[string] = @[]
     
     let notesLocation = getNotesLocation()
-
-    let notes_prefix = config.getSectionValue(
-        "",
-        "notes_prefix"
-    )
+    let notes_prefix = config.getSectionValue("", "notes_prefix")
 
     if not dirExists(os.expandTilde(notesLocation)):
         errors.add(
@@ -78,4 +98,3 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
         raise (ref ValueError)(
             msg: errors.join("\n")
         )
-
