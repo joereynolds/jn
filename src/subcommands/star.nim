@@ -1,9 +1,8 @@
-import std/osproc
 import std/strutils
 import std/terminal
 
 import ../config
-import ../files
+import ../fuzzy
 import std/dirs
 import std/os
 import std/paths
@@ -15,11 +14,7 @@ proc process*() =
         Path(getNotesLocation() & "starred")
     )
 
-    let notes = getNotes(getNotesLocation())
-    let fuzzy = getFuzzyProvider()
-    let noteChoices = quoteShell(notes.join("\n"))
-
-    var choice = execProcess("echo " & noteChoices & " | " & fuzzy)
+    var choice = makeSelection()
 
     choice.stripLineEnd()
 

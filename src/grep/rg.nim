@@ -1,4 +1,3 @@
-import std/os
 import std/osproc
 
 import ../config

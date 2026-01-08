@@ -1,11 +1,8 @@
 import std/algorithm
 import std/os
-import std/osproc
-import std/strutils
 
 import ../config
 import ../files
-import ../grep/rg
 
 proc printNotesForBook(book: string) =
     let bookDir = getNotesLocation() & book

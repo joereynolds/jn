@@ -1,22 +1,12 @@
 import std/os
-import std/[osproc, streams]
+import std/[osproc]
 import std/strutils
 
 import ../config
-import ../files
+import ../fuzzy
 
 proc process*() = 
-    let notes = getNotes(getNotesLocation())
-    let fuzzy = getFuzzyProvider()
-    let noteChoices = notes.join("\n")
-
-    var p = startProcess(fuzzy, options = {poUsePath})
-
-    p.inputStream.write(noteChoices)
-    p.inputStream.close()
-
-    var choice = p.outputStream.readAll()
-    p.close()
+    var choice = makeSelection()
 
     choice.stripLineEnd()
 
