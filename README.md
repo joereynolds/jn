@@ -219,7 +219,7 @@ i.e.
 jn --no-template "gym measurements september 2026"
 ```
 
-### Categories
+### Categories (unimplemented)
 
 Similar to templates, we have categories.
 
