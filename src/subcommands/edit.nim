@@ -1,5 +1,5 @@
 import std/os
-import std/osproc
+import std/[osproc, streams]
 import std/strutils
 
 import ../config
@@ -8,9 +8,15 @@ import ../files
 proc process*() = 
     let notes = getNotes(getNotesLocation())
     let fuzzy = getFuzzyProvider()
-    let noteChoices = quoteShell(notes.join("\n"))
+    let noteChoices = notes.join("\n")
 
-    var choice = execProcess("echo " & noteChoices & " | " & fuzzy)
+    var p = startProcess(fuzzy, options = {poUsePath})
+
+    p.inputStream.write(noteChoices)
+    p.inputStream.close()
+
+    var choice = p.outputStream.readAll()
+    p.close()
 
     choice.stripLineEnd()
 
