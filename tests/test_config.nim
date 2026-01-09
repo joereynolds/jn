@@ -1,5 +1,5 @@
 import std/[os, parsecfg, unittest]
-import ../../src/config
+import ../src/config
 
 
 
@@ -9,7 +9,7 @@ suite "Config tests":
   test "It gets the config location from env if present":
     putEnv("XDG_CONFIG_HOME", "my-config")
 
-    let expected = "my-config/jn/config.ini"
+    let expected = "my-config/jn/config.inii"
     let actual = getConfigLocation()
 
     check(expected == actual)
