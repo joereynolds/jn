@@ -18,3 +18,6 @@ proc getTemplateLocation*(): string =
     )
 
     return os.expandTilde(directory) & "/jn"
+
+proc getTemplate*(): string =
+    return ""
