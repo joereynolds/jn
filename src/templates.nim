@@ -1,7 +1,6 @@
 {.push raises: [].}
 
-import std/envvars
-import std/os
+import std/[envvars, os, paths]
 
 
 proc getTemplateLocation*(): string =
@@ -12,12 +11,11 @@ proc getTemplateLocation*(): string =
     if dirExists(idealFallback):
         fallback = idealFallback
 
-    let directory = getEnv(
-        "XDG_DATA_HOME",
-        fallback
-    )
+    let directory = getEnv("XDG_DATA_HOME", fallback)
 
     return os.expandTilde(directory) & "/jn"
 
-proc parse*(templatePath: string): string =
-    return ""
+proc parse*(templatePath: Path): string {.raises: [IOError].} =
+    if fileExists($templatePath):
+        return readFile($templatePath)
+    ""
