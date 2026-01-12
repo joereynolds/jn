@@ -57,10 +57,14 @@ proc getEditor*(): string =
     )
 
 proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyError].} =
-    let fuzzyProvider = config.getSectionValue(
+    var fuzzyProvider = config.getSectionValue(
         "",
         "fuzzy_provider"
     )
+
+    if fuzzyProvider == "":
+        fuzzyProvider = "fzf"
+
     return fuzzyProvider
 
 proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyError].} =

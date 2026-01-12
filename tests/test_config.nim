@@ -30,6 +30,21 @@ suite "Config tests":
 
     check(expected == actual)
 
+  test "It uses fzf as the default fuzzy provider":
+    let c = newConfig()
+    let expected = "fzf"
+    let actual = getFuzzyProvider(c)
+
+    check(expected == actual)
+
+  test "It uses the specified fuzzy provider if set":
+    var c = newConfig()
+    c.setSectionKey("", "fuzzy_provider", "test-fuzzy")
+    let expected = "test-fuzzy"
+    let actual = getFuzzyProvider(c)
+
+    check(expected == actual)
+
   test "It gets note locations from the config":
     var c = newConfig()
 
