@@ -15,7 +15,7 @@ proc getTemplateLocation*(): string =
 
     return os.expandTilde(directory) & "/jn"
 
-proc parse*(templatePath: Path): string {.raises: [IOError].} =
+proc getContent*(templatePath: Path): string {.raises: [IOError].} =
     if fileExists($templatePath):
         return readFile($templatePath)
     ""
