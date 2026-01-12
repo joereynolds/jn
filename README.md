@@ -98,6 +98,14 @@ jn grep <search-term>
 This will open up a fuzzy finder of all notes with `search-term` present.
 Select one and it will open up in `$EDITOR`.
 
+### Deleting your notes
+
+```
+jn rm
+```
+
+This will open a fuzzy finder for your notes, select the one you want and it
+will be deleted.
 
 ### Writing a note
 
@@ -231,6 +239,7 @@ example here
 - [x] - config subcommand
 - [x] - edit subcommand
 - [x] - grep subcommand
+- [ ] - rm subcommand
 - [x] - Ability to star notes
 - [ ] - Template support
 - [ ] - Automatic categorisation
