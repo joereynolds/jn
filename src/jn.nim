@@ -5,7 +5,7 @@ import std/strutils
 import std/terminal
 
 import config
-import subcommands/[book, cat, config as sconfig, edit, grep, star]
+import subcommands/[book, cat, config as sconfig, edit, grep, rm, star]
 import files
 
 
@@ -23,6 +23,7 @@ Available Commands:
   conf,config             Open config in $EDITOR
   e,edit                  Fuzzy search and open note in $EDITOR
   /,grep,rg               Grep for term and fuzzy search to edit
+  rm,remove               Fuzzy search and delete note
   s,star                  Mark a note as "starred"
   -h, --help              Display this help
   -v, --version           Print jn's version
@@ -74,6 +75,10 @@ for kind, key, val in getopt():
 
         if key in ["s", "star"]:
             star.process()
+            quit()
+
+        if key in ["rm", "remove"]:
+            rm.process()
             quit()
 
         # TODO - Read grep program from config and inject as key here

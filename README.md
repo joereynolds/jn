@@ -239,7 +239,7 @@ example here
 - [x] - config subcommand
 - [x] - edit subcommand
 - [x] - grep subcommand
-- [ ] - rm subcommand
+- [x] - rm subcommand
 - [x] - Ability to star notes
 - [ ] - Template support
 - [ ] - Automatic categorisation
