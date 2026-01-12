@@ -38,7 +38,7 @@ Show all notes for a book called 'docker':
 Grep for a term:
   jn grep "assignment"
 
-Greo using alternative command name:
+Grep using alternative command name:
   jn / "assignment"
 """
 

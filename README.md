@@ -12,16 +12,6 @@ A command line notetaker with a filebased approach.
 - Be frictionless
 - Be unixy
 
-## Why not use `jrnl`?
-
-They have different goals. Though they offer similar-ish functionality, their purpose and how they go about it is much different.
-
-jrnl is intended for quickly getting a thought out as fast as possible.
-
-jn is aimed at editing, searching, and displaying notes. 
-
-There may be some overlap between the two but they are aimed at different use cases.
-
 ### Requirements
 
 - ripgrep
@@ -96,6 +86,8 @@ jn edit
 
 This will open a fuzzy finder for your notes, select the one you want and it
 will be opened in `$EDITOR`.
+
+`jn e` also works. Most things have shorthand, see `jn -h` for the full list.
 
 ### Search your notes
 
@@ -242,6 +234,7 @@ example here
 - [x] - Ability to star notes
 - [ ] - Template support
 - [ ] - Automatic categorisation
+- [ ] - Shell completion
 
 ## Developers
 
@@ -249,7 +242,6 @@ To compile and run `jn`:
 
 ```
 nimble build && jn
-
 ```
 
 To run tests:
