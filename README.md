@@ -127,8 +127,8 @@ Writing a note is as simple as:
 jn "my note goes here"
 ```
 
-This will write it out to your configured place (`XDG_DOCUMENTS_DIR` by
-default).
+This will drop you into your `$EDITOR` for you to write content. It will then
+write out to your configured place (`XDG_DOCUMENTS_DIR` by default).
 
 By default, it will save the note with a date prefix, your specified title, and
 a markdown extension.
@@ -139,7 +139,7 @@ i.e.
 jn "writing with vim"
 ```
 
-Becomes
+Will save as
 
 ```
 2025-12-05-writing-with-vim.md
@@ -154,6 +154,7 @@ Once a note is created, its location is echoed to the terminal:
 
 ```
 > jn "Do the thing"
+> ...
 > Created ~/Documents/notes/2025-12-05-do-the-thing.md
 ```
 
