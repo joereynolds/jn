@@ -1,5 +1,6 @@
 import std/os
 import std/strutils
+import std/terminal
 import ../fuzzy
 
 proc process*() = 
@@ -11,4 +12,5 @@ proc process*() =
         quit()
 
     removeFile(choice)
-    echo "Deleted: ", choice
+    let message = "Deleted " & choice
+    stdout.styledWriteLine(fgGreen, message)
