@@ -68,7 +68,7 @@ jn
 jn @<your-book>
 ```
 
-### Display your notes
+### Display a note
 
 ```
 jn cat
@@ -78,7 +78,7 @@ This will open a fuzzy finder for your notes, select the one you want and it
 will be output
 
 
-### Edit your notes
+### Edit a note
 
 ```
 jn edit
@@ -98,7 +98,7 @@ jn grep <search-term>
 This will open up a fuzzy finder of all notes with `search-term` present.
 Select one and it will open up in `$EDITOR`.
 
-### Deleting your notes
+### Delete a note
 
 ```
 jn rm
@@ -111,7 +111,7 @@ Once the file has been "deleted", a file containing the deleted file's content
 is written to "/tmp/" so you can restore it in the event of a mistake.
 
 
-### Writing a note
+### Create a note
 
 The complete syntax for writing a note is as follows:
 
