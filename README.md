@@ -15,7 +15,7 @@ A command line notetaker with a filebased approach.
 ### Requirements
 
 - ripgrep
-- fzf or fzy
+- fzf or fzy (Other fuzzy finders will probably work but are untested)
 
 ### Getting started
 
@@ -44,14 +44,33 @@ jn conf
 
 (`jn config` also works)
 
-A complete configuration is below:
+Complete configuration:
 
 ```
-notes_location="~/my-special-place" # default is XDG_DOCUMENTS_DIR
-note_prefix="YYYY-MM-dd"            # What a note's prefix should be when saved
-note_suffix=".md"                   # What a note's suffix should be when saved
+; The location that jn stores and retrieves notes from
+notes_location ="~/Documents/"
 
-fuzzy_provider="fzy"                # default is "fzf"
+; The location that jn retrieves templates from
+templates_location ="~/.local/share/jn"
+
+; The prefix of the note. By default this is YYYY-mm-dd.
+; Meaning if you create a note called "daily journal",
+; it will be saved as 2026-01-01-daily-journal.md
+;
+; You may change the prefix.
+; The prefix can be any of the format patterns specified in 
+; https://nim-lang.org/docs/times.html
+notes_prefix="YYYY-mm-dd"
+
+; The suffix for the note, this is just the extension.
+; Default is ".md" i.e. Markdown
+notes_suffix=".md"
+
+; The fuzzy provider to use with jn.
+; Defaults to fzf.
+; Valid values are "fzf" or "fzy"
+; (Other values may work but it'll be purely by coincednece)
+fuzzy_provider="fzy"
 ```
 
 ## Commands
