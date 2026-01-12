@@ -8,6 +8,11 @@ import std/times
 import std/strutils
 
 
+const 
+    keyNoteLocation = "notes_location"
+    keyNotePrefix = "notes_prefix"
+    keyFuzzyProvider = "fuzzy_provider"
+
 proc getConfigLocation*(): string =
 
     var fallback = os.expandTilde("~")
@@ -51,16 +56,10 @@ let configuration* = loadConfig(getConfigLocation())
 proc getEditor*(): string =
     # TODO - first read from config
     # then env, then fallback
-    return getEnv(
-        "EDITOR",
-        "vi"
-    )
+    return getEnv("EDITOR", "vi")
 
 proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyError].} =
-    var fuzzyProvider = config.getSectionValue(
-        "",
-        "fuzzy_provider"
-    )
+    var fuzzyProvider = config.getSectionValue("", keyFuzzyProvider)
 
     if fuzzyProvider == "":
         fuzzyProvider = "fzf"
@@ -69,10 +68,7 @@ proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyErr
 
 proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyError].} =
     # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
-    var notesLocation = config.getSectionValue(
-        "",
-        "notes_location"
-    )
+    var notesLocation = config.getSectionValue("", keyNoteLocation)
 
     if notesLocation[^1] != DirSep:
         notesLocation.add(DirSep)
@@ -83,7 +79,7 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
     var errors: seq[string] = @[]
     
     let notesLocation = getNotesLocation()
-    let notes_prefix = config.getSectionValue("", "notes_prefix")
+    let notesPrefix = config.getSectionValue("", keyNotePrefix)
 
     if not dirExists(os.expandTilde(notesLocation)):
         errors.add(
