@@ -1,5 +1,6 @@
 import std/os
 import std/strutils
+import std/tempfiles
 import ../fuzzy
 import ../console
 
@@ -11,6 +12,13 @@ proc process*() =
     if choice == "":
         quit()
 
+    let content = readFile(choice)
     removeFile(choice)
-    let message = "Deleted " & choice
+
+    let (tempFile, path) = createTempFile("jn-", "")
+    tempfile.write(content)
+
+    let message = "Deleted " & choice & ". Backup is at " & path
     success(message)
+
+    close tempFile

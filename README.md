@@ -104,8 +104,12 @@ Select one and it will open up in `$EDITOR`.
 jn rm
 ```
 
-This will open a fuzzy finder for your notes, select the one you want and it
+This will open a fuzzy finder for your notes. Select the note you want and it
 will be deleted.
+
+Once the file has been "deleted", a file containing the deleted file's content
+is written to "/tmp/" so you can restore it in the event of a mistake.
+
 
 ### Writing a note
 
