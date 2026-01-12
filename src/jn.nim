@@ -2,11 +2,11 @@ import std/os
 import std/cmdline
 import std/parseopt
 import std/strutils
-import std/terminal
 
 import config
 import subcommands/[book, cat, config as sconfig, edit, grep, rm, star]
 import files
+import console
 
 
 const version = "0.1"
@@ -47,8 +47,7 @@ Grep using alternative command name:
 try:
     config.validate()
 except Exception as e:
-    stdout.styledWriteLine(fgYellow, e.msg)
-
+    info(e.msg)
 
 let params = commandLineParams()
 

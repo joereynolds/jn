@@ -1,8 +1,8 @@
 import std/strutils
-import std/terminal
 
 import ../config
 import ../fuzzy
+import ../console
 import std/dirs
 import std/os
 import std/paths
@@ -24,7 +24,7 @@ proc process*() =
     let message = "Starred file " & choice
     let filename = extractFilename(choice)
 
-    stdout.styledWriteLine(fgGreen, message)
+    success(message)
 
     createSymlink(
         Path(choice),

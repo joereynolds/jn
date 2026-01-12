@@ -1,11 +1,11 @@
 import std/os
 import std/tables
-import std/terminal
 import std/times
 import std/parsecfg
 import std/strutils
 
 import config
+import console
 
 
 type DirectoryListing = Table[string, int]
@@ -39,7 +39,8 @@ proc createNote*(noteName: string) =
 
     discard os.execShellCmd(getEditor() & " " & name)
     let message = "Created " & name
-    stdout.styledWriteLine(fgGreen, message)
+
+    success(message)
 
 
 proc getNotes*(notesDir: string): seq[string] =
@@ -83,4 +84,4 @@ proc printDirectories*(directories: DirectoryListing) =
         let noteCount = " (" & $fileCount & " notes" & ")"
 
         stdout.write(directory)
-        stdout.styledWriteLine(fgYellow, noteCount)
+        info(noteCount)

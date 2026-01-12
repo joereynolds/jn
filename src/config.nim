@@ -1,11 +1,12 @@
 {.push raises: [].}
 
 import std/parsecfg
-import std/terminal
 import std/envvars
 import std/os
 import std/times
 import std/strutils
+
+import console
 
 
 const 
@@ -34,18 +35,14 @@ if not dirExists configDirectory:
     try:
         createDir(configDirectory)
     except OSError as e:
-        stdout.styledWriteLine(fgRed, e.msg)
+        warn(e.msg)
 
 if not fileExists(getConfigLocation()):
     try:
         copyFile("config/config.ini", getConfigLocation())
-        stdout.styledWriteLine(
-            fgGreen, 
-            "No config found, created one at " & getConfigLocation()
-        )
+        success("No config found, created one at " & getConfigLocation())
     except OSError:
-        stdout.styledWriteLine(
-            fgRed, 
+        warn(
             "No config found, and could not create one. " & 
             "Please create one manually at " & getConfigLocation()
         )

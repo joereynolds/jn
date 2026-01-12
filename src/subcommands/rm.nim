@@ -1,7 +1,7 @@
 import std/os
 import std/strutils
-import std/terminal
 import ../fuzzy
+import ../console
 
 proc process*() = 
     var choice = makeSelection()
@@ -13,4 +13,4 @@ proc process*() =
 
     removeFile(choice)
     let message = "Deleted " & choice
-    stdout.styledWriteLine(fgGreen, message)
+    success(message)
