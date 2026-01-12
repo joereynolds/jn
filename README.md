@@ -268,6 +268,7 @@ example here
 - [ ] - Template support
 - [ ] - Automatic categorisation
 - [ ] - Shell completion
+- [ ] - Man page
 
 ## Developers
 
