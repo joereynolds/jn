@@ -3,9 +3,11 @@ import std/tables
 import std/times
 import std/parsecfg
 import std/strutils
+import std/paths
 
 import config
 import console
+import templates
 
 
 type DirectoryListing = Table[string, int]
@@ -43,7 +45,10 @@ proc createNote*(noteName: string) =
 
         for myTemplate in templates:
             if name.contains(myTemplate.titleContains):
-                echo "insert template"
+                let templatePath = Path(myTemplate.location)
+                let templateContent = getContent(templatePath)
+                writeFile(name, templateContent)
+                break
 
     discard os.execShellCmd(getEditor() & " " & name)
     let message = "Created " & name
