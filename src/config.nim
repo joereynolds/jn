@@ -16,6 +16,8 @@ const
     keyNotePrefix = "notes_prefix"
     keyNoteSuffix = "notes_suffix"
     keyFuzzyProvider = "fuzzy_provider"
+    keyUseTemplate = "use_template"
+    keyTitleContains = "title_contains"
 
 proc getConfigLocation*(): string =
      getConfigDir() / "jn" / "config.ini"
@@ -88,8 +90,8 @@ proc getTemplates*(config: Config = configuration): seq[Template] {.raises: [Key
         if section.startsWith("template"):
             var t = Template(
                 configKey: section,
-                titleContains: config.getSectionValue(section, "title_contains"),
-                location: Path(config.getSectionValue(section, "use_template"))
+                titleContains: config.getSectionValue(section, keyTitleContains),
+                location: Path(config.getSectionValue(section, keyUseTemplate))
             )
             templates.add(t)
 

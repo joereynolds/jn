@@ -4,6 +4,7 @@ import std/times
 import std/parsecfg
 import std/strutils
 import std/paths
+import std/algorithm
 
 import config
 import console
@@ -88,7 +89,15 @@ proc getDirectories*(notesDir: string): DirectoryListing =
 
 
 proc printDirectories*(directories: DirectoryListing) =
-    for directory, fileCount in directories:
+    var sortedDirs: seq[string] = @[]
+    
+    for directory in directories.keys:
+        sortedDirs.add(directory)
+    
+    sortedDirs.sort()
+    
+    for directory in sortedDirs:
+        let fileCount = directories[directory]
         let noteCount = " (" & $fileCount & " notes" & ")"
 
         stdout.write(directory)

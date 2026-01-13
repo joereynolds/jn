@@ -22,7 +22,8 @@ A command line notetaker with a filebased approach.
 Run `jn` and it will create a config file for you under `XDG_CONFIG_HOME/jn/`.
 This will most likely be `~/.config/jn/`
 
-Change `notes_location` to point to where you store your notes.
+By default, `jn` works in a fresh directory but you can change the directory in
+the config (see `notes_locations` in "Config" section below).
 
 From there you can list all your notes with `jn` or create some with `jn "my
 note title"`.
@@ -33,8 +34,10 @@ I recommend reading below to learn about everything you can do.
 
 ### Config
 
+All of `jn`s config lives in a single config.ini file.
+
 The config file lives inside `$XDG_CONFIG_HOME/jn/config.ini`.
-Usually this is `~/.config/jn/`.
+Usually this is `~/.config/jn/config.ini`.
 
 You can quickly edit the config file with
 
@@ -117,6 +120,8 @@ jn grep <search-term>
 This will open up a fuzzy finder of all notes with `search-term` present.
 Select one and it will open up in `$EDITOR`.
 
+`jn / <search-term>` also works if you're used to Vim.
+
 ### Delete a note
 
 ```
@@ -127,7 +132,8 @@ This will open a fuzzy finder for your notes. Select the note you want and it
 will be deleted.
 
 Once the file has been "deleted", a file containing the deleted file's content
-is written to "/tmp/" so you can restore it in the event of a mistake.
+is written to "/tmp/" (or the equivalent on Mac/Windows) so you can restore it
+in the event of a mistake.
 
 
 ### Create a note
@@ -179,7 +185,6 @@ Once a note is created, its location is echoed to the terminal:
 
 ### Creating a book
 
-
 A book is optional. Conceptually it's where you store related notes. You might
 have a "vim" book containing tips about vim. A "docker" book containing tips
 about Docker, you get the idea.
@@ -198,64 +203,40 @@ jn "quitting-vim" @vim
 Saved in XDG_DOCUMENTS_DIR/vim/2025-12-07-quitting-vim.md
 ```
 
-### One note in multiple books
 
-Let's say you have a "programming" book and also a "python" book.
-You want one note to appear in both places, but how?
+## Other Features
 
-In order to do so, just specify both books 
+### Templates
 
-i.e.
+You can tell `jn` to use a template based on a note's title.
 
-```
-jn "python basics" @python @programming
-```
+For example, let's say that after every time you go to the gym, you want to
+note down your measurements. It would be tedious to write it all out, or
+manually copy and tweak a few values from an old one.
 
-The above will create the note in "python" and create a symlink to it in
-"programming".
+Instead, create a template, and store it in `XDG_DATA_HOME/jn` (usually this
+is`~/.local/share/jn`).
 
-The first link is the hard link, the rest are symlinks.
-
-## Advanced Features
-
-### Templates (unimplemented)
-
-You can tell `jn` to infer a template from a note's title.
-
-For example, let's say after every time you go to the gym, you want to note
-down your measurements. It would be tedious to write it all out, or manually
-copy and tweak a few values from an old one.
-
-Instead, create a template, store it in templates dir (TODO where is this) and
-add this into your config:
+Once you've done that, add this into your config:
 
 ```
-example config here
+[template.my-template]
+title_contains = "exercise"
+use_template = "gym-measurements.md"
 ```
 
-Now everytime you create a title with "gym" in it, it will use that template.
-You can pass the `--no-template` flag if you don't want this behaviour for a
-particular note
+Now everytime you create a title with "exercise" _somewhere_ in the title, it
+will populate the note with the content of
+`XDG_DATA_HOME/jn/gym-measurements.md`.
 
-i.e.
 
-```
-jn --no-template "gym measurements september 2026"
-```
+## Config file locations
 
-### Categories (unimplemented)
+Config - `XDG_CONFIG_HOME/jn/` (usually this is `~/.config/jn`)
 
-Similar to templates, we have categories.
+Documents - `XDG_DOCUMENTS_DIR/jn/` (usually this is `~/Documents/`) (defaults to `~/Documents/`) can be overridden with `notes_location` config key
 
-A category is just a way of automatically moving our note into its correct
-place depending on the note title.
-
-For example, you could make all of your gym notes automatically go into "@gym"
-book, by doing the following:
-
-```
-example here
-```
+Templates - `XDG_DATA_HOME/jn/` (usually this is `~/.local/share/jn/`)
 
 ## Roadmap
 
@@ -265,7 +246,8 @@ example here
 - [x] - grep subcommand
 - [x] - rm subcommand
 - [x] - Ability to star notes
-- [ ] - Template support
+- [x] - Template support
+- [ ] - One note, multiple books
 - [ ] - Automatic categorisation
 - [ ] - Shell completion
 - [ ] - Man page
