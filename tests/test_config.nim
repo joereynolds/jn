@@ -54,6 +54,16 @@ suite "Config tests":
 
     check(expected == actual)
 
+  test "It gets the note suffix from the config":
+    var c = newConfig()
+
+    c.setSectionKey("", "notes_suffix", ".markdown")
+
+    let expected = ".markdown"
+    let actual = getNotesSuffix(c)
+
+    check(expected == actual)
+
   test "It falls back to XDG_DOCUMENTS_DIR if note location not specified in config":
     putEnv("XDG_DOCUMENTS_DIR", "my-test-documents-dir")
     var c = newConfig()
