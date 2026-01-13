@@ -36,6 +36,14 @@ proc getFullNoteName(
 proc createNote*(noteName: string) =
 
     let name = getFullNoteName(noteName)
+    let shouldGetTemplate = true  # TODO - Make sure to read flags for --no-template
+
+    if shouldGetTemplate:
+        let templates = getTemplates()
+
+        for myTemplate in templates:
+            if name.contains(myTemplate.titleContains):
+                echo "insert template"
 
     discard os.execShellCmd(getEditor() & " " & name)
     let message = "Created " & name

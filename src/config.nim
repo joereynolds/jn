@@ -90,5 +90,3 @@ proc getTemplates*(config: Config = configuration): seq[Template] {.raises: [Key
             templates.add(t)
 
     return templates
-
-echo getTemplates()
