@@ -1,4 +1,4 @@
-import std/[os, parsecfg, unittest]
+import std/[os, parsecfg, paths, unittest]
 import ../src/config
 from ../src/templates import Template
 
@@ -92,7 +92,7 @@ suite "Config tests":
     let templateSection = Template(
         configKey: "template.test-1",
         titleContains: "some-title",
-        location: "some-template.md",
+        location: Path("some-template.md")
     )
 
     let expected: seq[Template] = @[templateSection]

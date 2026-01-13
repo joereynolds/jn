@@ -42,7 +42,7 @@ proc createNote*(noteName: string) =
 
         for myTemplate in templates:
             if name.contains(myTemplate.titleContains):
-                let templatePath = Path(Path(getTemplateLocation()) / Path(myTemplate.location))
+                let templatePath = getTemplateLocation() / myTemplate.location
                 let templateContent = getContent(templatePath)
                 writeFile(name, templateContent)
                 break

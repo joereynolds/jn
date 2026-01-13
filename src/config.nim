@@ -89,7 +89,7 @@ proc getTemplates*(config: Config = configuration): seq[Template] {.raises: [Key
             var t = Template(
                 configKey: section,
                 titleContains: config.getSectionValue(section, "title_contains"),
-                location: config.getSectionValue(section, "use_template")
+                location: Path(config.getSectionValue(section, "use_template"))
             )
             templates.add(t)
 

@@ -5,7 +5,7 @@ import std/[os, paths]
 type
     Template* = object
         configKey*: string
-        location*: string
+        location*: Path
         titleContains*: string
 
 proc getTemplateLocation*(): Path =
