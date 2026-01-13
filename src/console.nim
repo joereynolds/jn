@@ -8,3 +8,6 @@ proc info*(message: string) =
 
 proc warn*(message: string) =
     stdout.styledWriteLine(fgRed, message)
+
+proc plain*(message: string) =
+    echo message

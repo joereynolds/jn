@@ -1,11 +1,17 @@
 import config
+import console
 import files
 
-import std/[osproc, streams, strutils]
+import std/[os, osproc, streams, strutils]
 
 proc makeSelection*(): string =
     let notes = getNotes(getNotesLocation())
     let fuzzy = getFuzzyProvider()
+
+    if findExe(fuzzy) == "":
+        warn("Fuzzy finder " & fuzzy & " not installed on your system.")
+        return
+
     let noteChoices = notes.join("\n")
 
     var p = startProcess(fuzzy, options = {poUsePath})
