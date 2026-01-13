@@ -1,7 +1,6 @@
 import std/[os, parsecfg, unittest]
 import ../src/config
-
-
+from ../src/templates import Template
 
 
 suite "Config tests":
@@ -71,5 +70,22 @@ suite "Config tests":
 
     let expected = "this/directory/"
     let actual = getNotesLocation(c)
+
+    check(expected == actual)
+
+  test "It returns all of our templates":
+    var c = newConfig()
+
+    c.setSectionKey("template.test-1", "title_contains", "some-title")
+    c.setSectionKey("template.test-1", "use_template", "some-template.md")
+
+    let templateSection = Template(
+        configKey: "template.test-1",
+        titleContains: "some-title",
+        location: "some-template.md",
+    )
+
+    let expected: seq[Template] = @[templateSection]
+    let actual = getTemplates(c)
 
     check(expected == actual)

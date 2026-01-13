@@ -1,7 +1,12 @@
 {.push raises: [].}
 
-import std/[envvars, os, paths]
+import std/[os, paths]
 
+type
+    Template* = object
+        configKey*: string
+        location*: string
+        titleContains*: string
 
 proc getTemplateLocation*(): string =
     return getDataDir() / "jn"

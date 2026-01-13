@@ -8,6 +8,7 @@ import std/strutils
 import std/paths
 
 import console
+from templates import Template
 
 
 const 
@@ -75,3 +76,19 @@ proc validate*(config: Config = configuration) {.raises: [ValueError].} =
         raise (ref ValueError)(
             msg: errors.join("\n")
         )
+
+proc getTemplates*(config: Config = configuration): seq[Template] {.raises: [KeyError].} =
+    var templates: seq[Template] = @[]
+
+    for section in config.sections():
+        if section.startsWith("template"):
+            var t = Template(
+                configKey: section,
+                titleContains: config.getSectionValue(section, "title_contains"),
+                location: config.getSectionValue(section, "use_template")
+            )
+            templates.add(t)
+
+    return templates
+
+echo getTemplates()
