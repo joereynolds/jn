@@ -8,8 +8,7 @@ import subcommands/[book, cat, config as sconfig, edit, grep, rm, star, tmpl]
 import files
 import console
 
-
-const version = "0.1"
+include "metadata.nim"
 
 const usage = """
 jn - a file-based command line notebook

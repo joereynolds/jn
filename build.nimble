@@ -1,4 +1,5 @@
-version       = "0.0.1"
+include "./src/metadata.nim"
+
 author        = "Joe Reynolds"
 description   = "jn - A filebased CLI notetaker"
 license       = "MIT"
