@@ -8,8 +8,8 @@ type
         location*: string
         titleContains*: string
 
-proc getTemplateLocation*(): string =
-    return getDataDir() / "jn"
+proc getTemplateLocation*(): Path =
+    return Path(getDataDir() / "jn")
 
 proc getContent*(templatePath: Path): string {.raises: [IOError].} =
     if fileExists($templatePath):

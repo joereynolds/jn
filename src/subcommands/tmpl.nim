@@ -1,5 +1,5 @@
 import std/os
-import std/[osproc, strutils]
+import std/[osproc, paths, strutils]
 
 import ../config
 import ../templates
@@ -7,7 +7,7 @@ import ../fuzzy
 
 
 proc process*() = 
-    var choice = makeSelection(getTemplateLocation())
+    var choice = makeSelection($getTemplateLocation())
     
     choice.stripLineEnd()
     
