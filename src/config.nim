@@ -5,6 +5,7 @@ import std/envvars
 import std/os
 import std/times
 import std/strutils
+import std/paths
 
 import console
 
@@ -15,27 +16,11 @@ const
     keyFuzzyProvider = "fuzzy_provider"
 
 proc getConfigLocation*(): string =
-
-    var fallback = os.expandTilde("~")
-    const idealFallback = os.expandTilde("~/.config")
-
-    if dirExists(idealFallback):
-        fallback = idealFallback
-
-    let directory = getEnv(
-        "XDG_CONFIG_HOME",
-        fallback
-    )
-
-    return os.expandTilde(directory) & "/jn/config.ini"
+     getConfigDir() / "jn" / "config.ini"
 
 let configDirectory = splitFile(getConfigLocation()).dir
 
-if not dirExists configDirectory:
-    try:
-        createDir(configDirectory)
-    except OSError as e:
-        warn(e.msg)
+discard existsOrCreateDir(configDirectory)
 
 if not fileExists(getConfigLocation()):
     try:
@@ -51,21 +36,17 @@ let configuration* = loadConfig(getConfigLocation())
 
 
 proc getEditor*(): string =
-    # TODO - first read from config
-    # then env, then fallback
-    return getEnv("EDITOR", "vi")
+    getEnv("EDITOR", "vi")
 
 proc getFuzzyProvider*(config: Config = configuration): string {.raises: [KeyError].} =
-    var fuzzyProvider = config.getSectionValue("", keyFuzzyProvider)
-
-    if fuzzyProvider == "":
-        fuzzyProvider = "fzf"
-
-    return fuzzyProvider
+    config.getSectionValue("", keyFuzzyProvider, "fzf")
 
 proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyError].} =
-    # TODO - In here, first listen to config, then XDG_DOCUMENTS_DIR and then ~/Documents/
-    var notesLocation = config.getSectionValue("", keyNoteLocation)
+    var notesLocation = config.getSectionValue(
+        "",
+        keyNoteLocation,
+        getEnv("XDG_DOCUMENTS_DIR", "~/Documents/")
+    )
 
     if notesLocation[^1] != DirSep:
         notesLocation.add(DirSep)

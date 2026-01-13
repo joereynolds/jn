@@ -55,6 +55,15 @@ suite "Config tests":
 
     check(expected == actual)
 
+  test "It falls back to XDG_DOCUMENTS_DIR if note location not specified in config":
+    putEnv("XDG_DOCUMENTS_DIR", "my-test-documents-dir")
+    var c = newConfig()
+
+    let expected = "my-test-documents-dir/"
+    let actual = getNotesLocation(c)
+
+    check(expected == actual)
+
   test "It adds trailing slashes to note locations if not present":
     var c = newConfig()
 
