@@ -4,7 +4,7 @@ import std/parseopt
 import std/strutils
 
 import config
-import subcommands/[book, cat, config as sconfig, edit, grep, rm, star]
+import subcommands/[book, cat, config as sconfig, edit, grep, rm, star, tmpl]
 import files
 import console
 
@@ -25,6 +25,7 @@ Available Commands:
   /,grep,rg               Grep for term and fuzzy search to edit
   rm,remove               Fuzzy search and delete note
   s,star                  Mark a note as "starred"
+  template,temp,tm        Fuzzy search and edit template files
   -h, --help              Display this help
   -v, --version           Print jn's version
 
@@ -70,6 +71,10 @@ for kind, key, val in getopt():
 
         if key in ["e", "edit"]:
             edit.process()
+            quit()
+
+        if key in ["template", "temp", "tm"]:
+            tmpl.process()
             quit()
 
         if key in ["s", "star"]:

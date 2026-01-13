@@ -7,7 +7,7 @@ import ../files
 import ../grep/rg
 
 proc process*(searchTerm: string) = 
-    let notes = getNotes(getNotesLocation())
+    let notes = getFilesForDir(getNotesLocation())
     let fuzzy = getFuzzyProvider()
     let matches = rg.execute(searchTerm)
 

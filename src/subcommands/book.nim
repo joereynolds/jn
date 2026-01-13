@@ -6,7 +6,7 @@ import ../files
 
 proc printNotesForBook(book: string) =
     let bookDir = getNotesLocation() & book
-    var notes = files.getNotes(bookDir)
+    var notes = getFilesForDir(bookDir)
     var lastPaths = @[""]
 
     for note in notes:

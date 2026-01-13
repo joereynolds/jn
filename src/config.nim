@@ -14,6 +14,7 @@ from templates import Template
 const 
     keyNoteLocation = "notes_location"
     keyNotePrefix = "notes_prefix"
+    keyNoteSuffix = "notes_suffix"
     keyFuzzyProvider = "fuzzy_provider"
 
 proc getConfigLocation*(): string =
@@ -53,6 +54,9 @@ proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyErr
         notesLocation.add(DirSep)
 
     return expandTilde(notesLocation)
+
+proc getNotesSuffix*(config: Config = configuration): string {.raises: [KeyError].} =
+    config.getSectionValue("", keyNoteSuffix, ".md")
 
 proc validate*(config: Config = configuration) {.raises: [ValueError].} =
     var errors: seq[string] = @[]

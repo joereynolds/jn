@@ -24,10 +24,7 @@ proc getFullNoteName(
 
     let prefix = now().format(dateFormat)
 
-    let suffix = config.getSectionValue(
-        "",
-        "notes_suffix"
-    )
+    let suffix = getNotesSuffix()
 
     let location = config.getNotesLocation()
 
@@ -56,15 +53,15 @@ proc createNote*(noteName: string) =
     success(message)
 
 
-proc getNotes*(notesDir: string): seq[string] =
-    var notes = @[""]
+proc getFilesForDir*(dir: string): seq[string] =
+    var files = @[""]
 
-    for note in walkDirRec(
-        expandTilde(notesDir),
+    for file in walkDirRec(
+        expandTilde(dir),
         yieldFilter = {pcFile, pcLinkToFile}
     ):
-        notes.add(note)
-    return notes
+        files.add(file)
+    return files
 
 
 proc getDirectories*(notesDir: string): DirectoryListing =

@@ -4,8 +4,8 @@ import files
 
 import std/[os, osproc, streams, strutils]
 
-proc makeSelection*(): string =
-    let notes = getNotes(getNotesLocation())
+proc makeSelection*(fromDir: string = getNotesLocation()): string =
+    let notes = getFilesForDir(fromDir)
     let fuzzy = getFuzzyProvider()
 
     if findExe(fuzzy) == "":
