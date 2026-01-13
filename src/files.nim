@@ -38,9 +38,7 @@ proc createNote*(noteName: string) =
     let shouldGetTemplate = true  # TODO - Make sure to read flags for --no-template
 
     if shouldGetTemplate:
-        let templates = getTemplates()
-
-        for myTemplate in templates:
+        for myTemplate in getTemplates():
             if name.contains(myTemplate.titleContains):
                 let templatePath = getTemplateLocation() / myTemplate.location
                 let templateContent = getContent(templatePath)
