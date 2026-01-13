@@ -39,6 +39,7 @@ if not fileExists(getConfigLocation()):
 let configuration* = loadConfig(getConfigLocation())
 
 
+
 proc getEditor*(): string =
     getEnv("EDITOR", "vi")
 
@@ -49,7 +50,7 @@ proc getNotesLocation*(config: Config = configuration): string {.raises: [KeyErr
     var notesLocation = config.getSectionValue(
         "",
         keyNoteLocation,
-        getEnv("XDG_DOCUMENTS_DIR", "~/Documents/")
+        getEnv("XDG_DOCUMENTS_DIR", "~/Documents/") & "/jn"
     )
 
     if notesLocation[^1] != DirSep:
@@ -96,3 +97,5 @@ proc getTemplates*(config: Config = configuration): seq[Template] {.raises: [Key
             templates.add(t)
 
     return templates
+
+discard existsOrCreateDir(getNotesLocation())

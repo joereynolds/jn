@@ -68,7 +68,7 @@ suite "Config tests":
     putEnv("XDG_DOCUMENTS_DIR", "my-test-documents-dir")
     var c = newConfig()
 
-    let expected = "my-test-documents-dir/"
+    let expected = "my-test-documents-dir/jn/"
     let actual = getNotesLocation(c)
 
     check(expected == actual)
