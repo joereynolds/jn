@@ -18,6 +18,8 @@ const
   keyUseTemplate = "use_template"
   keyTitleContains = "title_contains"
 
+  boilerPlateConfigTemplate = staticRead("../config/config.ini")
+
 proc getConfigLocation*(): string =
   getConfigDir() / "jn" / "config.ini"
 
@@ -98,15 +100,18 @@ proc existsOrCreateNotesLocation(config: Config) =
       warn("Failed to create notes location at the location in your config.")
 
 proc existsOrCreateConfigFile() =
-  if not fileExists(getConfigLocation()):
+  let path = getConfigLocation()
+
+  if not fileExists(path):
     try:
-      copyFile("config/config.ini", getConfigLocation())
-      success("No config found, created one at " & getConfigLocation())
+      writeFile(path, boilerPlateConfigTemplate)
+      success("No config found, created one at " & path)
     except IOError, OSError:
       warn(
         "No config found, and could not create one. " & "Please create one manually at " &
-          getConfigLocation()
+          path
       )
+      warn(getCurrentExceptionMsg())
 
 proc createNecessaryDirectories*(config: Config) =
   existsOrCreateConfigDirectory()
