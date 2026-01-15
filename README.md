@@ -201,6 +201,27 @@ Once a note is created, its location is echoed to the terminal:
 > Created ~/Documents/notes/2025-12-05-do-the-thing.md
 ```
 
+### Bookmark a note
+
+```
+jn star
+```
+
+This will open a fuzzy finder for your notes. Select the note you want and it
+will be bookmarked.
+
+When a file has been bookmarked, it will appear in the special `@starred` book.
+
+To view your bookmarks, use the `@starred` book like any other:
+
+```
+jn @starred
+```
+
+Internally, bookmarks are managed with symlinks. The original note remains in
+its current location and a symlink is created in the "starred" directory to
+that note.
+
 ### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might
