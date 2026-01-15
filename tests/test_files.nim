@@ -49,3 +49,17 @@ suite "Files tests":
     let actual = $getFullNotePath("test-note", c)
     
     check(actual.endsWith(".markdown"))
+
+  test "It uses the category path when note name matches category":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
+    c.setSectionKey("", "notes_suffix", ".md")
+    c.setSectionKey("category:work", "title_contains", "work")
+    c.setSectionKey("category:work", "move_to", "work-notes")
+
+    let actual = getFullNotePath("work-meeting", c)
+    let today = now().format("YYYY-MM-dd")
+    let expected = Path("/tmp/test-notes/work-notes/" & today & "-work-meeting.md")
+
+    check(expected == actual)
