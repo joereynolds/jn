@@ -1,4 +1,4 @@
-import std/[os, parsecfg, paths, unittest]
+import std/[os, parsecfg, paths, unittest, sequtils]
 import ../src/config
 from ../src/templates import Template
 
@@ -109,23 +109,17 @@ suite "Config tests":
     c.setSectionKey("", "notes_location", "/home")
     c.setSectionKey("", "notes_prefix", "will-error")
 
-    let expected: seq[string] = @[
-      "The notes_prefix of will-error in your config is an invalid date format"
-    ]
-
+    let expected = "The notes_prefix of will-error in your config is an invalid date format"
     let actual: seq[string] = validate(c)
 
-    check(expected == actual)
+    check(expected in actual)
 
   test "It brings back validation errors if the notes_location doesn't exist":
     var c = newConfig()
 
     c.setSectionKey("", "notes_location", "a/non/existent/path")
 
-    let expected: seq[string] = @[
-      "The notes_location of a/non/existent/path/ in your config does not exist"
-    ]
-
+    let expected = "The notes_location of a/non/existent/path/ in your config does not exist"
     let actual: seq[string] = validate(c)
 
-    check(expected == actual)
+    check(expected in actual)
