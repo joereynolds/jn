@@ -9,7 +9,7 @@ A command line notetaker with a filebased approach.
 
 "books" are directories, "notes" are files.
 
-![A video demo of jn in action](./demo.mp4)
+![A video demo of jn in action](./demo.gif)
 
 ## Goals
 
