@@ -9,6 +9,8 @@ A command line notetaker with a filebased approach.
 
 "books" are directories, "notes" are files.
 
+![A video demo of jn in action](./demo.mp4)
+
 ## Goals
 
 - Be more convenient than the shell for finding and editing notes
