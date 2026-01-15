@@ -5,7 +5,7 @@ import std/envvars
 import std/os
 import std/paths
 
-import console, validators/[location, prefix]
+import console, validators/[envvar, location, prefix]
 
 const
   keyNoteLocation = "notes_location"
@@ -61,6 +61,9 @@ proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
 
   let prefixErrors = validatePrefix(getNotesPrefix(config))
   if prefixErrors != "": errors.add(prefixErrors)
+
+  let editorErrors = validateEnvValue("EDITOR")
+  if editorErrors != "": errors.add(editorErrors)
 
   return errors
 
