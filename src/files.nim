@@ -1,22 +1,14 @@
-import std/os
-import std/tables
-import std/times
-import std/parsecfg
-import std/strutils
-import std/paths
-import std/algorithm
-
-import config
-import console
-import templates
+import std/[algorithm, os, parsecfg, paths, strutils, tables, times]
+import categories, config, console, templates
 
 type DirectoryListing = Table[string, int]
 
-proc getFullNoteName*(note: string, config: Config, book: string = ""): string =
+proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
-  let location = config.getNotesLocation()
+  let location = config.getNotesPath()
+  let fileName = prefix & "-" & note.replace(" ", "-") & suffix
 
   let baseLocation = 
     if book != "":
@@ -24,30 +16,44 @@ proc getFullNoteName*(note: string, config: Config, book: string = ""): string =
     else:
       expandTilde(location)
   
-  let fullName = baseLocation / (prefix & "-" & note.replace(" ", "-") & suffix)
+  var categoryPath = ""
+  for category in getCategories(config):
+    if fileName.contains(category.titleContains):
+      categoryPath = $category.moveTo
+      break
+  
+  let fullName = 
+    if categoryPath != "":
+      baseLocation / categoryPath / fileName
+    else:
+      baseLocation / fileName
 
-  return fullName
+  return Path(fullName)
 
 proc createNote*(noteName: string, config: Config, book: string = "") =
   if book != "":
-    let bookDir = expandTilde(config.getNotesLocation()) / book
+    let bookDir = expandTilde(config.getNotesPath()) / book
     discard existsOrCreateDir(bookDir)
   
-  let name = getFullNoteName(noteName, config, book)
+  let name = getFullNotePath(noteName, config, book)
+  
+  # Ensure the directory exists (in case a category path was determined)
+  let noteDir = parentDir($name)
+  discard existsOrCreateDir(noteDir)
+  
   let shouldGetTemplate = true # TODO - Make sure to read flags for --no-template
 
   if shouldGetTemplate:
     for myTemplate in getTemplates(config):
-      if name.contains(myTemplate.titleContains):
-        let templatePath = getTemplateLocation(config) / myTemplate.location
-        let templateContent = getContent(templatePath)
-        writeFile(name, templateContent)
+      if string(name).contains(myTemplate.titleContains):
+        myTemplate.process(name, config)
         break
 
-  discard os.execShellCmd(getEditor() & " " & name)
-  let message = "Created " & name
+  let exitCode = os.execShellCmd(getEditor() & " " & $name)
+  let message = "Created " & $name
 
-  success(message)
+  if exitCode == 0:
+    success(message)
 
 proc getFilesForDir*(dir: string): seq[string] =
   var files = @[""]

@@ -8,7 +8,7 @@ import ../files
 const aliases* = @["@book"]
 
 proc printNotesForBook(book: string, config: Config) =
-  let bookDir = getNotesLocation(config) & book
+  let bookDir = getNotesPath(config) & book
   var notes = getFilesForDir(bookDir)
   var lastPaths = @[""]
 

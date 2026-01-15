@@ -10,7 +10,7 @@ import ../grep/rg
 const aliases* = @["/", "grep", "rg"]
 
 proc process*(searchTerm: string, config: Config) =
-  let notes = getFilesForDir(getNotesLocation(config))
+  let notes = getFilesForDir(getNotesPath(config))
   let fuzzy = getFuzzyProvider(config)
   let matches = rg.execute(searchTerm, config)
 

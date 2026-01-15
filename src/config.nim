@@ -3,21 +3,18 @@
 import std/parsecfg
 import std/envvars
 import std/os
-import std/strutils
 import std/paths
 
-import console
-import validators/[location, prefix]
-from templates import Template
+import console, validators/[location, prefix]
 
 const
   keyNoteLocation = "notes_location"
   keyNotePrefix = "notes_prefix"
   keyNoteSuffix = "notes_suffix"
   keyFuzzyProvider = "fuzzy_provider"
-  keyUseTemplate = "use_template"
-  keyTitleContains = "title_contains"
-
+  keyUseTemplate* = "use_template"
+  keyTitleContains* = "title_contains"
+  keyMoveTo* = "move_to"
   boilerPlateConfigTemplate = staticRead("../config/config.ini")
 
 proc getConfigLocation*(): string =
@@ -44,7 +41,7 @@ proc getNotesPrefix*(config: Config): string {.raises: [KeyError].} =
 proc getDocumentsDir*(): string =
   getEnv("XDG_DOCUMENTS_DIR", "~/Documents/")
 
-proc getNotesLocation*(config: Config): string {.raises: [KeyError].} =
+proc getNotesPath*(config: Config): string {.raises: [KeyError].} =
   var notesLocation = config.getSectionValue(
     "",
     keyNoteLocation,
@@ -59,7 +56,7 @@ proc getNotesLocation*(config: Config): string {.raises: [KeyError].} =
 proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
   var errors: seq[string] = @[]
 
-  let locationErrors = validateLocation(getNotesLocation(config))
+  let locationErrors = validateLocation(getNotesPath(config))
   if locationErrors != "": errors.add(locationErrors)
 
   let prefixErrors = validatePrefix(getNotesPrefix(config))
@@ -67,19 +64,6 @@ proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
 
   return errors
 
-proc getTemplates*(config: Config): seq[Template] {.raises: [KeyError].} =
-  var templates: seq[Template] = @[]
-
-  for section in config.sections():
-    if section.startsWith("template"):
-      var t = Template(
-        configKey: section,
-        titleContains: config.getSectionValue(section, keyTitleContains),
-        location: Path(config.getSectionValue(section, keyUseTemplate)),
-      )
-      templates.add(t)
-
-  return templates
 
 proc existsOrCreateConfigDirectory() =
   let configDirectory = splitFile(getConfigLocation()).dir
@@ -91,11 +75,11 @@ proc existsOrCreateConfigDirectory() =
 
 proc existsOrCreateNotesLocation(config: Config) = 
   try:
-    discard existsOrCreateDir(getNotesLocation(config))
+    discard existsOrCreateDir(getNotesPath(config))
   except IOError, KeyError, OSError:
     
     try:
-      warn("Failed to create notes location at " & getNotesLocation(config))
+      warn("Failed to create notes location at " & getNotesPath(config))
     except KeyError:
       warn("Failed to create notes location at the location in your config.")
 

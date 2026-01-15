@@ -50,7 +50,7 @@ suite "Config tests":
     c.setSectionKey("", "notes_location", "this/is/my/dir/")
 
     let expected = "this/is/my/dir/"
-    let actual = getNotesLocation(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 
@@ -87,7 +87,7 @@ suite "Config tests":
     var c = newConfig()
 
     let expected = "my-test-documents-dir/jn/"
-    let actual = getNotesLocation(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 
@@ -97,24 +97,7 @@ suite "Config tests":
     c.setSectionKey("", "notes_location", "this/directory")
 
     let expected = "this/directory/"
-    let actual = getNotesLocation(c)
-
-    check(expected == actual)
-
-  test "It returns all of our templates":
-    var c = newConfig()
-
-    c.setSectionKey("template.test-1", "title_contains", "some-title")
-    c.setSectionKey("template.test-1", "use_template", "some-template.md")
-
-    let templateSection = Template(
-        configKey: "template.test-1",
-        titleContains: "some-title",
-        location: Path("some-template.md")
-    )
-
-    let expected: seq[Template] = @[templateSection]
-    let actual = getTemplates(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 

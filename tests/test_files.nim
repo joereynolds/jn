@@ -1,4 +1,4 @@
-import std/[os, parsecfg, strutils, times, unittest]
+import std/[os, parsecfg, paths, strutils, times, unittest]
 import ../src/files
 import ../src/config
 
@@ -11,9 +11,9 @@ suite "Files tests":
     c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
     c.setSectionKey("", "notes_suffix", ".md")
 
-    let actual = getFullNoteName("test-note", c)
+    let actual = getFullNotePath("test-note", c)
     let today = now().format("YYYY-MM-dd")
-    let expected = "/tmp/test-notes/" & today & "-test-note.md"
+    let expected = Path("/tmp/test-notes/" & today & "-test-note.md")
 
     check(expected == actual)
 
@@ -23,9 +23,9 @@ suite "Files tests":
     c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
     c.setSectionKey("", "notes_suffix", ".md")
 
-    let actual = getFullNoteName("test-note", c, "my-book")
+    let actual = getFullNotePath("test-note", c, "my-book")
     let today = now().format("YYYY-MM-dd")
-    let expected = "/tmp/test-notes/my-book/" & today & "-test-note.md"
+    let expected = Path("/tmp/test-notes/my-book/" & today & "-test-note.md")
 
     check(expected == actual)
 
@@ -35,7 +35,7 @@ suite "Files tests":
     c.setSectionKey("", "notes_prefix", "YYYY-MM-dd-HH")
     c.setSectionKey("", "notes_suffix", ".md")
 
-    let actual = getFullNoteName("test-note", c)
+    let actual = $getFullNotePath("test-note", c)
     let today = now().format("YYYY-MM-dd-HH")
     
     check(actual.contains(today))
@@ -46,6 +46,20 @@ suite "Files tests":
     c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
     c.setSectionKey("", "notes_suffix", ".markdown")
 
-    let actual = getFullNoteName("test-note", c)
+    let actual = $getFullNotePath("test-note", c)
     
     check(actual.endsWith(".markdown"))
+
+  test "It uses the category path when note name matches category":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
+    c.setSectionKey("", "notes_suffix", ".md")
+    c.setSectionKey("category:work", "title_contains", "work")
+    c.setSectionKey("category:work", "move_to", "work-notes")
+
+    let actual = getFullNotePath("work-meeting", c)
+    let today = now().format("YYYY-MM-dd")
+    let expected = Path("/tmp/test-notes/work-notes/" & today & "-work-meeting.md")
+
+    check(expected == actual)

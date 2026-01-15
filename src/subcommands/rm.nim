@@ -10,7 +10,7 @@ const aliases* = @["rm", "remove"]
 
 proc process*(config: Config) =
   var choice = makeSelection(
-    getNotesLocation(config),
+    getNotesPath(config),
     config
   )
 

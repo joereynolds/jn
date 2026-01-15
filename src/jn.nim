@@ -120,4 +120,4 @@ for kind, key, val in getopt():
     discard
 
 if paramCount() <= 0:
-  printDirectories(getDirectories(getNotesLocation(configuration)))
+  printDirectories(getDirectories(getNotesPath(configuration)))
