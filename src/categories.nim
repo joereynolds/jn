@@ -1,7 +1,7 @@
 {.push raises: [].}
 
-import std/[os, parsecfg, paths, strutils]
-import console, config
+import std/[parsecfg, paths, strutils]
+import config
 
 type Category* = object
   configKey*: string
@@ -21,14 +21,3 @@ proc getCategories*(config: Config): seq[Category] {.raises: [KeyError].} =
       categories.add(t)
 
   return categories
-
-proc process*(category: Category, note: Path, config: Config) =
-  try:
-    let destination = Path(config.getNotesPath()) / category.moveTo / lastPathPart(note)
-    moveFile(
-      $note,
-      $destination
-    )
-    success("Category detected, moved to " & $destination)
-  except Exception:
-    warn(getCurrentExceptionMsg())

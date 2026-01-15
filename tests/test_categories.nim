@@ -1,4 +1,4 @@
-import std/[parsecfg, unittest]
+import std/[parsecfg, paths, unittest]
 import ../src/categories
 
 
@@ -13,7 +13,7 @@ suite "Category tests":
     let section = Category(
         configKey: "category.test-1",
         titleContains: "gym",
-        moveto: "exercise"
+        moveto: Path("exercise")
     )
 
     let expected: seq[Category] = @[section]

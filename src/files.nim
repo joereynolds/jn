@@ -16,7 +16,6 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
     else:
       expandTilde(location)
   
-  # Check if note matches any category and adjust path accordingly
   var categoryPath = ""
   for category in getCategories(config):
     if fileName.contains(category.titleContains):
