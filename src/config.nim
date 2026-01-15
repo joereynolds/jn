@@ -3,21 +3,18 @@
 import std/parsecfg
 import std/envvars
 import std/os
-import std/strutils
 import std/paths
 
-import console
-import validators/[location, prefix]
-from templates import Template
+import console, validators/[location, prefix]
 
 const
   keyNoteLocation = "notes_location"
   keyNotePrefix = "notes_prefix"
   keyNoteSuffix = "notes_suffix"
   keyFuzzyProvider = "fuzzy_provider"
-  keyUseTemplate = "use_template"
-  keyTitleContains = "title_contains"
-
+  keyUseTemplate* = "use_template"
+  keyTitleContains* = "title_contains"
+  keyMoveTo* = "move_to"
   boilerPlateConfigTemplate = staticRead("../config/config.ini")
 
 proc getConfigLocation*(): string =
@@ -67,19 +64,6 @@ proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
 
   return errors
 
-proc getTemplates*(config: Config): seq[Template] {.raises: [KeyError].} =
-  var templates: seq[Template] = @[]
-
-  for section in config.sections():
-    if section.startsWith("template"):
-      var t = Template(
-        configKey: section,
-        titleContains: config.getSectionValue(section, keyTitleContains),
-        location: Path(config.getSectionValue(section, keyUseTemplate)),
-      )
-      templates.add(t)
-
-  return templates
 
 proc existsOrCreateConfigDirectory() =
   let configDirectory = splitFile(getConfigLocation()).dir

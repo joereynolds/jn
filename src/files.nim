@@ -1,18 +1,9 @@
-import std/os
-import std/tables
-import std/times
-import std/parsecfg
-import std/strutils
-import std/paths
-import std/algorithm
-
-import config
-import console
-import templates
+import std/[algorithm, os, parsecfg, paths, strutils, tables, times]
+import categories, config, console, templates
 
 type DirectoryListing = Table[string, int]
 
-proc getFullNoteName*(note: string, config: Config, book: string = ""): string =
+proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
@@ -26,26 +17,29 @@ proc getFullNoteName*(note: string, config: Config, book: string = ""): string =
   
   let fullName = baseLocation / (prefix & "-" & note.replace(" ", "-") & suffix)
 
-  return fullName
+  return Path(fullName)
 
 proc createNote*(noteName: string, config: Config, book: string = "") =
   if book != "":
     let bookDir = expandTilde(config.getNotesLocation()) / book
     discard existsOrCreateDir(bookDir)
   
-  let name = getFullNoteName(noteName, config, book)
+  let name = getFullNotePath(noteName, config, book)
   let shouldGetTemplate = true # TODO - Make sure to read flags for --no-template
 
   if shouldGetTemplate:
     for myTemplate in getTemplates(config):
-      if name.contains(myTemplate.titleContains):
-        let templatePath = getTemplateLocation(config) / myTemplate.location
-        let templateContent = getContent(templatePath)
-        writeFile(name, templateContent)
+      if string(name).contains(myTemplate.titleContains):
+        myTemplate.process(name, config)
         break
 
-  discard os.execShellCmd(getEditor() & " " & name)
-  let message = "Created " & name
+  for category in getCategories(config):
+    if string(name).contains(category.titleContains):
+      category.process(name, config)
+      break
+
+  discard os.execShellCmd(getEditor() & " " & $name)
+  let message = "Created " & $name
 
   success(message)
 

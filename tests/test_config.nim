@@ -101,23 +101,6 @@ suite "Config tests":
 
     check(expected == actual)
 
-  test "It returns all of our templates":
-    var c = newConfig()
-
-    c.setSectionKey("template.test-1", "title_contains", "some-title")
-    c.setSectionKey("template.test-1", "use_template", "some-template.md")
-
-    let templateSection = Template(
-        configKey: "template.test-1",
-        titleContains: "some-title",
-        location: Path("some-template.md")
-    )
-
-    let expected: seq[Template] = @[templateSection]
-    let actual = getTemplates(c)
-
-    check(expected == actual)
-
   test "It brings back validation errors if the prefix is an invalid value":
     delEnv("XDG_DOCUMENTS_DIR")
 
