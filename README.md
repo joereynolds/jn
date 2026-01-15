@@ -9,7 +9,7 @@ A command line notetaker with a filebased approach.
 
 "books" are directories, "notes" are files.
 
-![A video demo of jn in action](./demo.gif)
+https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
 ## Goals
 
