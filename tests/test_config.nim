@@ -50,7 +50,7 @@ suite "Config tests":
     c.setSectionKey("", "notes_location", "this/is/my/dir/")
 
     let expected = "this/is/my/dir/"
-    let actual = getNotesLocation(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 
@@ -87,7 +87,7 @@ suite "Config tests":
     var c = newConfig()
 
     let expected = "my-test-documents-dir/jn/"
-    let actual = getNotesLocation(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 
@@ -97,7 +97,7 @@ suite "Config tests":
     c.setSectionKey("", "notes_location", "this/directory")
 
     let expected = "this/directory/"
-    let actual = getNotesLocation(c)
+    let actual = getNotesPath(c)
 
     check(expected == actual)
 

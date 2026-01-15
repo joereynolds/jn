@@ -1,11 +1,11 @@
 {.push raises: [].}
 
 import std/[os, parsecfg, paths, strutils]
-import config
+import console, config
 
 type Category* = object
   configKey*: string
-  moveTo*: string
+  moveTo*: Path
   titleContains*: string
 
 proc getCategories*(config: Config): seq[Category] {.raises: [KeyError].} =
@@ -16,7 +16,7 @@ proc getCategories*(config: Config): seq[Category] {.raises: [KeyError].} =
       var t = Category(
         configKey: section,
         titleContains: config.getSectionValue(section, keyTitleContains),
-        moveTo: config.getSectionValue(section, keyMoveTo),
+        moveTo: Path(config.getSectionValue(section, keyMoveTo))
       )
       categories.add(t)
 
@@ -24,9 +24,11 @@ proc getCategories*(config: Config): seq[Category] {.raises: [KeyError].} =
 
 proc process*(category: Category, note: Path, config: Config) =
   try:
+    let destination = Path(config.getNotesPath()) / category.moveTo / lastPathPart(note)
     moveFile(
       $note,
-      config.getNotesLocation() / category.moveTo
+      $destination
     )
+    success("Category detected, moved to " & $destination)
   except Exception:
-    echo getCurrentExceptionMsg()
+    warn(getCurrentExceptionMsg())

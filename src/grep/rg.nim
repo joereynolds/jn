@@ -3,7 +3,7 @@ import std/[osproc, parsecfg]
 import ../config
 
 proc getCommand*(searchTerm: string, config: Config): string =
-  let location = getNotesLocation(config)
+  let location = getNotesPath(config)
   return "rg '" & searchTerm & "' '" & location & "' --files-with-matches"
 
 proc execute*(command: string, config: Config): string =

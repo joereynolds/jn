@@ -12,10 +12,10 @@ import std/symlinks
 const aliases* = @["s", "star"]
 
 proc process*(config: Config) =
-  discard existsOrCreateDir(Path(getNotesLocation(config) & "starred"))
+  discard existsOrCreateDir(Path(getNotesPath(config) & "starred"))
 
   var choice = makeSelection(
-    getNotesLocation(config),
+    getNotesPath(config),
     config
   )
 
@@ -29,4 +29,4 @@ proc process*(config: Config) =
 
   success(message)
 
-  createSymlink(Path(choice), Path(getNotesLocation(config) & "starred" & DirSep & filename))
+  createSymlink(Path(choice), Path(getNotesPath(config) & "starred" & DirSep & filename))

@@ -7,7 +7,7 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
-  let location = config.getNotesLocation()
+  let location = config.getNotesPath()
 
   let baseLocation = 
     if book != "":
@@ -21,7 +21,7 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
 
 proc createNote*(noteName: string, config: Config, book: string = "") =
   if book != "":
-    let bookDir = expandTilde(config.getNotesLocation()) / book
+    let bookDir = expandTilde(config.getNotesPath()) / book
     discard existsOrCreateDir(bookDir)
   
   let name = getFullNotePath(noteName, config, book)
@@ -33,15 +33,16 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
         myTemplate.process(name, config)
         break
 
-  for category in getCategories(config):
-    if string(name).contains(category.titleContains):
-      category.process(name, config)
-      break
-
-  discard os.execShellCmd(getEditor() & " " & $name)
+  let exitCode = os.execShellCmd(getEditor() & " " & $name)
   let message = "Created " & $name
 
-  success(message)
+  if exitCode == 0:
+    success(message)
+
+    for category in getCategories(config):
+      if string(name).contains(category.titleContains):
+        category.process(name, config)
+        break
 
 proc getFilesForDir*(dir: string): seq[string] =
   var files = @[""]

@@ -41,7 +41,7 @@ proc getNotesPrefix*(config: Config): string {.raises: [KeyError].} =
 proc getDocumentsDir*(): string =
   getEnv("XDG_DOCUMENTS_DIR", "~/Documents/")
 
-proc getNotesLocation*(config: Config): string {.raises: [KeyError].} =
+proc getNotesPath*(config: Config): string {.raises: [KeyError].} =
   var notesLocation = config.getSectionValue(
     "",
     keyNoteLocation,
@@ -56,7 +56,7 @@ proc getNotesLocation*(config: Config): string {.raises: [KeyError].} =
 proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
   var errors: seq[string] = @[]
 
-  let locationErrors = validateLocation(getNotesLocation(config))
+  let locationErrors = validateLocation(getNotesPath(config))
   if locationErrors != "": errors.add(locationErrors)
 
   let prefixErrors = validatePrefix(getNotesPrefix(config))
@@ -75,11 +75,11 @@ proc existsOrCreateConfigDirectory() =
 
 proc existsOrCreateNotesLocation(config: Config) = 
   try:
-    discard existsOrCreateDir(getNotesLocation(config))
+    discard existsOrCreateDir(getNotesPath(config))
   except IOError, KeyError, OSError:
     
     try:
-      warn("Failed to create notes location at " & getNotesLocation(config))
+      warn("Failed to create notes location at " & getNotesPath(config))
     except KeyError:
       warn("Failed to create notes location at the location in your config.")
 
