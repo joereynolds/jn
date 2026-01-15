@@ -8,6 +8,7 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
   let location = config.getNotesPath()
+  let fileName = prefix & "-" & note.replace(" ", "-") & suffix
 
   let baseLocation = 
     if book != "":
@@ -15,7 +16,18 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
     else:
       expandTilde(location)
   
-  let fullName = baseLocation / (prefix & "-" & note.replace(" ", "-") & suffix)
+  # Check if note matches any category and adjust path accordingly
+  var categoryPath = ""
+  for category in getCategories(config):
+    if fileName.contains(category.titleContains):
+      categoryPath = $category.moveTo
+      break
+  
+  let fullName = 
+    if categoryPath != "":
+      baseLocation / categoryPath / fileName
+    else:
+      baseLocation / fileName
 
   return Path(fullName)
 
@@ -25,6 +37,11 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
     discard existsOrCreateDir(bookDir)
   
   let name = getFullNotePath(noteName, config, book)
+  
+  # Ensure the directory exists (in case a category path was determined)
+  let noteDir = parentDir($name)
+  discard existsOrCreateDir(noteDir)
+  
   let shouldGetTemplate = true # TODO - Make sure to read flags for --no-template
 
   if shouldGetTemplate:
@@ -38,11 +55,6 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
 
   if exitCode == 0:
     success(message)
-
-    for category in getCategories(config):
-      if string(name).contains(category.titleContains):
-        category.process(name, config)
-        break
 
 proc getFilesForDir*(dir: string): seq[string] =
   var files = @[""]
