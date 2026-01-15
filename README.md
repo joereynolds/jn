@@ -270,6 +270,28 @@ Now everytime you create a title with "exercise" _somewhere_ in the title, it
 will populate the note with the content of
 `XDG_DATA_HOME/jn/gym-measurements.md`.
 
+### Categories
+
+Categories allow you to automatically move a note to a book based on the name
+of the note.
+
+For example, let's say you have a book called @recipes that stores all your...
+recipes. You want to have any new note that contains the word "chocolate" to
+immediately be moved to recipes.
+
+You can do so with the following:
+
+```
+[category.my-category]
+title_contains = "chocolate"
+move_to = "recipes"
+```
+
+Now, on save of your note, it gets saved into the @recipes book.
+
+This saves you having to manually move files around or add the note to the
+correct book in the first place
+
 #### Editing a template
 
 ```
@@ -298,7 +320,7 @@ Templates - `XDG_DATA_HOME/jn/` (usually this is `~/.local/share/jn/`)
 - [x] - Ability to star notes
 - [x] - Template support
 - [ ] - One note, multiple books
-- [ ] - Automatic categorisation
+- [x] - Categories
 - [ ] - Shell completion
 - [ ] - Man page
 
