@@ -67,7 +67,6 @@ proc validate*(config: Config): seq[string] {.raises: [ValueError].} =
 
   return errors
 
-
 proc existsOrCreateConfigDirectory() =
   let configDirectory = splitFile(getConfigLocation()).dir
 
