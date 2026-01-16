@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact-name: jn-linux
+          - os: macos-latest
+            artifact-name: jn-macos
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Nim
+      uses: jiro4989/setup-nim-action@v2
+      with:
+        nim-version: 'stable'
+    
+    - name: Build release
+      run: nimble release -y
+    
+    - name: Rename binary
+      run: mv jn ${{ matrix.artifact-name }}
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact-name }}
+        path: ${{ matrix.artifact-name }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Download Linux artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: jn-linux
+    
+    - name: Download macOS artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: jn-macos
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          jn-linux
+          jn-macos
+        draft: true
+        generate_release_notes: true
