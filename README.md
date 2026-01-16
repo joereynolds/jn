@@ -11,12 +11,6 @@ A command line notetaker with a filebased approach.
 
 https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
-## Goals
-
-- Be more convenient than the shell for finding and editing notes
-- Be frictionless
-- Be unixy
-
 ### Requirements
 
 - ripgrep
@@ -250,6 +244,25 @@ Saved in ~/Documents/notes/vim/2025-12-07-quitting-vim.md
 
 
 ## Other Features
+
+### Tags
+
+As you'd expect, you can search for tags via `jn`. All tags are assumed to
+begin with "#".
+
+As an example, any of the below will search for the "#vim" tag.
+
+```
+jn tag vim
+jn tag "#vim"
+jn tags vim
+jn tags "#vim
+```
+
+Once ran ,this will open up a fuzzy finder containing all notes with those tags.
+
+As you can see, you don't need to specify the `#` prefix in your search. Just
+the word will do.
 
 ### Templates
 

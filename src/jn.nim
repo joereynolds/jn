@@ -4,7 +4,7 @@ import std/parseopt
 import std/strutils
 
 import config
-import subcommands/[book, cat, config as sconfig, edit, grep, help, rm, star, tmpl]
+import subcommands/[book, cat, config as sconfig, edit, grep, help, rm, star, tags, tmpl]
 import files
 import console
 
@@ -67,6 +67,15 @@ for kind, key, val in getopt():
         else:
           ""
       grep.process(searchTerm, configuration)
+      quit()
+
+    if key in tags.aliases:
+      let searchTerm =
+        if params.len > 1:
+          params[1]
+        else:
+          ""
+      tags.process(searchTerm, configuration)
       quit()
 
     if key.startsWith("@"):

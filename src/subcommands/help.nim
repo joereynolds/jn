@@ -17,6 +17,7 @@ Available Commands:
   /,grep,rg               Grep for term and fuzzy search to edit
   rm,remove               Fuzzy search and delete note
   s,star                  Mark a note as "starred"
+  tag,tags                Search for notes by tag (e.g. #vim)
   template,temp,tm        Fuzzy search and edit template files
   -h, --help              Display this help
   -v, --version           Print jn's version
@@ -40,6 +41,10 @@ Grep for a term:
 
 Grep using alternative command name:
   jn / "assignment"
+
+Search for notes by tag:
+  jn tags vim
+  jn tag "#docker"
 """
 
 proc process*(config: Config) =
