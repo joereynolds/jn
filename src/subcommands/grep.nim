@@ -10,6 +10,10 @@ import ../grep/rg
 const aliases* = @["/", "grep", "rg"]
 
 proc process*(searchTerm: string, config: Config) =
+  if searchTerm.strip() == "":
+    echo "Grep is missing the search string"
+    quit()
+
   let notes = getFilesForDir(getNotesPath(config))
   let fuzzy = getFuzzyProvider(config)
   let matches = rg.execute(searchTerm, config)
