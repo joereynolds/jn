@@ -1,6 +1,5 @@
-import std/[os, parsecfg, paths, unittest, sequtils]
+import std/[os, parsecfg, unittest]
 import ../src/config
-from ../src/templates import Template
 
 
 suite "Config tests":
