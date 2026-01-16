@@ -18,9 +18,10 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   
   var categoryPath = ""
   for category in getCategories(config):
-    if fileName.contains(category.titleContains):
-      categoryPath = $category.moveTo
-      break
+    for title in category.titleContains.split(","):
+      if fileName.contains(title):
+        categoryPath = $category.moveTo
+        break
   
   let fullName = 
     if categoryPath != "":
@@ -45,9 +46,10 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
 
   if shouldGetTemplate:
     for myTemplate in getTemplates(config):
-      if string(name).contains(myTemplate.titleContains):
-        myTemplate.process(name, config)
-        break
+      for title in myTemplate.titleContains.split(","):
+        if string(name).contains(title):
+          myTemplate.process(name, config)
+          break
 
   let exitCode = os.execShellCmd(getEditor() & " " & $name)
   let message = "Created " & $name

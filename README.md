@@ -27,7 +27,7 @@ https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 ### Quick start
 
 Run `jn "my note title"` to be dropped into an editor. 
-This will create a note called 2026-01-01-my-note-title.md.
+This will create a note called `2026-01-01-my-note-title.md`.
 
 Run `jn` on its own to see all your notes.
 
@@ -262,13 +262,13 @@ Once you've done that, add this into your config:
 
 ```
 [template.my-template]
-title_contains = "exercise"
+title_contains = "exercise,lift,bro,gains"
 use_template = "gym-measurements.md"
 ```
 
-Now everytime you create a title with "exercise" _somewhere_ in the title, it
-will populate the note with the content of
-`XDG_DATA_HOME/jn/gym-measurements.md`.
+Now everytime you create a title with "exercise" or any of the other words in
+that list _somewhere_ in the title, it will populate the note with the content
+of `XDG_DATA_HOME/jn/gym-measurements.md`.
 
 ### Categories
 
@@ -276,14 +276,14 @@ Categories allow you to automatically move a note to a book based on the name
 of the note.
 
 For example, let's say you have a book called @recipes that stores all your...
-recipes. You want to have any new note that contains the word "chocolate" to
-immediately be moved to recipes.
+recipes. You want to have any new note that contains the word "chocolate" or
+"snack to immediately be moved to recipes.
 
 You can do so with the following:
 
 ```
 [category.my-category]
-title_contains = "chocolate"
+title_contains = "chocolate,snack"
 move_to = "recipes"
 ```
 

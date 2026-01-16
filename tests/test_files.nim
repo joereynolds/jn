@@ -63,3 +63,17 @@ suite "Files tests":
     let expected = Path("/tmp/test-notes/work-notes/" & today & "-work-meeting.md")
 
     check(expected == actual)
+
+  test "It uses the category path when note name matches category with a list of titles":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
+    c.setSectionKey("", "notes_suffix", ".md")
+    c.setSectionKey("category:work", "title_contains", "work,thiswillmatch")
+    c.setSectionKey("category:work", "move_to", "work-notes")
+
+    let actual = getFullNotePath("thiswillmatch", c)
+    let today = now().format("YYYY-MM-dd")
+    let expected = Path("/tmp/test-notes/work-notes/" & today & "-thiswillmatch.md")
+
+    check(expected == actual)
