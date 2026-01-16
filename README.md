@@ -24,6 +24,10 @@ https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
 `jn` will work without these but be incredibly limited.
 
+### Installation
+
+Download Linux and Mac builds of `jn` from the [releases page](https://github.com/joereynolds/jn/releases).
+
 ### Quick start
 
 Run `jn "my note title"` to be dropped into an editor. 
