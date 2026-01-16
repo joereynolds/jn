@@ -90,7 +90,7 @@ Complete configuration:
 
 ;
 ;[template.example-1]
-;title_contains="gym"
+;title_contains="gym,lift,gains"
 ;use_template="measurements.md"
 ;
 ;[template.example-2]
