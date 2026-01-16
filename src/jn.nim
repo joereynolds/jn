@@ -4,51 +4,12 @@ import std/parseopt
 import std/strutils
 
 import config
-import subcommands/[book, cat, config as sconfig, edit, grep, rm, star, tmpl]
+import subcommands/[book, cat, config as sconfig, edit, grep, help, rm, star, tmpl]
 import files
 import console
 
 const version = "0.2"
 
-const usage =
-  """
-jn - a file-based command line notebook
-
-Usage:
-  jn [command]
-
-Available Commands:
-  @<book>                 Show all notes for a book
-  c,cat                   Fuzzy search and print note
-  conf,config             Open config in $EDITOR
-  e,edit                  Fuzzy search and open note in $EDITOR
-  /,grep,rg               Grep for term and fuzzy search to edit
-  rm,remove               Fuzzy search and delete note
-  s,star                  Mark a note as "starred"
-  template,temp,tm        Fuzzy search and edit template files
-  -h, --help              Display this help
-  -v, --version           Print jn's version
-
-Examples:
-   
-Show all books:
-  jn
-
-Show all notes for a book called 'docker':
-  jn @docker
-
-Create a note:
-  jn "my note title"
-
-Create a note in a specific book:
-  jn "how to exit vim" @vim
-
-Grep for a term:
-  jn grep "assignment"
-
-Grep using alternative command name:
-  jn / "assignment"
-"""
 
 let configuration = getConfig(getConfigLocation())
 
@@ -67,7 +28,7 @@ for kind, key, val in getopt():
   of cmdShortOption, cmdLongOption:
     case key
     of "h", "help":
-      echo usage
+      help.process(configuration)
     of "v", "version":
       echo version
   of cmdArgument:
@@ -81,6 +42,10 @@ for kind, key, val in getopt():
 
     if key in edit.aliases:
       edit.process(configuration)
+      quit()
+
+    if key in help.aliases:
+      help.process(configuration)
       quit()
 
     if key in tmpl.aliases:
