@@ -94,6 +94,10 @@ Complete configuration:
 ;[template.example-2]
 ;title_contains="chocolate"
 ;use_template="recipe.md"
+;
+; [category.gym]
+; title_contains="gym"
+; move_to="health"
 ```
 
 ## Commands
