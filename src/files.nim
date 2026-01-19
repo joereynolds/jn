@@ -52,9 +52,9 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
           break
 
   let exitCode = os.execShellCmd(getEditor() & " " & $name)
-  let message = "Created " & $name
-
-  if exitCode == 0:
+  
+  if exitCode == 0 and fileExists($name):
+    let message = "Created " & $name
     success(message)
 
 proc getFilesForDir*(dir: string): seq[string] =
