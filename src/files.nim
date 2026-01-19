@@ -19,7 +19,7 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   var categoryPath = ""
   for category in getCategories(config):
     for title in category.titleContains.split(","):
-      if fileName.contains(title):
+      if fileName.toLowerAscii().contains(title.toLowerAscii()):
         categoryPath = $category.moveTo
         break
   
