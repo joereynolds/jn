@@ -80,7 +80,18 @@ suite "Files tests":
 
   test "It gets the note counts for a directory":
     let expected = 2
-    let actual = getDirectories("./tests/data")
+    let actual = getDirectories("./tests/data/notes/")
 
-    check(expected == actual["notes"])
+    check(expected == actual["a-directory-inside-notes"])
+
+  test "It ignores hidden files for the overall note count":
+    let expected = 3
+    let actual = getDirectories("./tests/data/notes/")
+
+    check(expected == actual["a-directory-with-hidden-files"])
     
+  test "It counts nested directories":
+    let expected = 3
+    let actual = getDirectories("./tests/data/notes/")
+
+    check(expected == actual["a-nested-directory"])
