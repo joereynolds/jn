@@ -16,7 +16,7 @@ jobs:
     - name: "Install dependencies"
       run: |
         sudo apt update
-        sodp apt install -y libpcre3-dev
+        sudo apt install -y libpcre3-dev
     
     - name: Setup Nim
       uses: jiro4989/setup-nim-action@v2
