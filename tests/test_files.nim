@@ -1,4 +1,4 @@
-import std/[os, parsecfg, paths, strutils, times, unittest]
+import std/[os, parsecfg, paths, strutils, times, unittest, tables]
 import ../src/files
 import ../src/config
 
@@ -77,3 +77,10 @@ suite "Files tests":
     let expected = Path("/tmp/test-notes/work-notes/" & today & "-thiswillmatch.md")
 
     check(expected == actual)
+
+  test "It gets the note counts for a directory":
+    let expected = 2
+    let actual = getDirectories("./tests/data")
+
+    check(expected == actual["notes"])
+    

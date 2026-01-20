@@ -64,13 +64,13 @@ proc getFilesForDir*(dir: string): seq[string] =
     files.add(file)
   return files
 
-proc getDirectories*(notesDir: string): DirectoryListing =
+proc getDirectories*(dir: string): DirectoryListing =
   var directories = initTable[string, int]()
 
   directories["."] = 0
 
   # Get all directories
-  for kind, path in walkDir(expandTilde(notesDir)):
+  for kind, path in walkDir(expandTilde(dir)):
     if kind == pcFile:
       directories["."] += 1
 
@@ -80,7 +80,8 @@ proc getDirectories*(notesDir: string): DirectoryListing =
 
       # and count all notes
       for file in walkDirRec(path, yieldFilter = {pcFile, pcLinkToFile}):
-        directories[pathAsKey] += 1
+        if not isHidden(file):
+          directories[pathAsKey] += 1
 
   return directories
 
