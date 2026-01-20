@@ -57,12 +57,19 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
     let message = "Created " & $name
     success(message)
 
-proc getFilesForDir*(dir: string): seq[string] =
-  var files = @[""]
+proc getFilesForDir*(dir: string, filter = {pcFile, pcLinkToFile}): seq[string] =
+  result = @[]
+  
+  for kind, path in walkDir(dir):
+    if path.isHidden(): # TODO - respect --hidden flag
+      continue
 
-  for file in walkDirRec(expandTilde(dir), yieldFilter = {pcFile, pcLinkToFile}):
-    files.add(file)
-  return files
+    if kind in filter:
+      result.add(path)
+    
+    if kind == pcDir:
+      # Recursively add paths from subdirectories
+      result.add(getFilesForDir(path, filter))
 
 proc getDirectories*(dir: string): DirectoryListing =
   var directories = initTable[string, int]()
