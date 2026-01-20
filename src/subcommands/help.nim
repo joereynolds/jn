@@ -15,6 +15,7 @@ Available Commands:
   conf,config             Open config in $EDITOR
   e,edit                  Fuzzy search and open note in $EDITOR
   /,grep,rg               Grep for term and fuzzy search to edit
+  mv,move                 Fuzzy search and rename note
   rm,remove               Fuzzy search and delete note
   s,star                  Mark a note as "starred"
   tag,tags                Search for notes by tag (e.g. #vim)

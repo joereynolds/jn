@@ -226,6 +226,22 @@ Internally, bookmarks are managed with symlinks. The original note remains in
 its current location and a symlink is created in the "starred" directory to
 that note.
 
+### Rename a note
+
+```
+jn mv
+```
+
+This will open a fuzzy finder for your notes. Select the note you want and it
+will prompt you for the new name.
+
+You only need to supply the title of the note, the prefix and extension are
+provided for you.
+
+i.e. If you rename a note from `2026-01-01-important.md` to `urgent` it will be
+saved as `2026-01-01-urgent.md`.
+
+
 ### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might
