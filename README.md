@@ -291,6 +291,45 @@ Now everytime you create a title with "exercise" or any of the other words in
 that list _somewhere_ in the title, it will populate the note with the content
 of `XDG_DATA_HOME/jn/gym-measurements.md`.
 
+#### Template variables
+
+You can use predefined template variables in your templates.
+
+For example, a template consiting of
+
+```
+Today is {{ today }}
+```
+
+Would be rendered as:
+
+```
+Today is 2026-01-20
+```
+
+A complete overview of the template variables is below:
+
+
+| Variable    | Action                                        |
+| ------------| ----------------------------------------------|
+| today       | Renders today's date in YYYY-MM-dd format     |
+| note        | Renders the complete filename of the note     |
+
+
+Note that template variables are very fresh, so there aren't many...
+
+If you have any suggestions on useful ones, raise an issue.
+
+
+#### Editing a template
+
+```
+jn template
+```
+
+This will open a fuzzy finder of all your templates. Select the template and it
+will open up in `$EDITOR`.
+
 ### Categories
 
 Categories allow you to automatically move a note to a book based on the name
@@ -313,14 +352,6 @@ Now, on save of your note, it gets saved into the @recipes book.
 This saves you having to manually move files around or add the note to the
 correct book in the first place
 
-#### Editing a template
-
-```
-jn template
-```
-
-This will open a fuzzy finder of all your templates. Select the template and it
-will open up in `$EDITOR`.
 
 
 ## Config file locations
