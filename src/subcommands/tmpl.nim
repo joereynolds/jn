@@ -2,7 +2,7 @@ import std/os
 import std/[osproc, parsecfg, paths, strutils]
 
 import ../config
-import ../templates
+import ../templates/templates
 import ../fuzzy
 
 const aliases* = @["template", "temp", "tm"]

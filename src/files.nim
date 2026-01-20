@@ -1,5 +1,5 @@
 import std/[algorithm, os, parsecfg, paths, strutils, tables, times]
-import categories, config, console, templates
+import categories, config, console, templates/templates
 
 type DirectoryListing = Table[string, int]
 
