@@ -1,5 +1,5 @@
-import std/[os, paths, parsecfg, unittest]
-import ../src/templates
+import std/[os, paths, parsecfg, strutils, unittest]
+import ../src/templates/templates
 
 
 suite "Template tests":
@@ -50,3 +50,14 @@ suite "Template tests":
 
     check(expected == actual)
 
+  test "It renders variables":
+    let expected = "20" # TODO - This will break in 984 years
+
+    let actual = renderVariables(
+      getContent(
+        Path("./tests/data/templates/test-template-with-single-variable.md")
+      ),
+      Path("./tests/data/templates/test-template-with-single-variable.md")
+    )
+
+    check(expected in actual)
