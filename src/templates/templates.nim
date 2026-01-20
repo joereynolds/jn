@@ -3,7 +3,7 @@
 
 import std/[os, parsecfg, paths, re, strutils]
 import ../config
-import ./variables/[today, note as noteV]
+import ./variables/[today, note as noteV, shell]
 
 
 type Template* = object
@@ -35,12 +35,13 @@ proc getTemplates*(config: Config): seq[Template] {.raises: [KeyError].} =
 
   return templates
 
-proc renderVariables*(templateContent: string, note: Path): string {.raises: [RegexError] .} =
-  var templateContent = templateContent.replace(re"{{\s*today\s*}}", today.process(note))
-  templateContent = templateContent.replace(re"{{\s*note\s*}}", noteV.process(note))
-  return templateContent
+proc renderVariables*(templateContent: string, note: Path): string {.raises: [RegexError, OSError, IOError] .} =
+  var content = templateContent.replace(re"{{\s*today\s*}}", today.process(note))
+  content = content.replace(re"{{\s*note\s*}}", noteV.process(note))
+  content = shell.process(content, note)
+  return content
 
-proc process*(myTemplate: Template, note: Path, config: Config) {.raises: [KeyError, IOError, RegexError].} =
+proc process*(myTemplate: Template, note: Path, config: Config) {.raises: [KeyError, OSError, IOError, RegexError].} =
   let templatePath = getTemplateLocation(config) / myTemplate.location
   let templateContent: string = getContent(templatePath)
 

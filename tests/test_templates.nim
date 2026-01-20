@@ -61,3 +61,27 @@ suite "Template tests":
     )
 
     check(expected in actual)
+
+  test "It renders shell variables":
+    let expected = "Hello, Joe.\n"
+
+    let actual = renderVariables(
+      getContent(
+        Path("./tests/data/templates/test-template-with-shell-variable.md")
+      ),
+      Path("Does not matter")
+    )
+
+    check(expected == actual)
+
+  test "It renders multiple shell variables":
+    let expected = "Hello, Joe and hello, Jebediah."
+
+    let actual = renderVariables(
+      getContent(
+        Path("./tests/data/templates/test-template-with-multiple-shell-variables.md")
+      ),
+      Path("Does not matter")
+    )
+
+    check(expected == actual)
