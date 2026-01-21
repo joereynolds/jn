@@ -75,7 +75,7 @@ suite "Template tests":
     check(expected == actual)
 
   test "It renders multiple shell variables":
-    let expected = "Hello, Joe and hello, Jebediah."
+    let expected = "Hello, Joe and hello, Jebediah.\n"
 
     let actual = renderVariables(
       getContent(
