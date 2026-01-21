@@ -307,7 +307,10 @@ Now everytime you create a title with "exercise" or any of the other words in
 that list _somewhere_ in the title, it will populate the note with the content
 of `XDG_DATA_HOME/jn/gym-measurements.md`.
 
+
 #### Template variables
+
+##### Predefined variables
 
 You can use predefined template variables in your templates.
 
@@ -335,6 +338,30 @@ A complete overview of the template variables is below:
 Note that template variables are very fresh, so there aren't many...
 
 If you have any suggestions on useful ones, raise an issue.
+
+##### Shell variables
+
+Another more powerful (and dangerous/fun) type of template variable is the
+shell variable.
+
+This allows you to shell out and fill the template with results of the shell
+command.
+
+Shell template variables start with `{%` and end with `%}`. 
+
+For example we can do:
+
+```
+The year is {% date +%Y %}.
+
+Hello {% echo 'Joe' %} And hello {% echo 'Jim' %}. 
+Here is a list of my files {% ls %}. 
+I hope you like them {% echo 'Joe' %}. 
+
+Written on {{ today }}.
+```
+
+The onus is on you to write the command correctly. It not working is undefined behaviour.
 
 
 #### Editing a template
