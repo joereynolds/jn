@@ -9,7 +9,7 @@ import ../console
 
 const aliases* = @["mv", "move"]
 
-proc process*(config: Config) =
+proc process*(config: Config, flags: seq[string]) =
   var choice = selectFromDir(
     getNotesPath(config),
     config
@@ -32,7 +32,11 @@ proc process*(config: Config) =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
-  let fileName = prefix & "-" & newName.replace(" ", "-") & suffix
+
+  var fileName = prefix & "-" & newName.replace(" ", "-") & suffix
+
+  if "--plain" in flags:
+    fileName = newName
   
   let oldPath = choice
   let dirPath = parentDir(oldPath)

@@ -61,7 +61,7 @@ for kind, key, val in getopt():
       quit()
 
     if key in mv.aliases:
-      mv.process(configuration)
+      mv.process(configuration, params)
       quit()
 
     if key in grep.aliases:

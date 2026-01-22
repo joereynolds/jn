@@ -239,6 +239,15 @@ provided for you.
 i.e. If you rename a note from `2026-01-01-important.md` to `urgent` it will be
 saved as `2026-01-01-urgent.md`.
 
+You can also pass the `--plain` flag to `jn mv` and it will do no clever
+prefix/extension magic and instead, just rename the file to what you want
+whilst still preserving the directory it's in.
+
+The complete command is:
+
+```
+jn mv --plain
+```
 
 ### Creating a book
 
