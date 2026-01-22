@@ -1,7 +1,6 @@
 # JN
 
-![A very cool guy holding a very cool sign](./img.jpg)
-
+<img width="535" height="470" alt="image" src="https://github.com/user-attachments/assets/f34e2dcc-bee9-4c29-8c8e-90ad4d59c6ba" />
 
 ## What is it?
 
