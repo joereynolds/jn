@@ -8,7 +8,7 @@ import subcommands/[book, cat, config as sconfig, edit, grep, help, mv, rm, star
 import files
 import console
 
-const version = "1.0.3"
+const version = "1.0.4"
 
 
 let configuration = getConfig(getConfigLocation())
