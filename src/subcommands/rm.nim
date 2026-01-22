@@ -9,7 +9,7 @@ import ../config
 const aliases* = @["rm", "remove"]
 
 proc process*(config: Config) =
-  var choice = makeSelection(
+  var choice = selectFromDir(
     getNotesPath(config),
     config
   )

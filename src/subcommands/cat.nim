@@ -6,7 +6,7 @@ import ../fuzzy
 const aliases* = @["c", "cat"]
 
 proc process*(config: Config) =
-  var choice = makeSelection(
+  var choice = selectFromDir(
     getNotesPath(config),
     config
   )

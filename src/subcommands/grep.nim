@@ -3,8 +3,8 @@ import std/osproc
 import std/parsecfg
 import std/strutils
 
+import ../fuzzy
 import ../config
-import ../files
 import ../grep
 
 const aliases* = @["/", "grep"]
@@ -14,15 +14,14 @@ proc process*(searchTerm: string, config: Config) =
     echo "Grep is missing the search string"
     quit()
 
-  let notes = getFilesForDir(getNotesPath(config))
-  let fuzzy = getFuzzyProvider(config)
   let matches = search(searchTerm, config)
 
-  if matches == "":
+  if matches == @[]:
     echo "No matches, quitting"
     quit()
 
-  var choice = execProcess("echo " & quoteShell(matches) & " | " & fuzzy)
+  var choice = selectFromChoice(matches, config)
+
   choice.stripLineEnd()
 
   if choice == "":

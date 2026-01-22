@@ -3,6 +3,7 @@ import std/osproc
 import std/parsecfg
 import std/strutils
 
+import ../fuzzy
 import ../config
 import ../files
 import ../grep
@@ -27,11 +28,12 @@ proc process*(searchTerm: string, config: Config) =
   let fuzzy = getFuzzyProvider(config)
   let matches = search(tagSearch, config)
 
-  if matches == "":
+  if matches == @[]:
     echo "No matches, quitting"
     quit()
 
-  var choice = execProcess("echo " & quoteShell(matches) & " | " & fuzzy)
+  var choice = selectFromChoice(matches, config)
+
   choice.stripLineEnd()
 
   if choice == "":

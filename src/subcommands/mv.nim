@@ -10,7 +10,7 @@ import ../console
 const aliases* = @["mv", "move"]
 
 proc process*(config: Config) =
-  var choice = makeSelection(
+  var choice = selectFromDir(
     getNotesPath(config),
     config
   )

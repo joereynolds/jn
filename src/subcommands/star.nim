@@ -14,7 +14,7 @@ const aliases* = @["s", "star"]
 proc process*(config: Config) =
   discard existsOrCreateDir(Path(getNotesPath(config) & "starred"))
 
-  var choice = makeSelection(
+  var choice = selectFromDir(
     getNotesPath(config),
     config
   )

@@ -8,7 +8,7 @@ import ../fuzzy
 const aliases* = @["template", "temp", "tm"]
 
 proc process*(config: Config) =
-  var choice = makeSelection(
+  var choice = selectFromDir(
     $getTemplateLocation(config),
     config
   )

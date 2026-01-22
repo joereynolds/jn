@@ -32,9 +32,6 @@ proc getMatches*(term: string, config: Config): seq[string] =
 
   return matches
 
-proc formatForFuzzy(matches: seq[string]): string =
-  matches.join("\n")
-   
-proc search*(term: string, config: Config): string = 
-  formatForFuzzy(getMatches(term, config))
+proc search*(term: string, config: Config): seq[string] =
+  getMatches(term, config)
 
