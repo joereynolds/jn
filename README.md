@@ -13,7 +13,6 @@ https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
 ### Requirements
 
-- ripgrep
 - fzf or fzy (Other fuzzy finders will probably work but are untested)
 
 `jn` will work without these but be incredibly limited.

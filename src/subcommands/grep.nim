@@ -5,9 +5,9 @@ import std/strutils
 
 import ../config
 import ../files
-import ../grep/rg
+import ../grep
 
-const aliases* = @["/", "grep", "rg"]
+const aliases* = @["/", "grep"]
 
 proc process*(searchTerm: string, config: Config) =
   if searchTerm.strip() == "":
@@ -16,7 +16,7 @@ proc process*(searchTerm: string, config: Config) =
 
   let notes = getFilesForDir(getNotesPath(config))
   let fuzzy = getFuzzyProvider(config)
-  let matches = rg.execute(searchTerm, config)
+  let matches = search(searchTerm, config)
 
   if matches == "":
     echo "No matches, quitting"
