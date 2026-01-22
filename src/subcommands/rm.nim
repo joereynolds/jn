@@ -19,7 +19,12 @@ proc process*(config: Config) =
   if choice == "":
     quit()
 
-  let content = readFile(choice)
+  var content = ""
+  try:
+    content = readFile(choice)
+  except IOError:
+    discard
+    
   removeFile(choice)
 
   let (tempFile, path) = createTempFile("jn-", "")
