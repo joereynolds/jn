@@ -98,4 +98,5 @@ for kind, key, val in getopt():
     discard
 
 if paramCount() <= 0:
+  info(configuration.getNotesPath())
   printDirectories(getDirectories(getNotesPath(configuration)))
