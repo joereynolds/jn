@@ -5,7 +5,7 @@ import files
 import std/[os, osproc, parsecfg, streams, strutils]
 
 proc formatForFuzzy(matches: seq[string]): string =
-  return matches.join("\n")
+  matches.join("\n")
 
 proc getSelectionFromFuzzy(choices: seq[string], fuzzy: string): string =
   var p = startProcess(fuzzy, options = {poUsePath})
@@ -26,15 +26,6 @@ proc hasWarnedAboutNoFuzzy(fuzzy: string): bool =
     warn("Try an alternative (fzf or fzy) for this command to work.")
     return true
 
-proc selectFromDir*(fromDir: string, config: Config): string =
-  let choices = getFilesForDir(fromDir)
-  let fuzzy = getFuzzyProvider(config)
-
-  if hasWarnedAboutNoFuzzy(fuzzy):
-    return
-
-  return getSelectionFromFuzzy(choices, fuzzy)
-
 proc selectFromChoice*(choices: seq[string], config: Config): string =
   let fuzzy = getFuzzyProvider(config)
 
@@ -42,3 +33,7 @@ proc selectFromChoice*(choices: seq[string], config: Config): string =
     return
 
   return getSelectionFromFuzzy(choices, fuzzy)
+
+proc selectFromDir*(fromDir: string, config: Config): string =
+  let choices = getFilesForDir(fromDir)
+  return selectFromChoice(choices, config)
