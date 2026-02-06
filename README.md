@@ -249,6 +249,17 @@ The complete command is:
 jn mv --plain
 ```
 
+### Get recent notes
+
+```
+jn recent
+```
+
+This will display the 15 most recently edited notes.
+Useful for when you forget _that_ important document
+
+Both `jn r` and `jn re` also work.
+
 ### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might
