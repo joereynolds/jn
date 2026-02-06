@@ -24,7 +24,7 @@ proc process*(config: Config) =
     content = readFile(choice)
   except IOError:
     discard
-    
+
   removeFile(choice)
 
   let (tempFile, path) = createTempFile("jn-", "")

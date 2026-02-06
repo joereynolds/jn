@@ -3,6 +3,11 @@ import categories, config, console, templates/templates
 
 type DirectoryListing = Table[string, int]
 
+type 
+  FileRecord* = object
+    name*: string
+    modifiedTime*: Time
+
 proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
@@ -57,7 +62,7 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
     let message = "Created " & $name
     success(message)
 
-proc getFilesForDir*(dir: string, filter = {pcFile, pcLinkToFile}): seq[string] =
+proc getFilesForDir*(dir: string, filter = {pcFile, pcLinkToFile}): seq[FileRecord] =
   result = @[]
   
   for kind, path in walkDir(dir):
@@ -65,7 +70,18 @@ proc getFilesForDir*(dir: string, filter = {pcFile, pcLinkToFile}): seq[string] 
       continue
 
     if kind in filter:
-      result.add(path)
+
+      # Technically the file should exist but there can be times where a
+      # symlink points to a now-removed file.
+      # This means we still need to check if the file is legit...
+      if not fileExists(path):
+        continue
+
+      var record = FileRecord(
+        name: path,
+        modifiedTime: getLastModificationTime(path)
+      )
+      result.add(record)
     
     if kind == pcDir:
       # Recursively add paths from subdirectories

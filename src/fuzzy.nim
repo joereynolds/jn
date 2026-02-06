@@ -2,7 +2,7 @@ import config
 import console
 import files
 
-import std/[os, osproc, parsecfg, streams, strutils]
+import std/[os, osproc, parsecfg, sequtils, streams, strutils]
 
 proc formatForFuzzy(matches: seq[string]): string =
   matches.join("\n")
@@ -36,4 +36,4 @@ proc selectFromChoice*(choices: seq[string], config: Config): string =
 
 proc selectFromDir*(fromDir: string, config: Config): string =
   let choices = getFilesForDir(fromDir)
-  return selectFromChoice(choices, config)
+  return selectFromChoice(choices.mapIt(it.name), config)

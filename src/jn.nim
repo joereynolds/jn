@@ -4,7 +4,11 @@ import std/parseopt
 import std/strutils
 
 import config
-import subcommands/[book, cat, config as sconfig, edit, grep, help, mv, rm, star, tags, tmpl]
+import subcommands/[
+  book, cat, config as sconfig, edit,
+  grep, help, mv, recent, rm,
+  star, tags, tmpl
+]
 import files
 import console
 
@@ -48,20 +52,24 @@ for kind, key, val in getopt():
       help.process(configuration)
       quit()
 
-    if key in tmpl.aliases:
-      tmpl.process(configuration)
+    if key in mv.aliases:
+      mv.process(configuration, params)
       quit()
 
-    if key in star.aliases:
-      star.process(configuration)
+    if key in recent.aliases:
+      recent.process(configuration, params)
       quit()
 
     if key in rm.aliases:
       rm.process(configuration)
       quit()
 
-    if key in mv.aliases:
-      mv.process(configuration, params)
+    if key in star.aliases:
+      star.process(configuration)
+      quit()
+
+    if key in tmpl.aliases:
+      tmpl.process(configuration)
       quit()
 
     if key in grep.aliases:

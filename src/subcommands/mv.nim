@@ -37,15 +37,15 @@ proc process*(config: Config, flags: seq[string]) =
 
   if "--plain" in flags:
     fileName = newName
-  
+
   let oldPath = choice
   let dirPath = parentDir(oldPath)
   let newPath = dirPath / fileName
-  
+
   if fileExists(newPath):
     warn("File already exists at: " & newPath)
     quit()
-  
+
   try:
     moveFile(oldPath, newPath)
     success("Renamed: " & lastPathPart(oldPath) & " -> " & fileName)

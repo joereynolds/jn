@@ -95,3 +95,8 @@ suite "Files tests":
     let actual = getDirectories("./tests/data/notes/")
 
     check(expected == actual["a-nested-directory"])
+
+  test "The file listing contains the modified times":
+    let actual = getFilesForDir("./tests/data/notes")
+
+    check(compiles(actual[0].modifiedTime))
