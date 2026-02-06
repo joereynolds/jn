@@ -12,18 +12,18 @@ const aliases* = @["tag", "tags"]
 
 proc process*(searchTerm: string, config: Config) =
   var tagTerm = searchTerm.strip()
-  
+
   # Strip '#' if user provided it
   if tagTerm.startsWith("#"):
     tagTerm = tagTerm[1..^1]
-  
+
   if tagTerm == "":
     echo "Tags command is missing the tag name"
     quit()
 
   # Add '#' prefix to search for tags
   let tagSearch = "#" & tagTerm
-  
+
   let notes = getFilesForDir(getNotesPath(config))
   let fuzzy = getFuzzyProvider(config)
   let matches = search(tagSearch, config)

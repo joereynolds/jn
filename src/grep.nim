@@ -21,12 +21,12 @@ proc getMatches*(term: string, config: Config): seq[string] =
 
   for file in getFilesForDir(getNotesPath(config)):
 
-    if isSkippable(file):
+    if isSkippable(file.name):
       continue
 
     try:
-      if readFile(file).contains(pattern):
-        matches.add(file)
+      if readFile(file.name).contains(pattern):
+        matches.add(file.name)
     except IOError:
       discard
 

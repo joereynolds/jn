@@ -13,7 +13,7 @@ proc printNotesForBook(book: string, config: Config) =
   var lastPaths = @[""]
 
   for note in notes:
-    lastPaths.add(lastPathPart(note))
+    lastPaths.add(lastPathPart(note.name))
 
   lastPaths.sort()
 
