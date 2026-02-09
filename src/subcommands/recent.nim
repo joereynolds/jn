@@ -1,4 +1,4 @@
-import std/[algorithm, parsecfg, parseopt, strutils, times]
+import std/[algorithm, parsecfg, parseopt, paths, strutils, times]
 import ../[console, config, files]
 
 const aliases* = @["r", "re", "recent"]
@@ -20,9 +20,7 @@ proc process*(config: Config, flags: seq[string]) =
   let byTime = notes.sortedByIt(it.modifiedTime).reversed()
 
   for note in byTime[0 .. limit - 1]:
-    stdout.write(note.name)
+    stdout.write(lastPathPart(Path(note.name)))
 
     let mtime = $note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
     info(" (" & mtime & ")")
-
-  
