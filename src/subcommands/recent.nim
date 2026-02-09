@@ -1,16 +1,28 @@
-import std/[algorithm, parsecfg, times]
+import std/[algorithm, parsecfg, parseopt, strutils, times]
 import ../[console, config, files]
 
 const aliases* = @["r", "re", "recent"]
 
 proc process*(config: Config, flags: seq[string]) =
 
+  var limit = 15
+
+  for kind, key, val in getopt():
+    case kind
+    of cmdShortOption, cmdLongOption:
+      case key
+      of "l", "limit":
+        limit = parseInt(val)
+    else:
+      discard
+    
   let notes = getFilesforDir(getNotesPath(config))
   let byTime = notes.sortedByIt(it.modifiedTime).reversed()
 
-  # TODO - use --limit flag here
-  for note in byTime[0 .. 15]:
+  for note in byTime[0 .. limit - 1]:
     stdout.write(note.name)
-    info("(" & $note.modifiedTime & ")")
+
+    let mtime = $note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
+    info(" (" & mtime & ")")
 
   
