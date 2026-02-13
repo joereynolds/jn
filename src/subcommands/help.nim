@@ -10,18 +10,19 @@ Usage:
   jn [command]
 
 Available Commands:
-  @<book>                 Show all notes for a book
-  c,cat                   Fuzzy search and print note
-  conf,config             Open config in $EDITOR
-  e,edit                  Fuzzy search and open note in $EDITOR
-  /,grep,rg               Grep for term and fuzzy search to edit
-  mv,move                 Fuzzy search and rename note
-  rm,remove               Fuzzy search and delete note
-  s,star                  Mark a note as "starred"
-  tag,tags                Search for notes by tag (e.g. #vim)
-  template,temp,tm        Fuzzy search and edit template files
-  -h, --help              Display this help
-  -v, --version           Print jn's version
+  @<book>              Show all notes for a book
+  c,cat                Fuzzy search and print note
+  conf,config          Open config in $EDITOR
+  e,edit               Fuzzy search and open note in $EDITOR
+  /,grep,rg            Grep for term and fuzzy search to edit
+  mv,move              Fuzzy search and rename note
+  r,re,recent          Displays the 15 most recent files (also takes a --limit)
+  rm,remove            Fuzzy search and delete note
+  s,star               Mark a note as "starred"
+  tag,tags             Search for notes by tag (e.g. #vim)
+  template,temp,tm     Fuzzy search and edit template files
+  -h, --help           Display this help
+  -v, --version        Print jn's version
 
 Examples:
    
