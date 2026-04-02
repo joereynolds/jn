@@ -18,6 +18,9 @@ proc process*(config: Config) =
 
   choice.stripLineEnd()
 
+  if choice == "":
+    quit()
+
   let matchedFile = matchLookup[choice].file
   var matchedContent: string = matchLookup[choice].lineContent
   let matchedLineNumber = matchLookup[choice].lineNumber

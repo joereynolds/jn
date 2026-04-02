@@ -18,7 +18,9 @@ proc getMatches*(term: string, config: Config): seq[Match] =
     try:
       let content = readFile(file.name)
       for lineNum, line in enumerate(content.splitLines()):
+
         if line.contains(pattern):
+
           matches.add(
             Match(
               file: file.name,
