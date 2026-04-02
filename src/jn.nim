@@ -7,7 +7,7 @@ import config
 import subcommands/[
   book, cat, config as sconfig, edit,
   grep, help, mv, recent, rm,
-  star, tags, tmpl
+  star, tags, todo, tmpl
 ]
 import files
 import console
@@ -48,6 +48,15 @@ for kind, key, val in getopt():
       edit.process(configuration)
       quit()
 
+    if key in grep.aliases:
+      let searchTerm =
+        if params.len > 1:
+          params[1]
+        else:
+          ""
+      grep.process(searchTerm, configuration)
+      quit()
+
     if key in help.aliases:
       help.process(configuration)
       quit()
@@ -68,17 +77,12 @@ for kind, key, val in getopt():
       star.process(configuration)
       quit()
 
-    if key in tmpl.aliases:
-      tmpl.process(configuration)
+    if key in todo.aliases:
+      todo.process(configuration)
       quit()
 
-    if key in grep.aliases:
-      let searchTerm =
-        if params.len > 1:
-          params[1]
-        else:
-          ""
-      grep.process(searchTerm, configuration)
+    if key in tmpl.aliases:
+      tmpl.process(configuration)
       quit()
 
     if key in tags.aliases:

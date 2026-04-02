@@ -1,7 +1,4 @@
-import std/os
-import std/osproc
-import std/parsecfg
-import std/strutils
+import std/[os, osproc, parsecfg, strutils, sequtils]
 
 import ../fuzzy
 import ../config
@@ -15,12 +12,13 @@ proc process*(searchTerm: string, config: Config) =
     quit()
 
   let matches = search(searchTerm, config)
+  let fileNames = matches.mapIt(it.file)
 
   if matches == @[]:
     echo "No matches, quitting"
     quit()
 
-  var choice = selectFromChoice(matches, config)
+  var choice = selectFromChoice(fileNames, config)
 
   choice.stripLineEnd()
 
