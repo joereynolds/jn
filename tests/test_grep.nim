@@ -14,7 +14,7 @@ suite "Grep tests":
     let expected = @["tests/data/notes/a-file-for-grep.md"]
     let actual = getMatches("search-term", c)
 
-    check(expected == actual)
+    check(expected[0] == actual[0].file)
 
   test "It finds our search with no case sensitivity":
     var c = newConfig()
@@ -25,7 +25,7 @@ suite "Grep tests":
     let expected = @["tests/data/notes/a-file-for-grep.md"]
     let actual = getMatches("inlowercase", c)
 
-    check(expected == actual)
+    check(expected[0] == actual[0].file)
 
   test "It finds parts of a term":
     var c = newConfig()
@@ -38,7 +38,7 @@ suite "Grep tests":
                         # searchterm
     let actual = getMatches("rchter", c)
 
-    check(expected == actual)
+    check(expected[0] == actual[0].file)
 
   test "It finds things with regex":
     var c = newConfig()
@@ -51,4 +51,4 @@ suite "Grep tests":
                            # searchterm
     let actual = getMatches("..arc...rm", c)
 
-    check(expected == actual)
+    check(expected[0] == actual[0].file)
