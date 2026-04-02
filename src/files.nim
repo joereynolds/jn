@@ -122,3 +122,10 @@ proc printDirectories*(directories: DirectoryListing) =
 
     stdout.write(directory)
     info(noteCount)
+
+proc writeToLine*(file: string, lineNumber: int, content: string) =
+  var lines = readfile(file).splitLines()
+  lines[lineNumber] = content
+  writefile(file, lines.join("\n"))
+
+
