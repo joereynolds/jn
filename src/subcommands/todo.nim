@@ -1,4 +1,4 @@
-import std/[os, osproc, parsecfg, sequtils, strutils, tables]
+import std/[os, osproc, parsecfg, sequtils, strutils, tables, times]
 
 import ../console
 import ../config
@@ -10,7 +10,6 @@ const aliases* = @["t", "todo", "task"]
 
 proc process*(config: Config) =
   let matches = grep.search("^- \\[ \\]", config)
-  let lines = matches.mapIt(it.lineContent)
 
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
@@ -25,8 +24,11 @@ proc process*(config: Config) =
   choice.stripLineEnd()
 
   let matchedFile = matchLookup[choice].file
-  let matchedContent = matchLookup[choice].lineContent
+  var matchedContent: string = matchLookup[choice].lineContent
   let matchedLineNumber = matchLookup[choice].lineNumber
+
+  let today = now().format("YYYY-MM-dd")
+  matchedContent.add(" " & today)
 
   writeToLine(
     matchedFile,
