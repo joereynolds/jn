@@ -52,3 +52,4 @@ suite "Grep tests":
     let actual = getMatches("..arc...rm", c)
 
     check(expected[0] == actual[0].file)
+

@@ -1,20 +1,15 @@
-import std/[os, osproc, parsecfg, re, sequtils, strutils, tables, times]
-
-import ../console
-import ../config
-import ../fuzzy
-import ../grep
-import ../files
+import std/[parsecfg, re, strutils, tables, times]
+import ../[console, fuzzy, grep, files, todo]
 
 const aliases* = @["t", "todo", "task"]
 
 proc process*(config: Config) =
-  let matches = grep.search("^- \\[ \\]", config)
+  let todos = getTodos(config)
 
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
 
-  for i, match in matches:
+  for i, match in todos:
     let key = $i & " " & match.lineContent
     displayChoices.add(key)
     matchLookup[key] = match
