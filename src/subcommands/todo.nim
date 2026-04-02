@@ -1,4 +1,4 @@
-import std/[os, osproc, parsecfg, sequtils, strutils, tables, times]
+import std/[os, osproc, parsecfg, re, sequtils, strutils, tables, times]
 
 import ../console
 import ../config
@@ -36,7 +36,10 @@ proc process*(config: Config) =
     matchedContent.replace("[ ]", "[x]")
   )
 
+  let pattern = re"(\d+) - \[ \]"
+  let replaced = choice.replace(pattern, "").strip()
+
   console.success(
-    "Marked " & choice & " as complete (" & matchedFile & ")."
+    "Marked " & "'" & replaced & "'" & " as complete (" & matchedFile & ")."
   )
 
