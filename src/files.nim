@@ -62,11 +62,25 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
     let message = "Created " & $name
     success(message)
 
+proc isSkippable(filename: string): bool =
+  let ext = filename.splitFile.ext.toLowerAscii()
+
+  return ext in [
+    ".wav", ".mp3", ".mp4", ".avi", ".jpg", ".jpeg", 
+    ".png", ".gif", ".zip", ".tar", ".gz", ".pdf", 
+    ".exe", ".dll", ".so", ".bin", ".ttf",  ".pyc",
+    ".otf", ".pyi", ".ogg", ".flac", ".reapeaks", ".rpp",
+    ".rpp-bak", ".tr4m", ".tr4p"
+  ]
+
 proc getFilesForDir*(dir: string, filter = {pcFile, pcLinkToFile}): seq[FileRecord] =
   result = @[]
   
   for kind, path in walkDir(dir):
     if path.isHidden(): # TODO - respect --hidden flag
+      continue
+
+    if isSkippable(path):
       continue
 
     if kind in filter:
@@ -127,5 +141,4 @@ proc writeToLine*(file: string, lineNumber: int, content: string) =
   var lines = readfile(file).splitLines()
   lines[lineNumber] = content
   writefile(file, lines.join("\n"))
-
 
