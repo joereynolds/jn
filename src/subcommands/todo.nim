@@ -8,6 +8,7 @@ const aliases* = @["t", "todo", "task"]
 
 proc process*(config: Config) =
   let matches = grep.search("^- \\[ \\]", config)
+  # echo matches
   let lines = matches.mapIt(it.lineContent)
 
   var choice = selectFromChoice(lines, config)

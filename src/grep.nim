@@ -1,10 +1,11 @@
-import std/[os, parsecfg, paths, re, strutils]
+import std/[enumerate, os, parsecfg, paths, re, strutils]
 import ./[config, files]
 
 type Match* = object
   file*: string # TODO - make this a Path instead
   searchTerm*: string
   lineContent*: string
+  lineNumber*: int
 
 # TODO - Move this to files and put it as part of getFilesForDir
 # there's no need to bring back binary files, that's dumb
@@ -31,15 +32,16 @@ proc getMatches*(term: string, config: Config): seq[Match] =
       continue
 
     try:
-      # - TODO - changed to line-by-line so we can grab the line, 
+      # - TODO - changed to line-by-line so we can grab the matching line, 
       # performance is down now though
-      for line in lines(file.name):
+      for lineNum, line in enumerate(lines(file.name)):
         if line.contains(pattern):
           matches.add(
             Match(
               file: file.name,
               searchTerm: term,
-              lineContent: line
+              lineContent: line,
+              lineNumber: lineNum
             )
           )
     except IOError:
