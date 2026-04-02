@@ -4,7 +4,7 @@ import ./[config, files]
 type Match* = object
   file*: string # TODO - make this a Path instead
   searchTerm*: string
-  lineContent: string
+  lineContent*: string
 
 # TODO - Move this to files and put it as part of getFilesForDir
 # there's no need to bring back binary files, that's dumb
