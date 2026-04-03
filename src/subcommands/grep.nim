@@ -28,9 +28,9 @@ proc process*(searchTerm: string, config: Config) =
   var choice = selectFromChoice(displayChoices, config)
   choice.stripLineEnd()
 
-  let matchedLookup = matchLookup[choice]
-
   if choice == "":
     quit()
+
+  let matchedLookup = matchLookup[choice]
 
   discard os.execShellCmd(getEditor() & " " & quoteShell(matchedLookup.file))
