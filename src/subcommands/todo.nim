@@ -1,4 +1,4 @@
-import std/[parsecfg, re, strutils, tables, times]
+import std/[parsecfg, re, strformat, strutils, tables, times]
 import ../[console, fuzzy, grep, files, todo]
 
 const aliases* = @["t", "todo", "task"]
@@ -24,8 +24,8 @@ proc process*(config: Config) =
   let matchedFile = matchLookup[choice].file
   var matchedContent: string = matchLookup[choice].lineContent
   let matchedLineNumber = matchLookup[choice].lineNumber
-
   let today = now().format("YYYY-MM-dd")
+
   matchedContent.add(" " & today)
 
   writeToLine(
@@ -38,6 +38,5 @@ proc process*(config: Config) =
   let replaced = choice.replace(pattern, "").strip()
 
   console.success(
-    "Marked " & "'" & replaced & "'" & " as complete (" & matchedFile & ")."
+    &"Marked '{replaced}' as complete ({matchedFile})."
   )
-
