@@ -1,4 +1,4 @@
-import std/[os, osproc, parsecfg, strutils, sequtils, tables]
+import std/[os, osproc, parsecfg, strutils, tables]
 
 import ../fuzzy
 import ../config

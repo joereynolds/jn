@@ -21,6 +21,8 @@ Available Commands:
   s,star               Mark a note as "starred"
   tag,tags             Search for notes by tag (e.g. #vim)
   template,temp,tm     Fuzzy search and edit template files
+  t,todo,task          Fuzzy search all incomplete tasks and complete them
+
   -h, --help           Display this help
   -v, --version        Print jn's version
 
