@@ -1,7 +1,4 @@
-import std/os
-import std/osproc
-import std/parsecfg
-import std/strutils
+import std/[os, osproc, parsecfg, sequtils, strutils]
 
 import ../fuzzy
 import ../config
@@ -27,12 +24,13 @@ proc process*(searchTerm: string, config: Config) =
   let notes = getFilesForDir(getNotesPath(config))
   let fuzzy = getFuzzyProvider(config)
   let matches = search(tagSearch, config)
+  let fileNames = matches.mapIt(it.file)
 
   if matches == @[]:
     echo "No matches, quitting"
     quit()
 
-  var choice = selectFromChoice(matches, config)
+  var choice = selectFromChoice(fileNames, config)
 
   choice.stripLineEnd()
 
