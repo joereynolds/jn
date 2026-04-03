@@ -1,8 +1,8 @@
-import std/[enumerate, os, parsecfg, paths, re, strutils]
+import std/[enumerate, parsecfg, re, strutils]
 import ./[config, files]
 
 type Match* = object
-  file*: string # TODO - make this a Path instead
+  file*: string
   searchTerm*: string
   lineContent*: string
   lineNumber*: int

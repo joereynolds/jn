@@ -1,5 +1,5 @@
 import std/parsecfg
-import ./[config, grep]
+import ./[grep]
 
 const incompleteTodoPattern*: string = "^- \\[ \\] "
 
