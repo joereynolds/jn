@@ -262,7 +262,7 @@ Useful for when you forget _that_ important document
 
 Both `jn r` and `jn re` also work.
 
-### List yours notes
+### List your notes
 
 ```
 jn ls
