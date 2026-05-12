@@ -15,6 +15,7 @@ Available Commands:
   conf,config          Open config in $EDITOR
   e,edit               Fuzzy search and open note in $EDITOR
   /,grep,rg            Grep for term and fuzzy search to edit
+  ls                   List all notes in your notes directory
   mv,move              Fuzzy search and rename note
   r,re,recent          Displays the 15 most recent files (also takes a --limit)
   rm,remove            Fuzzy search and delete note
