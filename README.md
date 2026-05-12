@@ -4,7 +4,7 @@
 
 ## What is it?
 
-A command line notetaker with a filebased approach.
+A command line notetaker (and basic task manager) with a filebased approach.
 
 "books" are directories, "notes" are files.
 
@@ -26,6 +26,8 @@ Run `jn "my note title"` to be dropped into an editor.
 This will create a note called `2026-01-01-my-note-title.md`.
 
 Run `jn` on its own to see all your notes.
+
+Run `jn todo` to see all your todos.
 
 Additional configuration lives at `XDG_CONFIG_HOME/jn/` (usually `~/.config/jn/`).
 
@@ -294,6 +296,34 @@ Saved in ~/Documents/notes/vim/2025-12-07-quitting-vim.md
 
 ## Other Features
 
+### Todos
+
+`jn todo` is able to manage tasks with markdown checkbox syntax.
+
+When invoked, it will bring up a fuzzy finder containing all of your incomplete
+tasks. When an item is selected, it will mark that item/task as completed along
+with today's date next to the item.
+
+For example:
+
+```
+> jn todo
+user selects and confirms their todo item
+> Marked 'drink protein shake' as complete (/home/joe/Documents/jn/notes/Home.md).
+```
+
+An incomplete task has the following formatting:
+
+```
+- [ ] This is an incomplete task seen in extended Markdown examples
+```
+
+A complete task has the following formatting:
+
+```
+- [x] This is a complete task seen in extended Markdown examples
+```
+
 ### Tags
 
 As you'd expect, you can search for tags via `jn`. All tags are assumed to
@@ -308,7 +338,8 @@ jn tags vim
 jn tags "#vim
 ```
 
-Once ran ,this will open up a fuzzy finder containing all notes with those tags.
+Once ran, this will open up a fuzzy finder containing all notes with those
+tags.
 
 As you can see, you don't need to specify the `#` prefix in your search. Just
 the word will do.
@@ -423,7 +454,6 @@ Now, on save of your note, it gets saved into the @recipes book.
 
 This saves you having to manually move files around or add the note to the
 correct book in the first place
-
 
 
 ## Config file locations
