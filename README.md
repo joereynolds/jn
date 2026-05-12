@@ -260,6 +260,17 @@ Useful for when you forget _that_ important document
 
 Both `jn r` and `jn re` also work.
 
+### List yours notes
+
+```
+jn ls
+```
+
+This is purely for convenience. You could definitely just do `ls
+~/wherever-your-notes-live` but who has that kind of brainpower?
+
+Doing `jn ls` will list all the notes in your configured location.
+
 ### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might

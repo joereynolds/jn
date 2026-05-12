@@ -6,7 +6,7 @@ import std/strutils
 import config
 import subcommands/[
   book, cat, config as sconfig, edit,
-  grep, help, mv, recent, rm,
+  grep, help, ls, mv, recent, rm,
   star, tags, tmpl
 ]
 import files
@@ -50,6 +50,10 @@ for kind, key, val in getopt():
 
     if key in help.aliases:
       help.process(configuration)
+      quit()
+
+    if key in ls.aliases:
+      ls.process(configuration)
       quit()
 
     if key in mv.aliases:
