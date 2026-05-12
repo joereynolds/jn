@@ -100,3 +100,16 @@ suite "Files tests":
     let actual = getFilesForDir("./tests/data/notes")
 
     check(compiles(actual[0].modifiedTime))
+
+  test "writeToLine replaces the correct line without touching others":
+    let tmpFile = getTempDir() / "jn-test-writeline.txt"
+    writeFile(tmpFile, "line0\nline1\nline2")
+
+    writeToLine(tmpFile, 1, "modified")
+
+    let lines = readFile(tmpFile).splitLines()
+    check(lines[0] == "line0")
+    check(lines[1] == "modified")
+    check(lines[2] == "line2")
+
+    removeFile(tmpFile)

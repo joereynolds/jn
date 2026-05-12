@@ -26,6 +26,27 @@ suite "Todo tests":
 
     check(expected == actual)
 
+  test "Two identical todos are both returned":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/identical-todos")
+    c.setSectionKey("", "notes_location", $location)
+
+    let actual = getTodos(c)
+
+    check(len(actual) == 2)
+
+  test "A todo not at the start of the line is ignored":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/not-at-the-start")
+    c.setSectionKey("", "notes_location", $location)
+
+    let expected: seq[Match] = @[]
+    let actual = getTodos(c)
+
+    check(expected == actual)
+
   test "It only brings back incomplete todos":
     var c = newConfig()
 
