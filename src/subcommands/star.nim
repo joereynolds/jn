@@ -1,13 +1,8 @@
-import std/strutils
+import std/[cmdline, dirs, os, parsecfg, paths, strutils, symlinks]
 
 import ../config
 import ../fuzzy
 import ../console
-import std/dirs
-import std/os
-import std/paths
-import std/parsecfg
-import std/symlinks
 
 const aliases* = @["s", "star"]
 

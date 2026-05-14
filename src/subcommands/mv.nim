@@ -1,4 +1,4 @@
-import std/[os, parsecfg, strutils, times]
+import std/[cmdline, os, parsecfg, strutils, times]
 
 import ../config
 import ../fuzzy
