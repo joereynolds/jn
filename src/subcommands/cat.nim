@@ -1,14 +1,16 @@
-import std/parsecfg
-import std/strutils
+import std/[cmdline, os, parsecfg, strutils]
 import ../config
 import ../fuzzy
 
 const aliases* = @["c", "cat"]
 
 proc process*(config: Config) =
+  var query = commandLineParams()[1..^1].join(" ")
+
   var choice = selectFromDir(
     getNotesPath(config),
-    config
+    config,
+    query
   )
 
   choice.stripLineEnd()

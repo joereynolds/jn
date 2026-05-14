@@ -12,11 +12,14 @@ import std/symlinks
 const aliases* = @["s", "star"]
 
 proc process*(config: Config) =
+  var query = commandLineParams()[1..^1].join(" ")
+
   discard existsOrCreateDir(Path(getNotesPath(config) & "starred"))
 
   var choice = selectFromDir(
     getNotesPath(config),
-    config
+    config,
+    query
   )
 
   choice.stripLineEnd()
