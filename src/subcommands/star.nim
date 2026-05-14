@@ -1,22 +1,20 @@
-import std/strutils
+import std/[cmdline, dirs, os, parsecfg, paths, strutils, symlinks]
 
 import ../config
 import ../fuzzy
 import ../console
-import std/dirs
-import std/os
-import std/paths
-import std/parsecfg
-import std/symlinks
 
 const aliases* = @["s", "star"]
 
 proc process*(config: Config) =
+  var query = commandLineParams()[1..^1].join(" ")
+
   discard existsOrCreateDir(Path(getNotesPath(config) & "starred"))
 
   var choice = selectFromDir(
     getNotesPath(config),
-    config
+    config,
+    query
   )
 
   choice.stripLineEnd()

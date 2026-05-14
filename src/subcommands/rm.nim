@@ -1,7 +1,4 @@
-import std/os
-import std/parsecfg
-import std/strutils
-import std/tempfiles
+import std/[cmdline, os, parsecfg, strutils, tempfiles]
 import ../fuzzy
 import ../console
 import ../config
@@ -9,9 +6,12 @@ import ../config
 const aliases* = @["rm", "remove"]
 
 proc process*(config: Config) =
+  var query = commandLineParams()[1..^1].join(" ")
+
   var choice = selectFromDir(
     getNotesPath(config),
-    config
+    config,
+    query
   )
 
   choice.stripLineEnd()
