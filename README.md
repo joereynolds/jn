@@ -273,6 +273,15 @@ This is purely for convenience. You could definitely just do `ls
 
 Doing `jn ls` will list all the notes in your configured location.
 
+### Share a note
+
+```
+jn share
+```
+
+Select a note and it will be uploaded to an online service which will give you
+a permalink in return.
+
 ### Creating a book
 
 A book is optional. Conceptually it's where you store related notes. You might
