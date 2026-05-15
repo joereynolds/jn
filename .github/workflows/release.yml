@@ -25,12 +25,20 @@ jobs:
       with:
         nim-version: 'stable'
     
+    - name: Install UPX
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install -y upx
+
     - name: Build release
       run: nimble release -y
-    
+
     - name: Rename binary
       run: mv jn ${{ matrix.artifact-name }}
-    
+
+    - name: Compress with UPX
+      if: matrix.os == 'ubuntu-latest'
+      run: upx --best --lzma ${{ matrix.artifact-name }}
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:

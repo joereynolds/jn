@@ -7,4 +7,4 @@ bin           = @["jn"]
 srcDir        = "src"
 
 task release, "Builds the project for production":
-  exec "nimble build -d:release --opt:speed"
+  exec "nimble build -d:ssl -d:danger --passL:-s --mm:arc --opt:size"
