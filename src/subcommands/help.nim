@@ -19,6 +19,7 @@ Available Commands:
   mv,move              Fuzzy search and rename note
   r,re,recent          Displays the 15 most recent files (also takes a --limit)
   rm,remove            Fuzzy search and delete note
+  share                Share a note online. A permalink is given back (uses paste.rs, be respectful!)
   s,star               Mark a note as "starred"
   tag,tags             Search for notes by tag (e.g. #vim)
   template,temp,tm     Fuzzy search and edit template files

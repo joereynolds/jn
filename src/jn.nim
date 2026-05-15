@@ -7,7 +7,7 @@ import config
 import subcommands/[
   book, cat, config as sconfig, edit,
   grep, help, ls, mv, recent, rm,
-  star, tags, todo, tmpl
+  share, star, tags, todo, tmpl
 ]
 import files
 import console
@@ -75,6 +75,10 @@ for kind, key, val in getopt():
 
     if key in rm.aliases:
       rm.process(configuration)
+      quit()
+
+    if key in share.aliases:
+      share.process(configuration)
       quit()
 
     if key in star.aliases:
