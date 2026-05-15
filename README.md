@@ -2,11 +2,13 @@
 
 <img width="535" height="470" alt="image" src="https://github.com/user-attachments/assets/f34e2dcc-bee9-4c29-8c8e-90ad4d59c6ba" />
 
-## What is it?
+A command line notetaker and basic task manager
 
-A command line notetaker (and basic task manager) with a filebased approach.
+### Features
 
-"books" are directories, "notes" are files.
+- All your notes managed as files. No databases or sign-ups
+- Create, remove, share and search your notes from the comfort of the terminal
+- Small. 100kb and shrinking with every release while still growing features
 
 https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
@@ -22,12 +24,10 @@ Download Linux and Mac builds of `jn` from the [releases page](https://github.co
 
 ### Quick start
 
-Run `jn "my note title"` to be dropped into an editor. 
-This will create a note called `2026-01-01-my-note-title.md`.
-
-Run `jn` on its own to see all your notes.
-
-Run `jn todo` to see all your todos.
+- `jn "my note title"` creates a note called `2026-01-01-my-note-title.md` and opens it in your `$EDITOR`.
+- `jn` on its own will show all your "books" (directories)
+- `jn todo` to see all your incomplete tasks
+- And so much more!
 
 Additional configuration lives at `XDG_CONFIG_HOME/jn/` (usually `~/.config/jn/`).
 
