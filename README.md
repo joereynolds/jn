@@ -29,11 +29,32 @@ Download Linux and Mac builds of `jn` from the [releases page](https://github.co
 - `jn todo` to see all your incomplete tasks
 - And so much more!
 
-Additional configuration lives at `XDG_CONFIG_HOME/jn/` (usually `~/.config/jn/`).
+#### Command overview
 
-Read below for everything you can do and configure.
+Detailed info for each command is below this table.
 
-Good luck!
+| Command              | Description |
+|----------------------|-------------|
+| `jn`                 | List all books |
+| `jn <title>`         | Create a note |
+| `jn <title> @<book>` | Create a note in a specific book |
+| `jn @<book>`         | List notes in a book |
+| `jn @starred`        | List bookmarked notes |
+| `jn cat`             | Display a note |
+| `jn edit`            | Edit a note |
+| `jn ls`              | List all notes |
+| `jn recent`          | Show 15 most recently edited notes |
+| `jn grep <term>`     | Search notes by content |
+| `jn tag <tag>`       | Search notes by tag |
+| `jn mv`              | Rename a note |
+| `jn rm`              | Delete a note |
+| `jn star`            | Bookmark a note |
+| `jn share`           | Upload a note and get a permalink |
+| `jn todo`            | Show and complete incomplete tasks |
+| `jn template`        | Edit a template |
+| `jn config`          | Edit the config file |
+| `jn help`            | Show help |
+
 
 ### Config
 
