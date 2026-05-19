@@ -354,6 +354,15 @@ A complete task has the following formatting:
 - [x] This is a complete task seen in extended Markdown examples
 ```
 
+You can add todos with the `--add` or `-a` flag.
+
+```
+jn todo --add "Do the dishes"
+```
+
+Will add a markdown task in your `notes_location` / todo.md
+
+
 ### Tags
 
 As you'd expect, you can search for tags via `jn`. All tags are assumed to

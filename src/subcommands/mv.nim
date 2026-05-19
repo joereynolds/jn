@@ -6,7 +6,7 @@ import ../console
 
 const aliases* = @["mv", "move"]
 
-proc process*(config: Config, flags: seq[string]) =
+proc process*(config: Config, params: seq[string]) =
   var query = commandLineParams()[1..^1].join(" ")
 
   var choice = selectFromDir(
@@ -35,7 +35,7 @@ proc process*(config: Config, flags: seq[string]) =
 
   var fileName = prefix & "-" & newName.replace(" ", "-") & suffix
 
-  if "--plain" in flags:
+  if "--plain" in params:
     fileName = newName
 
   let oldPath = choice
