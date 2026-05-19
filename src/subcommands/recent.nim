@@ -1,21 +1,10 @@
-import std/[algorithm, parsecfg, parseopt, paths, strutils, times]
+import std/[algorithm, parsecfg, paths, times]
 import ../[console, config, files]
 
 const aliases* = @["r", "re", "recent"]
 
-proc process*(config: Config, params: seq[string]) =
+proc process*(config: Config, limit: int = 15) =
 
-  var limit = 15
-
-  for kind, key, val in getopt():
-    case kind
-    of cmdShortOption, cmdLongOption:
-      case key
-      of "l", "limit":
-        limit = parseInt(val)
-    else:
-      discard
-    
   let notes = getFilesforDir(getNotesPath(config))
   let byTime = notes.sortedByIt(it.modifiedTime).reversed()
 

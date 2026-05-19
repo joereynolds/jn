@@ -1,11 +1,11 @@
-import std/[cmdline, os, parsecfg, strutils]
+import std/[parsecfg, strutils]
 import ../config
 import ../fuzzy
 
 const aliases* = @["c", "cat"]
 
-proc process*(config: Config) =
-  var query = commandLineParams()[1..^1].join(" ")
+proc process*(config: Config, query: string = "") =
+  var query = query
 
   var choice = selectFromDir(
     getNotesPath(config),
