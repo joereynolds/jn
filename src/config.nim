@@ -41,6 +41,9 @@ proc getNotesPrefix*(config: Config): string {.raises: [KeyError].} =
 proc getDocumentsDir*(): string =
   getEnv("XDG_DOCUMENTS_DIR", "~/Documents/")
 
+
+
+# TODO - make this return a path
 proc getNotesPath*(config: Config): string {.raises: [KeyError].} =
   var notesLocation = config.getSectionValue(
     "",

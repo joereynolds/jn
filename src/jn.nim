@@ -86,7 +86,7 @@ for kind, key, val in getopt():
       quit()
 
     if key in todo.aliases:
-      todo.process(configuration)
+      todo.process(configuration, params[1..^1])
       quit()
 
     if key in tmpl.aliases:

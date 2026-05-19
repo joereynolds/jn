@@ -1,9 +1,10 @@
 import std/[parsecfg, re, strformat, strutils, tables, times]
-import ../[console, fuzzy, grep, files, todo]
+import ../[config, console, fuzzy, grep, files, todo]
 
 const aliases* = @["t", "todo", "task"]
 
-proc process*(config: Config) =
+
+proc completeTodo(config: Config) = 
   let todos = getTodos(config)
 
   var displayChoices: seq[string] = @[]
@@ -40,3 +41,24 @@ proc process*(config: Config) =
   console.success(
     &"Marked '{replaced}' as complete ({matchedFile})."
   )
+
+proc addTodo(config: Config, todo: string) =
+  let task = "- [ ] " & todo & "\p"
+  let todoFile: string = getNotesPath(config) & "todo.md"
+
+  let handle = open(
+    todoFile,
+    fmAppend
+  )
+
+  write(handle, task)
+  success("Wrote '" & todo & "' to " & todoFile)
+
+proc process*(config: Config, params: seq[string]) =
+
+  # TODO - this is incredibly shaky. Move to cligen to make this cleaner
+  if "--add" in params or "-a" in params:
+    addTodo(config, params[^1])
+    return
+
+  completeTodo(config)

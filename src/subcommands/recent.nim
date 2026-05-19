@@ -3,7 +3,7 @@ import ../[console, config, files]
 
 const aliases* = @["r", "re", "recent"]
 
-proc process*(config: Config, flags: seq[string]) =
+proc process*(config: Config, params: seq[string]) =
 
   var limit = 15
 
