@@ -23,6 +23,7 @@ createNecessaryDirectories(configuration)
 
 
 proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
+proc configProxy() = sconfig.process(configuration)
 proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
 proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
 proc lsProxy() = ls.process(configuration)
@@ -30,9 +31,12 @@ proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configu
 proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy() = share.process(configuration)
+proc starProxy() = star.process(configuration)
+proc todoProxy(add: seq[string] = @[]) = todo.process(configuration, add.join(" "))
 
 dispatchMulti(
   [catProxy, cmdName = "cat", positional = "query", doc="help goes here"],
+  [configProxy, cmdName = "config", doc="help goes here"],
   [editProxy, cmdName = "edit", positional = "query", doc="help goes here"],
   [grepProxy, cmdName = "grep", positional = "query", doc="help goes here"],
   [lsProxy, cmdName = "ls", doc="help goes here"],
@@ -40,7 +44,10 @@ dispatchMulti(
   [recentProxy, cmdName = "recent", doc="help goes here"],
   [rmProxy, cmdName = "rm", positional = "query", doc="help goes here"],
   [shareProxy, cmdName = "share", doc="help goes here"],
+  [starProxy, cmdName = "star", doc="help goes here"],
+  [todoProxy, cmdName = "todo", doc="help goes here"],
 )
+
 #
 # try:
 #   let validationResults = config.validate(configuration)
@@ -52,20 +59,7 @@ dispatchMulti(
 #
 # for kind, key, val in getopt():
 #   case kind
-#   of cmdShortOption, cmdLongOption:
-#     case key
 #   of cmdArgument:
-#     if key in sconfig.aliases:
-#       sconfig.process(configuration)
-#       quit()
-#
-#     if key in star.aliases:
-#       star.process(configuration)
-#       quit()
-#
-#     if key in todo.aliases:
-#       todo.process(configuration, params[1..^1])
-#       quit()
 #
 #     if key in tmpl.aliases:
 #       tmpl.process(configuration)
