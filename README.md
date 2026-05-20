@@ -512,7 +512,6 @@ Templates - `XDG_DATA_HOME/jn/` (usually this is `~/.local/share/jn/`)
 - [x] - rm subcommand
 - [x] - Ability to star notes
 - [x] - Template support
-- [ ] - One note, multiple books
 - [x] - Categories
 - [ ] - Shell completion
 - [ ] - Man page
