@@ -16,10 +16,6 @@ clCfg.noHelpHelp = true
 
 let origRender = clCfg.render
 
-clCfg.render = proc(s: string): string =
-  result = if origRender != nil: origRender(s) else: s
-  result = result.replace("EDITOR", "EDITOR (" & getEditor() & ")")
-
 let configuration = getConfig(getConfigLocation())
 let params = commandLineParams()
 createNecessaryDirectories(configuration)
@@ -48,8 +44,6 @@ const aliasMap = {
 
 proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
   result = cmdLine
-  if result.len > 0 and result[0] in @["h", "help"]:
-    result[0] = "--help"
   if result.len > 0 and result[0] in aliasMap:
     result[0] = aliasMap[result[0]]
 
@@ -92,26 +86,46 @@ if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap
   fallback(params)
   quit()
 
+# Cligen's help is very ugly, use our own
+if params[0] in @["h", "help", "-h", "--help"]:
+  help.process(configuration)
+  quit()
+
+if params[0] in @["--version", "-v"]:
+  echo clCfg.version
+  quit()
+
+# Don't show --version in subcommand help
+clCfg.version = ""
+
 # Everything else...
 dispatchMulti(
-  [catProxy,      cmdName = "cat",  positional = "query",   doc="Fuzzy search and print note"],
-  [configProxy,   cmdName = "config",                       doc="Open config in EDITOR"],
-  [editProxy,     cmdName = "edit", positional = "query",   doc="Fuzzy search and open note in EDITOR"],
-  [grepProxy,     cmdName = "grep", positional = "query",   doc="Grep for term and fuzzy search to edit"],
-  [lsProxy,       cmdName = "ls",                           doc="List all notes in your notes directory"],
-  [mvProxy,       cmdName = "mv",   positional = "query",   doc="Fuzzy search and rename note"],
+  [catProxy,      cmdName = "cat",  positional = "query",],
+  [configProxy,   cmdName = "config",                    ],
+  [editProxy,     cmdName = "edit", positional = "query",],
+  [grepProxy,     cmdName = "grep", positional = "query",],
+  [lsProxy,       cmdName = "ls",                        ],
+  [
+    mvProxy,
+    cmdName = "mv",
+    positional = "query",
+    help = {"plain": "Prevent implicitly adding prefixes and suffixes to your filename"}
+  ],
   [
     recentProxy,
     cmdName = "recent",
     help = {"limit": "The number of recent files to display"},
-    doc = "Displays the 15 most recent files (also takes a --limit)"
   ],
-  [rmProxy,       cmdName = "rm",   positional = "query",   doc="Fuzzy search and delete note"],
-  [shareProxy,    cmdName = "share",                        doc="Share a note online. A permalink is given back (uses paste.rs, be respectful!)"],
-  [starProxy,     cmdName = "star",                         doc="Mark a note as \"starred\""],
-  [templateProxy, cmdName = "template",                     doc="Fuzzy search and edit template files"],
-  [tagsProxy,     cmdName = "tags", positional = "query",   doc="Search for notes by tag (e.g. #vim)"],
-  [todoProxy,     cmdName = "todo",                         doc="Fuzzy search all incomplete tasks and complete them"],
+  [rmProxy,       cmdName = "rm",   positional = "query"],
+  [shareProxy,    cmdName = "share",                    ],
+  [starProxy,     cmdName = "star",                     ],
+  [templateProxy, cmdName = "template",                 ],
+  [tagsProxy,     cmdName = "tags", positional = "query"],
+  [
+    todoProxy,
+    cmdName = "todo",
+    help = {"add": "Add a task"}
+  ],
 )
 
 try:

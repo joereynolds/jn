@@ -1,8 +1,8 @@
 import std/parsecfg
+import ../config
 
-const aliases* = @["h", "help"]
-
-const usage* =
+let editor = getEditor()
+let usage* =
   """
 jn - a file-based command line notebook
 
@@ -12,21 +12,25 @@ Usage:
 Available Commands:
   @<book>              Show all notes for a book
   c,cat                Fuzzy search and print note
-  conf,config          Open config in $EDITOR
-  e,edit               Fuzzy search and open note in $EDITOR
+  conf,config          Open config in $EDITOR (""" & editor & ")" & """
+
+  e,edit               Fuzzy search and open note in $EDITOR (""" & editor & ")" & """
+
   /,grep,rg            Grep for term and fuzzy search to edit
   ls                   List all notes in your notes directory
-  mv,move              Fuzzy search and rename note
-  r,re,recent          Displays the 15 most recent files (also takes a --limit)
-  rm,remove            Fuzzy search and delete note
+  mv                   Fuzzy search and rename note
+  r,re,recent          Displays the 15 most recent files
+  rm                   Fuzzy search and delete note
   share                Share a note online. A permalink is given back (uses paste.rs, be respectful!)
-  s,star               Mark a note as "starred"
-  tag,tags             Search for notes by tag (e.g. #vim)
+  star                 Mark a note as "starred"
+  tags                 Search for notes by tag (e.g. #vim)
   template,temp,tm     Fuzzy search and edit template files
-  t,todo,task          Fuzzy search all incomplete tasks and complete them
+  t,todo               Fuzzy search all incomplete tasks and complete them
 
-  -h, --help           Display this help
-  -v, --version        Print jn's version
+  h, help, -h, --help  Display this help
+  --version            Print jn's version
+
+  jn [command] --help  Display help for a specific command
 
 Examples:
    
@@ -44,13 +48,6 @@ Create a note in a specific book:
 
 Grep for a term:
   jn grep "assignment"
-
-Grep using alternative command name:
-  jn / "assignment"
-
-Search for notes by tag:
-  jn tags vim
-  jn tag "#docker"
 """
 
 proc process*(config: Config) =
