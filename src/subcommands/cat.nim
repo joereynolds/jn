@@ -4,7 +4,7 @@ import ../fuzzy
 
 const aliases* = @["c", "cat"]
 
-proc process*(config: Config) =
+proc process*(config: Config, query: string) =
   var query = commandLineParams()[1..^1].join(" ")
 
   var choice = selectFromDir(
