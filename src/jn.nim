@@ -2,7 +2,6 @@ import std/os
 import std/cmdline
 import std/parseopt
 import std/strutils
-
 import cligen
 
 import config
@@ -16,9 +15,8 @@ import console
 
 clCfg.version = "1.2.0"
 
-
 let configuration = getConfig(getConfigLocation())
-
+let params = commandLineParams()
 createNecessaryDirectories(configuration)
 
 
@@ -32,7 +30,19 @@ proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy() = share.process(configuration)
 proc starProxy() = star.process(configuration)
+proc templateProxy() = tmpl.process(configuration)
+proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
 proc todoProxy(add: seq[string] = @[]) = todo.process(configuration, add.join(" "))
+
+if paramCount() <= 0:
+  info(configuration.getNotesPath())
+  printDirectories(getDirectories(getNotesPath(configuration)))
+  quit()
+
+let cmd = params[0]
+if cmd.startsWith("@"):
+  book.process(configuration, params)
+  quit()
 
 dispatchMulti(
   [catProxy, cmdName = "cat", positional = "query", doc="help goes here"],
@@ -45,25 +55,23 @@ dispatchMulti(
   [rmProxy, cmdName = "rm", positional = "query", doc="help goes here"],
   [shareProxy, cmdName = "share", doc="help goes here"],
   [starProxy, cmdName = "star", doc="help goes here"],
+  [templateProxy, cmdName = "template", doc="help goes here"],
+  [tagsProxy, cmdName = "tags", positional = "query", doc="help goes here"],
   [todoProxy, cmdName = "todo", doc="help goes here"],
 )
 
+
+try:
+  let validationResults = config.validate(configuration)
+  for item in validationResults: echo item
+except Exception as e:
+  info(e.msg)
+
 #
-# try:
-#   let validationResults = config.validate(configuration)
-#   for item in validationResults: echo item
-# except Exception as e:
-#   info(e.msg)
-#
-# let params = commandLineParams()
 #
 # for kind, key, val in getopt():
 #   case kind
 #   of cmdArgument:
-#
-#     if key in tmpl.aliases:
-#       tmpl.process(configuration)
-#       quit()
 #
 #     if key in tags.aliases:
 #       let searchTerm =
@@ -74,9 +82,6 @@ dispatchMulti(
 #       tags.process(searchTerm, configuration)
 #       quit()
 #
-#     if key.startsWith("@"):
-#       book.process(params, configuration)
-#       quit()
 #     else:
 #       # Check if there's a book parameter (starts with @) in the params
 #       var bookName = ""
@@ -86,9 +91,3 @@ dispatchMulti(
 #           break
 #
 #       files.createNote(key, configuration, bookName)
-#   of cmdend:
-#     discard
-#
-# if paramCount() <= 0:
-#   info(configuration.getNotesPath())
-#   printDirectories(getDirectories(getNotesPath(configuration)))
