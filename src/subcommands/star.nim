@@ -4,7 +4,6 @@ import ../config
 import ../fuzzy
 import ../console
 
-const aliases* = @["s", "star"]
 
 proc process*(config: Config) =
   var query = commandLineParams()[1..^1].join(" ")

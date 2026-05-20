@@ -1,10 +1,9 @@
-import std/[cmdline, os, parsecfg, strutils, times]
+import std/[os, parsecfg, strutils, times]
 
 import ../config
 import ../fuzzy
 import ../console
 
-const aliases* = @["mv", "move"]
 
 proc process*(config: Config, query: string, plain: bool) =
   var choice = selectFromDir(

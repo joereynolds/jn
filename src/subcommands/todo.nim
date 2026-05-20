@@ -1,7 +1,6 @@
 import std/[parsecfg, re, strformat, strutils, tables, times]
 import ../[config, console, fuzzy, grep, files, todo]
 
-const aliases* = @["t", "todo", "task"]
 
 
 proc completeTodo(config: Config) = 

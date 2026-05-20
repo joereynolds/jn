@@ -1,17 +1,15 @@
-import std/os
-import std/cmdline
-import std/parseopt
-import std/strutils
+import std/[os, strutils, tables]
+import config
+import console
+import files
+
 import cligen
 
-import config
 import subcommands/[
   book, cat, config as sconfig, edit,
   grep, help, ls, mv, recent, rm,
   share, star, tags, todo, tmpl
 ]
-import files
-import console
 
 clCfg.version = "1.2.0"
 
@@ -19,6 +17,31 @@ let configuration = getConfig(getConfigLocation())
 let params = commandLineParams()
 createNecessaryDirectories(configuration)
 
+# TODO - hate this, can we use reflection to gather these?
+# i.e. iterate through subcommands dir and grab all "name"s
+const subcommands = [
+  "cat", "config", "edit", "grep", "help", "ls", "mv",
+  "recent", "rm", "share", "star", "tags", "todo", "tmpl"
+]
+
+const aliasMap = {
+  "c": "cat",
+  "conf": "config",
+  "e": "edit",
+  "/": "grep",
+  "rg": "grep",
+  "r": "recent",
+  "re": "recent",
+  "t": "todo",
+  "template": "tmpl",
+  "temp": "tmpl",
+  "tm": "tmpl",
+}.toTable()
+
+proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
+  result = cmdLine
+  if result.len > 0 and result[0] in aliasMap:
+    result[0] = aliasMap[result[0]]
 
 proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
 proc configProxy() = sconfig.process(configuration)
@@ -34,16 +57,32 @@ proc templateProxy() = tmpl.process(configuration)
 proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
 proc todoProxy(add: seq[string] = @[]) = todo.process(configuration, add.join(" "))
 
+proc fallback(params: seq[string]) =
+  var bookName = ""
+  for param in params:
+    if param.startsWith("@"):
+      bookName = param[1..^1]  # Remove the @ prefix
+      break
+
+  files.createNote(params[0], configuration, bookName)
+
+# Handles raw "jn" on its own
 if paramCount() <= 0:
   info(configuration.getNotesPath())
   printDirectories(getDirectories(getNotesPath(configuration)))
   quit()
 
-let cmd = params[0]
-if cmd.startsWith("@"):
+# Handle books "jn @vim" for example
+if paramCount() > 0 and params[0].startsWith("@"):
   book.process(configuration, params)
   quit()
 
+# Handle note creation, i.e. "jn 'my super cool note'"
+if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap:
+  fallback(params)
+  quit()
+
+# Everything else...
 dispatchMulti(
   [catProxy, cmdName = "cat", positional = "query", doc="help goes here"],
   [configProxy, cmdName = "config", doc="help goes here"],
@@ -60,25 +99,8 @@ dispatchMulti(
   [todoProxy, cmdName = "todo", doc="help goes here"],
 )
 
-
 try:
   let validationResults = config.validate(configuration)
   for item in validationResults: echo item
 except Exception as e:
   info(e.msg)
-
-#
-#
-# for kind, key, val in getopt():
-#   case kind
-#   of cmdArgument:
-#
-#     else:
-#       # Check if there's a book parameter (starts with @) in the params
-#       var bookName = ""
-#       for param in params:
-#         if param.startsWith("@"):
-#           bookName = param[1..^1]  # Remove the @ prefix
-#           break
-#
-#       files.createNote(key, configuration, bookName)

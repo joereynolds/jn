@@ -1,7 +1,6 @@
-import std/[algorithm, parsecfg, parseopt, paths, strutils, times]
+import std/[algorithm, parsecfg, paths, times]
 import ../[console, config, files]
 
-const aliases* = @["r", "re", "recent"]
 
 proc process*(config: Config, limit: int = 15) =
   let notes = getFilesforDir(getNotesPath(config))

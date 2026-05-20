@@ -5,7 +5,6 @@ import ../config
 import ../files
 import ../grep
 
-const aliases* = @["tag", "tags"]
 
 proc process*(config: Config, query: string) =
   var tagTerm = query.strip()

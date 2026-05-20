@@ -4,7 +4,6 @@ import ../fuzzy
 import ../config
 import ../grep
 
-const aliases* = @["/", "grep"]
 
 proc process*(config: Config, searchTerm: string) =
   if searchTerm.strip() == "":

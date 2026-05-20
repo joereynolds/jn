@@ -1,9 +1,8 @@
-import std/[cmdline, os, osproc, parsecfg, strutils]
+import std/[os, osproc, parsecfg, strutils]
 
 import ../config
 import ../fuzzy
 
-const aliases* = @["e", "edit"]
 
 proc process*(config: Config, query: string) =
   var choice = selectFromDir(

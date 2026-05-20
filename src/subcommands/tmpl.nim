@@ -5,7 +5,6 @@ import ../config
 import ../templates/templates
 import ../fuzzy
 
-const aliases* = @["template", "temp", "tm"]
 
 proc process*(config: Config) =
   var choice = selectFromDir(

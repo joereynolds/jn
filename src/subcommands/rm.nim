@@ -1,9 +1,8 @@
-import std/[cmdline, os, parsecfg, strutils, tempfiles]
+import std/[os, parsecfg, strutils, tempfiles]
 import ../fuzzy
 import ../console
 import ../config
 
-const aliases* = @["rm", "remove"]
 
 proc process*(config: Config, query: string) =
   var choice = selectFromDir(

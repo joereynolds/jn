@@ -2,7 +2,6 @@ import std/[cmdline, os, parsecfg, strutils]
 import ../config
 import ../fuzzy
 
-const aliases* = @["c", "cat"]
 
 proc process*(config: Config, query: string) =
   var query = commandLineParams()[1..^1].join(" ")
