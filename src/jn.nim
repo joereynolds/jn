@@ -13,6 +13,12 @@ import subcommands/[
 
 clCfg.version = "1.2.0"
 
+let origRender = clCfg.render
+
+clCfg.render = proc(s: string): string =
+  result = if origRender != nil: origRender(s) else: s
+  result = result.replace("EDITOR", "EDITOR (" & getEditor() & ")")
+
 let configuration = getConfig(getConfigLocation())
 let params = commandLineParams()
 createNecessaryDirectories(configuration)
@@ -78,25 +84,25 @@ if paramCount() > 0 and params[0].startsWith("@"):
   quit()
 
 # Handle note creation, i.e. "jn 'my super cool note'"
-if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap:
+if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap and not params[0].startsWith("-"):
   fallback(params)
   quit()
 
 # Everything else...
 dispatchMulti(
-  [catProxy, cmdName = "cat", positional = "query", doc="help goes here"],
-  [configProxy, cmdName = "config", doc="help goes here"],
-  [editProxy, cmdName = "edit", positional = "query", doc="help goes here"],
-  [grepProxy, cmdName = "grep", positional = "query", doc="help goes here"],
-  [lsProxy, cmdName = "ls", doc="help goes here"],
-  [mvProxy, cmdName = "mv", positional = "query", doc="help goes here"],
-  [recentProxy, cmdName = "recent", doc="help goes here"],
-  [rmProxy, cmdName = "rm", positional = "query", doc="help goes here"],
-  [shareProxy, cmdName = "share", doc="help goes here"],
-  [starProxy, cmdName = "star", doc="help goes here"],
-  [templateProxy, cmdName = "template", doc="help goes here"],
-  [tagsProxy, cmdName = "tags", positional = "query", doc="help goes here"],
-  [todoProxy, cmdName = "todo", doc="help goes here"],
+  [catProxy,      cmdName = "cat",  positional = "query",   doc="Fuzzy search and print note"],
+  [configProxy,   cmdName = "config",                       doc="Open config in EDITOR"],
+  [editProxy,     cmdName = "edit", positional = "query",   doc="Fuzzy search and open note in EDITOR"],
+  [grepProxy,     cmdName = "grep", positional = "query",   doc="Grep for term and fuzzy search to edit"],
+  [lsProxy,       cmdName = "ls",                           doc="List all notes in your notes directory"],
+  [mvProxy,       cmdName = "mv",   positional = "query",   doc="Fuzzy search and rename note"],
+  [recentProxy,   cmdName = "recent",                       doc="Displays the 15 most recent files (also takes a --limit)"],
+  [rmProxy,       cmdName = "rm",   positional = "query",   doc="Fuzzy search and delete note"],
+  [shareProxy,    cmdName = "share",                        doc="Share a note online. A permalink is given back (uses paste.rs, be respectful!)"],
+  [starProxy,     cmdName = "star",                         doc="Mark a note as \"starred\""],
+  [templateProxy, cmdName = "template",                     doc="Fuzzy search and edit template files"],
+  [tagsProxy,     cmdName = "tags", positional = "query",   doc="Search for notes by tag (e.g. #vim)"],
+  [todoProxy,     cmdName = "todo",                         doc="Fuzzy search all incomplete tasks and complete them"],
 )
 
 try:
