@@ -73,15 +73,6 @@ except Exception as e:
 #   case kind
 #   of cmdArgument:
 #
-#     if key in tags.aliases:
-#       let searchTerm =
-#         if params.len > 1:
-#           params[1]
-#         else:
-#           ""
-#       tags.process(searchTerm, configuration)
-#       quit()
-#
 #     else:
 #       # Check if there's a book parameter (starts with @) in the params
 #       var bookName = ""
