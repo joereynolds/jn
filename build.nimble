@@ -6,5 +6,9 @@ license       = "MIT"
 bin           = @["jn"]
 srcDir        = "src"
 
+
+requires "nim >= 2.0.0"
+requires "cligen >= 1.9.5"
+
 task release, "Builds the project for production":
   exec "nimble build -d:ssl -d:danger --passL:-s --mm:arc --opt:size"

@@ -1,7 +1,6 @@
 import std/[parsecfg, re, strformat, strutils, tables, times]
 import ../[config, console, fuzzy, grep, files, todo]
 
-const aliases* = @["t", "todo", "task"]
 
 
 proc completeTodo(config: Config) = 
@@ -54,11 +53,10 @@ proc addTodo(config: Config, todo: string) =
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
-proc process*(config: Config, params: seq[string]) =
+proc process*(config: Config, task: string) =
 
-  # TODO - this is incredibly shaky. Move to cligen to make this cleaner
-  if "--add" in params or "-a" in params:
-    addTodo(config, params[^1])
+  if task != "":
+    addTodo(config, task)
     return
 
   completeTodo(config)

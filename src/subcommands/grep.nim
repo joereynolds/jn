@@ -4,9 +4,8 @@ import ../fuzzy
 import ../config
 import ../grep
 
-const aliases* = @["/", "grep"]
 
-proc process*(searchTerm: string, config: Config) =
+proc process*(config: Config, searchTerm: string) =
   if searchTerm.strip() == "":
     echo "Grep is missing the search string"
     quit()

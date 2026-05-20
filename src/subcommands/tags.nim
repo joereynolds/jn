@@ -5,10 +5,9 @@ import ../config
 import ../files
 import ../grep
 
-const aliases* = @["tag", "tags"]
 
-proc process*(searchTerm: string, config: Config) =
-  var tagTerm = searchTerm.strip()
+proc process*(config: Config, query: string) =
+  var tagTerm = query.strip()
 
   # Strip '#' if user provided it
   if tagTerm.startsWith("#"):

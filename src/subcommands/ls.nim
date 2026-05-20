@@ -1,7 +1,6 @@
 import std/parsecfg
 import ../[config, files]
 
-const aliases* = @["ls"]
 
 proc process*(config: Config) =
   let notes = getFilesforDir(getNotesPath(config))

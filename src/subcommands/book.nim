@@ -7,7 +7,7 @@ import ../files
 
 const aliases* = @["@book"]
 
-proc printNotesForBook(book: string, config: Config) =
+proc printNotesForBook(config: Config, book: string) =
   let bookDir = getNotesPath(config) & book
   var notes = getFilesForDir(bookDir)
   var lastPaths = @[""]
@@ -21,9 +21,9 @@ proc printNotesForBook(book: string, config: Config) =
     if file != "":
       echo file
 
-proc process*(params: seq[string], config: Config) =
+proc process*(config: Config, params: seq[string]) =
   let book = params[0][1 ..^ 1]
   let remainingArgs = params[1 ..^ 1]
 
   if remainingArgs.len <= 0:
-    printNotesForBook(book, config)
+    printNotesForBook(config, book)

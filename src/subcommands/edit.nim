@@ -1,13 +1,10 @@
-import std/[cmdline, os, osproc, parsecfg, strutils]
+import std/[os, osproc, parsecfg, strutils]
 
 import ../config
 import ../fuzzy
 
-const aliases* = @["e", "edit"]
 
-proc process*(config: Config) =
-  var query = commandLineParams()[1..^1].join(" ")
-
+proc process*(config: Config, query: string) =
   var choice = selectFromDir(
     getNotesPath(config),
     config,

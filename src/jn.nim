@@ -1,122 +1,135 @@
-import std/os
-import std/cmdline
-import std/parseopt
-import std/strutils
-
+import std/[os, strutils, tables]
 import config
+import console
+import files
+
+import cligen
+
 import subcommands/[
   book, cat, config as sconfig, edit,
   grep, help, ls, mv, recent, rm,
   share, star, tags, todo, tmpl
 ]
-import files
-import console
 
-const version = "1.1.2"
+clCfg.version = "1.2.0"
+clCfg.noHelpHelp = true
 
+let origRender = clCfg.render
 
 let configuration = getConfig(getConfigLocation())
-
+let params = commandLineParams()
 createNecessaryDirectories(configuration)
+
+# TODO - hate this, can we use reflection to gather these?
+# i.e. iterate through subcommands dir and grab all "name"s
+const subcommands = [
+  "cat", "config", "edit", "grep", "help", "ls", "mv",
+  "recent", "rm", "share", "star", "tags", "todo", "tmpl"
+]
+
+const aliasMap = {
+  "c": "cat",
+  "conf": "config",
+  "e": "edit",
+  "/": "grep",
+  "rg": "grep",
+  "h": "help",
+  "r": "recent",
+  "re": "recent",
+  "t": "todo",
+  "template": "tmpl",
+  "temp": "tmpl",
+  "tm": "tmpl",
+}.toTable()
+
+proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
+  result = cmdLine
+  if result.len > 0 and result[0] in aliasMap:
+    result[0] = aliasMap[result[0]]
+
+proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
+proc configProxy() = sconfig.process(configuration)
+proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
+proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
+proc lsProxy() = ls.process(configuration)
+proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
+proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
+proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
+proc shareProxy() = share.process(configuration)
+proc starProxy() = star.process(configuration)
+proc templateProxy() = tmpl.process(configuration)
+proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
+proc todoProxy(add: seq[string] = @[]) = todo.process(configuration, add.join(" "))
+
+proc fallback(params: seq[string]) =
+  var bookName = ""
+  for param in params:
+    if param.startsWith("@"):
+      bookName = param[1..^1]  # Remove the @ prefix
+      break
+
+  files.createNote(params[0], configuration, bookName)
+
+# Handles raw "jn" on its own
+if paramCount() <= 0:
+  info(configuration.getNotesPath())
+  printDirectories(getDirectories(getNotesPath(configuration)))
+  quit()
+
+# Handle books "jn @vim" for example
+if paramCount() > 0 and params[0].startsWith("@"):
+  book.process(configuration, params)
+  quit()
+
+# Handle note creation, i.e. "jn 'my super cool note'"
+if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap and not params[0].startsWith("-"):
+  fallback(params)
+  quit()
+
+# Cligen's help is very ugly, use our own
+if params[0] in @["h", "help", "-h", "--help"]:
+  help.process(configuration)
+  quit()
+
+if params[0] in @["--version", "-v"]:
+  echo clCfg.version
+  quit()
+
+# Don't show --version in subcommand help
+clCfg.version = ""
+
+# Everything else...
+dispatchMulti(
+  [catProxy,      cmdName = "cat",  positional = "query",],
+  [configProxy,   cmdName = "config",                    ],
+  [editProxy,     cmdName = "edit", positional = "query",],
+  [grepProxy,     cmdName = "grep", positional = "query",],
+  [lsProxy,       cmdName = "ls",                        ],
+  [
+    mvProxy,
+    cmdName = "mv",
+    positional = "query",
+    help = {"plain": "Prevent implicitly adding prefixes and suffixes to your filename"}
+  ],
+  [
+    recentProxy,
+    cmdName = "recent",
+    help = {"limit": "The number of recent files to display"},
+  ],
+  [rmProxy,       cmdName = "rm",   positional = "query"],
+  [shareProxy,    cmdName = "share",                    ],
+  [starProxy,     cmdName = "star",                     ],
+  [templateProxy, cmdName = "template",                 ],
+  [tagsProxy,     cmdName = "tags", positional = "query"],
+  [
+    todoProxy,
+    cmdName = "todo",
+    help = {"add": "Add a task"}
+  ],
+)
 
 try:
   let validationResults = config.validate(configuration)
   for item in validationResults: echo item
 except Exception as e:
   info(e.msg)
-
-let params = commandLineParams()
-
-for kind, key, val in getopt():
-  case kind
-  of cmdShortOption, cmdLongOption:
-    case key
-    of "h", "help":
-      help.process(configuration)
-    of "v", "version":
-      echo version
-  of cmdArgument:
-    if key in cat.aliases:
-      cat.process(configuration)
-      quit()
-
-    if key in sconfig.aliases:
-      sconfig.process(configuration)
-      quit()
-
-    if key in edit.aliases:
-      edit.process(configuration)
-      quit()
-
-    if key in grep.aliases:
-      let searchTerm =
-        if params.len > 1:
-          params[1]
-        else:
-          ""
-      grep.process(searchTerm, configuration)
-      quit()
-
-    if key in help.aliases:
-      help.process(configuration)
-      quit()
-
-    if key in ls.aliases:
-      ls.process(configuration)
-      quit()
-
-    if key in mv.aliases:
-      mv.process(configuration, params)
-      quit()
-
-    if key in recent.aliases:
-      recent.process(configuration, params)
-      quit()
-
-    if key in rm.aliases:
-      rm.process(configuration)
-      quit()
-
-    if key in share.aliases:
-      share.process(configuration)
-      quit()
-
-    if key in star.aliases:
-      star.process(configuration)
-      quit()
-
-    if key in todo.aliases:
-      todo.process(configuration, params[1..^1])
-      quit()
-
-    if key in tmpl.aliases:
-      tmpl.process(configuration)
-      quit()
-
-    if key in tags.aliases:
-      let searchTerm =
-        if params.len > 1:
-          params[1]
-        else:
-          ""
-      tags.process(searchTerm, configuration)
-      quit()
-
-    if key.startsWith("@"):
-      book.process(params, configuration)
-      quit()
-    else:
-      # Check if there's a book parameter (starts with @) in the params
-      var bookName = ""
-      for param in params:
-        if param.startsWith("@"):
-          bookName = param[1..^1]  # Remove the @ prefix
-          break
-      
-      files.createNote(key, configuration, bookName)
-  of cmdend:
-    discard
-
-if paramCount() <= 0:
-  info(configuration.getNotesPath())
-  printDirectories(getDirectories(getNotesPath(configuration)))

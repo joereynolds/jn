@@ -1,13 +1,10 @@
-import std/[cmdline, os, parsecfg, strutils, tempfiles]
+import std/[os, parsecfg, strutils, tempfiles]
 import ../fuzzy
 import ../console
 import ../config
 
-const aliases* = @["rm", "remove"]
 
-proc process*(config: Config) =
-  var query = commandLineParams()[1..^1].join(" ")
-
+proc process*(config: Config, query: string) =
   var choice = selectFromDir(
     getNotesPath(config),
     config,
