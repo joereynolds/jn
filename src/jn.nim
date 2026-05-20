@@ -23,9 +23,19 @@ createNecessaryDirectories(configuration)
 
 
 proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
+proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
+proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
+proc lsProxy() = ls.process(configuration)
+proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
+proc shareProxy() = share.process(configuration)
 
 dispatchMulti(
-  [catProxy, cmdName = "cat", positional = "query", doc="help goes here"]
+  [catProxy, cmdName = "cat", positional = "query", doc="help goes here"],
+  [editProxy, cmdName = "edit", positional = "query", doc="help goes here"],
+  [grepProxy, cmdName = "grep", positional = "query", doc="help goes here"],
+  [lsProxy, cmdName = "ls", doc="help goes here"],
+  [recentProxy, cmdName = "recent", doc="help goes here"],
+  [shareProxy, cmdName = "share", doc="help goes here"],
 )
 #
 # try:
@@ -53,41 +63,12 @@ dispatchMulti(
 #       sconfig.process(configuration)
 #       quit()
 #
-#     if key in edit.aliases:
-#       edit.process(configuration)
-#       quit()
-#
-#     if key in grep.aliases:
-#       let searchTerm =
-#         if params.len > 1:
-#           params[1]
-#         else:
-#           ""
-#       grep.process(searchTerm, configuration)
-#       quit()
-#
-#     if key in help.aliases:
-#       help.process(configuration)
-#       quit()
-#
-#     if key in ls.aliases:
-#       ls.process(configuration)
-#       quit()
-#
 #     if key in mv.aliases:
 #       mv.process(configuration, params)
 #       quit()
 #
-#     if key in recent.aliases:
-#       recent.process(configuration, params)
-#       quit()
-#
 #     if key in rm.aliases:
 #       rm.process(configuration)
-#       quit()
-#
-#     if key in share.aliases:
-#       share.process(configuration)
 #       quit()
 #
 #     if key in star.aliases:
