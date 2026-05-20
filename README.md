@@ -8,7 +8,7 @@ A command line notetaker and basic task manager
 
 - All your notes managed as files. No databases or sign-ups
 - Create, remove, share and search your notes from the comfort of the terminal
-- Small. 100kb and shrinking with every release while still growing features
+- Small. Like, less than a megabyte
 
 https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
