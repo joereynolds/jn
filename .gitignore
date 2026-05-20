@@ -7,3 +7,5 @@ nimcache/
 outputGotten.txt
 testresults/
 
+# Nix result
+result
