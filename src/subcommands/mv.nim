@@ -6,9 +6,7 @@ import ../console
 
 const aliases* = @["mv", "move"]
 
-proc process*(config: Config, params: seq[string]) =
-  var query = commandLineParams()[1..^1].join(" ")
-
+proc process*(config: Config, query: string, plain: bool) =
   var choice = selectFromDir(
     getNotesPath(config),
     config,
@@ -35,7 +33,7 @@ proc process*(config: Config, params: seq[string]) =
 
   var fileName = prefix & "-" & newName.replace(" ", "-") & suffix
 
-  if "--plain" in params:
+  if plain:
     fileName = newName
 
   let oldPath = choice

@@ -26,6 +26,7 @@ proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(
 proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
 proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
 proc lsProxy() = ls.process(configuration)
+proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy() = share.process(configuration)
@@ -35,6 +36,7 @@ dispatchMulti(
   [editProxy, cmdName = "edit", positional = "query", doc="help goes here"],
   [grepProxy, cmdName = "grep", positional = "query", doc="help goes here"],
   [lsProxy, cmdName = "ls", doc="help goes here"],
+  [mvProxy, cmdName = "mv", positional = "query", doc="help goes here"],
   [recentProxy, cmdName = "recent", doc="help goes here"],
   [rmProxy, cmdName = "rm", positional = "query", doc="help goes here"],
   [shareProxy, cmdName = "share", doc="help goes here"],
@@ -55,10 +57,6 @@ dispatchMulti(
 #   of cmdArgument:
 #     if key in sconfig.aliases:
 #       sconfig.process(configuration)
-#       quit()
-#
-#     if key in mv.aliases:
-#       mv.process(configuration, params)
 #       quit()
 #
 #     if key in star.aliases:
