@@ -12,6 +12,7 @@ import subcommands/[
 ]
 
 clCfg.version = "1.2.0"
+clCfg.noHelpHelp = true
 
 let origRender = clCfg.render
 
@@ -36,6 +37,7 @@ const aliasMap = {
   "e": "edit",
   "/": "grep",
   "rg": "grep",
+  "h": "help",
   "r": "recent",
   "re": "recent",
   "t": "todo",
@@ -46,6 +48,8 @@ const aliasMap = {
 
 proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
   result = cmdLine
+  if result.len > 0 and result[0] in @["h", "help"]:
+    result[0] = "--help"
   if result.len > 0 and result[0] in aliasMap:
     result[0] = aliasMap[result[0]]
 
@@ -96,7 +100,12 @@ dispatchMulti(
   [grepProxy,     cmdName = "grep", positional = "query",   doc="Grep for term and fuzzy search to edit"],
   [lsProxy,       cmdName = "ls",                           doc="List all notes in your notes directory"],
   [mvProxy,       cmdName = "mv",   positional = "query",   doc="Fuzzy search and rename note"],
-  [recentProxy,   cmdName = "recent",                       doc="Displays the 15 most recent files (also takes a --limit)"],
+  [
+    recentProxy,
+    cmdName = "recent",
+    help = {"limit": "The number of recent files to display"},
+    doc = "Displays the 15 most recent files (also takes a --limit)"
+  ],
   [rmProxy,       cmdName = "rm",   positional = "query",   doc="Fuzzy search and delete note"],
   [shareProxy,    cmdName = "share",                        doc="Share a note online. A permalink is given back (uses paste.rs, be respectful!)"],
   [starProxy,     cmdName = "star",                         doc="Mark a note as \"starred\""],
