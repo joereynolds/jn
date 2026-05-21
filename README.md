@@ -26,7 +26,7 @@ Download Linux and Mac builds of `jn` from the [releases page](https://github.co
 
 - `jn "my note title"` creates a note called `2026-01-01-my-note-title.md` and opens it in your `$EDITOR`.
 - `jn` on its own will show all your "books" (directories)
-- `jn todo` to see all your incomplete tasks
+- `jn todo` to complete and filter your tasks
 - And so much more!
 
 #### Command overview
@@ -362,6 +362,36 @@ jn todo --add "Do the dishes"
 
 Will add a markdown task in your `notes_location` / todo.md
 
+#### Filtering todos
+
+If you want to see all your done tasks (or other states), you can do with the `--filter` flag.
+
+There are 4 states that a task can be in demonstrated below:
+
+```
+- [ ] This task's state is "todo"
+- [x] This task's state is "done"
+- [/] This task's state is "wip"
+- [-] This task's state is "cancelled"
+```
+
+This closely mirrors how many obsidian plugins treat markdown tasks, for consistency.
+
+To filter, you do:
+
+```
+jn todo --filter <taskstate>
+```
+e.g.
+```
+jn todo --filter cancelled
+```
+
+Shorthand works too, here's the exact same command:
+
+```
+jn t -f ca
+```
 
 ### Tags
 
