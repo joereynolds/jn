@@ -1,4 +1,4 @@
-import std/[options, parsecfg, re, strformat, strutils, tables, times]
+import std/[options, parsecfg, re, strformat, strutils, tables, terminal, times]
 import ../[config, console, fuzzy, grep, files, todo]
 
 const name = "todo"
@@ -53,18 +53,41 @@ proc addTodo(config: Config, todo: string) =
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
+proc markAs(state: TaskState) =
+  echo state
+
+proc promptForTaskState(): TaskState =
+  echo "Mark task as:"
+
+  echo "[1] - Done"
+  echo "[2] - Cancelled"
+  echo "[3] - Work in progress"
+  echo "[4] - Todo"
+
+  while true:
+    let choice = getch()
+
+    case choice:
+    of '1': return TaskState.Done
+    of '2': return TaskState.Cancelled
+    of '3': return TaskState.Wip
+    of '4': return TaskState.Todo
+    else:
+      quit()
+
 proc listTodos(config: Config, state: TaskState) =
   for todo in getTodos(config, state):
     echo todo.lineContent
 
 proc process*(config: Config, task: string, filter: Option[TaskState]) =
-
-  if task != "":
-    addTodo(config, task)
-    return
-
-  if filter.isSome:
-    listTodos(config, filter.get)
-    return
-
-  completeTodo(config)
+  echo promptForTaskState()
+  #
+  # if task != "":
+  #   addTodo(config, task)
+  #   return
+  #
+  # if filter.isSome:
+  #   listTodos(config, filter.get)
+  #   return
+  #
+  # completeTodo(config)
