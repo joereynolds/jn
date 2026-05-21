@@ -1,7 +1,8 @@
-import std/[os, strutils, tables]
+import std/[options, os, strutils, tables]
 import config
 import console
 import files
+from ./todo as todoModule import TaskState
 
 import cligen
 
@@ -55,7 +56,15 @@ proc shareProxy() = share.process(configuration)
 proc starProxy() = star.process(configuration)
 proc templateProxy() = tmpl.process(configuration)
 proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
-proc todoProxy(add: seq[string] = @[]) = todo.process(configuration, add.join(" "))
+
+proc todoProxy(
+  add: seq[string] = @[],
+  filter: Option[TaskState] = none(TaskState)
+) = todo.process(
+  configuration,
+  add.join(" "),
+  filter
+)
 
 proc fallback(params: seq[string]) =
   var bookName = ""
