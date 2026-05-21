@@ -1,10 +1,10 @@
-import std/[parsecfg, re, strformat, strutils, tables, times]
+import std/[options, parsecfg, re, strformat, strutils, tables, times]
 import ../[config, console, fuzzy, grep, files, todo]
 
 const name = "todo"
 
 proc completeTodo(config: Config) = 
-  let todos = getTodos(config)
+  let todos = getTodos(config, TaskState.Todo)
 
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
@@ -53,10 +53,18 @@ proc addTodo(config: Config, todo: string) =
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
-proc process*(config: Config, task: string) =
+proc listTodos(config: Config, state: TaskState) =
+  for todo in getTodos(config, state):
+    echo todo.lineContent
+
+proc process*(config: Config, task: string, filter: Option[TaskState]) =
 
   if task != "":
     addTodo(config, task)
+    return
+
+  if filter.isSome:
+    listTodos(config, filter.get)
     return
 
   completeTodo(config)
