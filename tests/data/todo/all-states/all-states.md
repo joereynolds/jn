@@ -1,0 +1,4 @@
+- [ ] A todo task
+- [x] A done task
+- [/] A wip task
+- [-] A cancelled task
