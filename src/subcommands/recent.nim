@@ -1,6 +1,7 @@
 import std/[algorithm, parsecfg, paths, times]
 import ../[console, config, files]
 
+const name = "recent"
 
 proc process*(config: Config, limit: int = 15) =
   let notes = getFilesforDir(getNotesPath(config))

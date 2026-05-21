@@ -4,6 +4,7 @@ import ../config
 import ../fuzzy
 import ../console
 
+const name = "mv"
 
 proc process*(config: Config, query: string, plain: bool) =
   var choice = selectFromDir(

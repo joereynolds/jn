@@ -1,6 +1,7 @@
 import std/parsecfg
 import ../[config, files]
 
+const name = "ls"
 
 proc process*(config: Config) =
   let notes = getFilesforDir(getNotesPath(config))

@@ -4,6 +4,7 @@ import ../fuzzy
 import ../config
 import ../grep
 
+const name = "grep"
 
 proc process*(config: Config, searchTerm: string) =
   if searchTerm.strip() == "":

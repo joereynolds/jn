@@ -5,6 +5,7 @@ import ../config
 import ../templates/templates
 import ../fuzzy
 
+const name = "tmpl"
 
 proc process*(config: Config) =
   var choice = selectFromDir(

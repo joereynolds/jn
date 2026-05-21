@@ -1,6 +1,8 @@
 import std/parsecfg
 import ../config
 
+const name = "help"
+
 let editor = getEditor()
 let usage* =
   """

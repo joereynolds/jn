@@ -6,6 +6,10 @@ import ../files
 import ../grep
 
 
+const name = "tags"
+const aliases = @["tags"]
+
+
 proc process*(config: Config, query: string) =
   var tagTerm = query.strip()
 

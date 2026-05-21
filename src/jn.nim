@@ -8,24 +8,20 @@ import cligen
 import subcommands/[
   book, cat, config as sconfig, edit,
   grep, help, ls, mv, recent, rm,
-  share, star, tags, todo, tmpl
+  share, star, tags, todo, tmpl,
+  macros
 ]
 
 clCfg.version = "1.2.0"
 clCfg.noHelpHelp = true
 
 let origRender = clCfg.render
-
 let configuration = getConfig(getConfigLocation())
 let params = commandLineParams()
+let subcommands = getSubcommandNames()
+
 createNecessaryDirectories(configuration)
 
-# TODO - hate this, can we use reflection to gather these?
-# i.e. iterate through subcommands dir and grab all "name"s
-const subcommands = [
-  "cat", "config", "edit", "grep", "help", "ls", "mv",
-  "recent", "rm", "share", "star", "tags", "todo", "tmpl"
-]
 
 const aliasMap = {
   "c": "cat",

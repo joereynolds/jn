@@ -4,6 +4,7 @@ import ../config
 import ../fuzzy
 import ../console
 
+const name = "star"
 
 proc process*(config: Config) =
   var query = commandLineParams()[1..^1].join(" ")

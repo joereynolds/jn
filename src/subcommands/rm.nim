@@ -3,6 +3,7 @@ import ../fuzzy
 import ../console
 import ../config
 
+const name = "rm"
 
 proc process*(config: Config, query: string) =
   var choice = selectFromDir(

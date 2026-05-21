@@ -3,6 +3,7 @@ import std/[os, osproc, parsecfg, strutils]
 import ../config
 import ../fuzzy
 
+const name = "edit"
 
 proc process*(config: Config, query: string) =
   var choice = selectFromDir(
