@@ -43,11 +43,10 @@ Detailed info for each command is below this table.
 | `jn @starred`        | List bookmarked notes              |                                                               |
 | `jn cat`             | Display a note                     |                                                               |
 | `jn edit`            | Edit a note                        |                                                               |
-| `jn ls`              | List all notes                     |                                                               |
-| `jn recent`          | Show most recently edited notes    | `--limit` How many recent notes to display                         |
-| `jn grep <term>`     | Search notes by content            |                                                                    |
-| `jn tag <tag>`       | Search notes by tag                |                                                                    |
-| `jn mv`              | Rename a note                      | `--plain` Whether to append dates and extension during rename      |
+| `jn ls`              | List all notes                     | `--recent [n]` Display the N most recently edited notes       |
+| `jn grep <term>`     | Search notes by content            |                                                               |
+| `jn tag <tag>`       | Search notes by tag                |                                                               |
+| `jn mv`              | Rename a note                      | `--plain` Whether to append dates and extension during rename |
 | `jn rm`              | Delete a note                      |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
 | `jn share`           | Upload a note and get a permalink  |                                                               |
@@ -275,17 +274,6 @@ The complete command is:
 jn mv --plain
 ```
 
-### Get recent notes
-
-```
-jn recent
-```
-
-This will display the 15 most recently edited notes.
-Useful for when you forget _that_ important document
-
-Both `jn r` and `jn re` also work.
-
 ### List your notes
 
 ```
@@ -296,6 +284,13 @@ This is purely for convenience. You could definitely just do `ls
 ~/wherever-your-notes-live` but who has that kind of brainpower?
 
 Doing `jn ls` will list all the notes in your configured location.
+
+You can also filter by `--recent` to get your most recently edited notes.
+Handy for when you forgot what you were working on.
+
+```
+jn ls --recent 6 # return the 6 most recently edited notes
+```
 
 ### Share a note
 

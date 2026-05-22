@@ -8,7 +8,7 @@ import cligen
 
 import subcommands/[
   book, cat, config as sconfig, edit,
-  grep, help, ls, mv, recent, rm,
+  grep, help, ls, mv, rm,
   share, star, tags, todo, tmpl,
   macros
 ]
@@ -31,8 +31,6 @@ const aliasMap = {
   "/": "grep",
   "rg": "grep",
   "h": "help",
-  "r": "recent",
-  "re": "recent",
   "t": "todo",
   "template": "tmpl",
   "temp": "tmpl",
@@ -48,9 +46,12 @@ proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(
 proc configProxy() = sconfig.process(configuration)
 proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
 proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
-proc lsProxy() = ls.process(configuration)
+
+proc lsProxy(
+  recent: Option[int] = none(int)
+) = ls.process(configuration, recent)
+
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
-proc recentProxy(limit: int = 15) = recent.process(configuration, limit)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy() = share.process(configuration)
 proc starProxy() = star.process(configuration)
@@ -115,11 +116,6 @@ dispatchMulti(
     cmdName = "mv",
     positional = "query",
     help = {"plain": "Prevent implicitly adding prefixes and suffixes to your filename"}
-  ],
-  [
-    recentProxy,
-    cmdName = "recent",
-    help = {"limit": "The number of recent files to display"},
   ],
   [rmProxy,       cmdName = "rm",   positional = "query"],
   [shareProxy,    cmdName = "share",                    ],
