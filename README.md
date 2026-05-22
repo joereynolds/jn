@@ -33,27 +33,30 @@ Download Linux and Mac builds of `jn` from the [releases page](https://github.co
 
 Detailed info for each command is below this table.
 
-| Command              | Description |
-|----------------------|-------------|
-| `jn`                 | List all books |
-| `jn <title>`         | Create a note |
-| `jn <title> @<book>` | Create a note in a specific book |
-| `jn @<book>`         | List notes in a book |
-| `jn @starred`        | List bookmarked notes |
-| `jn cat`             | Display a note |
-| `jn edit`            | Edit a note |
-| `jn ls`              | List all notes |
-| `jn recent`          | Show 15 most recently edited notes |
-| `jn grep <term>`     | Search notes by content |
-| `jn tag <tag>`       | Search notes by tag |
-| `jn mv`              | Rename a note |
-| `jn rm`              | Delete a note |
-| `jn star`            | Bookmark a note |
-| `jn share`           | Upload a note and get a permalink |
-| `jn todo`            | Show and complete incomplete tasks |
-| `jn template`        | Edit a template |
-| `jn config`          | Edit the config file |
-| `jn help`            | Show help |
+
+| Command              | Description                        | Flags                                                         |
+|----------------------|------------------------------------|---------------------------------------------------------------|
+| `jn`                 | List all books                     |                                                               |
+| `jn <title>`         | Create a note                      |                                                               |
+| `jn <title> @<book>` | Create a note in a specific book   |                                                               |
+| `jn @<book>`         | List notes in a book               |                                                               |
+| `jn @starred`        | List bookmarked notes              |                                                               |
+| `jn cat`             | Display a note                     |                                                               |
+| `jn edit`            | Edit a note                        |                                                               |
+| `jn ls`              | List all notes                     |                                                               |
+| `jn recent`          | Show most recently edited notes    | `--limit` How many recent notes to display                         |
+| `jn grep <term>`     | Search notes by content            |                                                                    |
+| `jn tag <tag>`       | Search notes by tag                |                                                                    |
+| `jn mv`              | Rename a note                      | `--plain` Whether to append dates and extension during rename      |
+| `jn rm`              | Delete a note                      |                                                               |
+| `jn star`            | Bookmark a note                    |                                                               |
+| `jn share`           | Upload a note and get a permalink  |                                                               |
+| `jn todo`            | Show and complete incomplete tasks | `--filter` Filter on cancelled,completed,wip, and todo states |
+| `jn template`        | Edit a template                    |                                                               |
+| `jn config`          | Edit the config file               |                                                               |
+| `jn help`            | Show help                          |                                                               |
+| `jn <cmd> -h`        | Get help for an individual command |                                                               |
+
 
 
 ### Config
