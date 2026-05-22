@@ -50,12 +50,12 @@ suite "Integration tests":
 
   test "Calling jn recent lists the 15 most recent files":
     let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
-    let (output, _) = execCmdEx(jnBin & " recent", env = env)
+    let (output, _) = execCmdEx(jnBin & " ls --recent 15", env = env)
 
     check output.strip().splitLines().len == 15
 
   test "Calling jn recent --limit respects the limit":
     let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
-    let (output, _) = execCmdEx(jnBin & " recent --limit=5", env = env)
+    let (output, _) = execCmdEx(jnBin & " ls --recent 5", env = env)
 
     check output.strip().splitLines().len == 5

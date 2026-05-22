@@ -21,7 +21,6 @@ Available Commands:
   /,grep,rg            Grep for term and fuzzy search to edit
   ls                   List all notes in your notes directory
   mv                   Fuzzy search and rename note
-  r,re,recent          Displays the 15 most recent files
   rm                   Fuzzy search and delete note
   share                Share a note online. A permalink is given back (uses paste.rs, be respectful!)
   star                 Mark a note as "starred"
