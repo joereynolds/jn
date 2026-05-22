@@ -50,7 +50,8 @@ proc lsProxy(
   recent: Option[int] = none(int),
   after: Option[string] = none(string),
   before: Option[string] = none(string),
-) = ls.process(configuration, recent, after, before)
+  noPrintDate: Option[bool] = none(bool),
+) = ls.process(configuration, recent, after, before, noPrintDate)
 
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))

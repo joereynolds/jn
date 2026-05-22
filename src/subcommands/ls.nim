@@ -1,4 +1,4 @@
-import std/[algorithm, options, parsecfg, paths, times]
+import std/[algorithm, options, parsecfg, paths, times, terminal]
 import ../[config, console, files]
 
 const name = "ls"
@@ -7,7 +7,6 @@ const dateFormat = "yyyy-MM-dd"
 type DateComparison = enum
   Before
   After
-
 
 proc recentFiles(
   config: Config,
@@ -43,18 +42,37 @@ proc compareDate(
 
   return datedNotes
 
-proc printFiles(notes: seq[FileRecord]) =
+proc printFiles(
+  notes: seq[FileRecord],
+  config: Config,
+  noPrintDate: Option[bool],
+) =
   for note in notes:
-    stdout.write(lastPathPart(Path(note.name)))
 
-    let mtime = $note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
-    info(" (" & mtime & ")")
+    let dir = relativePath(
+      Path(note.name),
+      Path(getNotesPath(config))
+    )
+
+    let name = lastPathPart(Path(note.name))
+
+    stdout.write(parentDir(Path(note.name)))
+    stdout.write("/")
+
+    if noPrintDate.isSome:
+      stdout.styledWriteLine({styleBright}, $name)
+
+    if noPrintDate.isNone:
+      stdout.styledWrite({styleBright}, $name)
+      let mtime = note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
+      info(" (" & mtime & ")")
 
 proc process*(
   config: Config,
   recent: Option[int],
   after: Option[string],
   before: Option[string],
+  noPrintDate: Option[bool]
 ) =
 
   var allFiles = getFilesforDir(getNotesPath(config))
@@ -69,4 +87,4 @@ proc process*(
   if recent.isSome:
     files = recentFiles(config, recent.get, allFiles)
 
-  printFiles(files)
+  printFiles(files, config, noPrintDate)
