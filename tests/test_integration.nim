@@ -59,3 +59,54 @@ suite "Integration tests":
     let (output, _) = execCmdEx(jnBin & " ls --recent 5", env = env)
 
     check output.strip().splitLines().len == 5
+
+suite "Integration tests - date filtering":
+  var tmpDir = ""
+  var notesDir = ""
+  var configDir = ""
+
+  setup:
+    tmpDir = getTempDir() / "jn-date-filter-test"
+    notesDir = tmpDir / "notes"
+    configDir = tmpDir / "config"
+    createDir(notesDir)
+    createDir(configDir / "jn")
+    writeFile(configDir / "jn" / "config.ini",
+      "notes_location=\"" & notesDir & "\"\n")
+
+    let earlyPath = notesDir / "early.md"
+    writeFile(earlyPath, "")
+    setLastModificationTime(earlyPath, fromUnix(777_600))    # 1970-01-10
+
+    let latePath = notesDir / "late.md"
+    writeFile(latePath, "")
+    setLastModificationTime(latePath, fromUnix(1_209_600))   # 1970-01-15
+
+  teardown:
+    removeDir(tmpDir)
+
+  test "jn ls --after excludes notes older than the given date":
+    let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
+    let (output, _) = execCmdEx(jnBin & " ls --after 1970-01-12", env = env)
+
+    check "late.md" in output
+    check "early.md" notin output
+
+  test "jn ls --before excludes notes newer than the given date":
+    let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
+    let (output, _) = execCmdEx(jnBin & " ls --before 1970-01-12", env = env)
+
+    check "early.md" in output
+    check "late.md" notin output
+
+  test "jn ls --after is inclusive of the boundary date":
+    let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
+    let (output, _) = execCmdEx(jnBin & " ls --after 1970-01-10", env = env)
+
+    check "early.md" in output
+
+  test "jn ls --before is inclusive of the boundary date":
+    let env = makeEnv([("XDG_CONFIG_HOME", configDir), ("EDITOR", "true")])
+    let (output, _) = execCmdEx(jnBin & " ls --before 1970-01-15", env = env)
+
+    check "late.md" in output
