@@ -43,7 +43,7 @@ Detailed info for each command is below this table.
 | `jn @starred`        | List bookmarked notes              |                                                               |
 | `jn cat`             | Display a note                     |                                                               |
 | `jn edit`            | Edit a note                        |                                                               |
-| `jn ls`              | List all notes                     | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)     |
+| `jn ls`              | List all notes                     | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
 | `jn grep <term>`     | Search notes by content            |                                                               |
 | `jn tag <tag>`       | Search notes by tag                |                                                               |
 | `jn mv`              | Rename a note                      | `--plain` Whether to append dates and extension during rename |
