@@ -31,9 +31,8 @@ const aliasMap = {
   "rg": "grep",
   "h": "help",
   "t": "todo",
-  "template": "tmpl",
-  "temp": "tmpl",
-  "tm": "tmpl",
+  "temp": "template",
+  "tm": "template",
 }.toTable()
 
 proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[string] =
