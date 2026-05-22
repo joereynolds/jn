@@ -23,7 +23,6 @@ let subcommands = getSubcommandNames()
 
 createNecessaryDirectories(configuration)
 
-
 const aliasMap = {
   "c": "cat",
   "conf": "config",
@@ -48,8 +47,10 @@ proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.joi
 proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
 
 proc lsProxy(
-  recent: Option[int] = none(int)
-) = ls.process(configuration, recent)
+  recent: Option[int] = none(int),
+  after: Option[string] = none(string),
+  before: Option[string] = none(string),
+) = ls.process(configuration, recent, after, before)
 
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
