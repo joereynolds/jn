@@ -56,14 +56,14 @@ proc printFiles(
 
     let name = lastPathPart(Path(note.name))
 
-    stdout.write(parentDir(Path(note.name)))
+    stdout.styledWrite({styleDim}, $parentDir(Path(note.name)))
     stdout.write("/")
 
     if noPrintDate.isSome:
-      stdout.styledWriteLine({styleBright}, $name)
+      stdout.writeLine($name)
 
     if noPrintDate.isNone:
-      stdout.styledWrite({styleBright}, $name)
+      stdout.write($name)
       let mtime = note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
       info(" (" & mtime & ")")
 
