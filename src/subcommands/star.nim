@@ -1,7 +1,7 @@
 import std/[cmdline, dirs, os, parsecfg, paths, strutils, symlinks]
 
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../console
 
 const name = "star"

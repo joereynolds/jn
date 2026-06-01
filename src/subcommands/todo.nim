@@ -1,5 +1,6 @@
 import std/[options, parsecfg, re, strformat, strutils, tables, times]
-import ../[config, console, fuzzy, grep, files, todo]
+import ../[config, console, grep, files, todo]
+import ../fuzzy/fuzzy
 
 const name = "todo"
 

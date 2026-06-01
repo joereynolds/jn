@@ -1,6 +1,6 @@
 import std/[cmdline, os, parsecfg, strutils, httpclient]
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 
 const name = "share"
 

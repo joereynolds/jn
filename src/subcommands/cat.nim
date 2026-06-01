@@ -1,6 +1,6 @@
 import std/[cmdline, os, parsecfg, strutils]
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 
 const name = "cat"
 const aliases = @["c"]

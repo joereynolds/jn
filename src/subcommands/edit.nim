@@ -1,7 +1,7 @@
 import std/[os, osproc, parsecfg, strutils]
 
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 
 const name = "edit"
 

@@ -1,7 +1,7 @@
 import std/[os, parsecfg, strutils, times]
 
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../console
 
 const name = "mv"

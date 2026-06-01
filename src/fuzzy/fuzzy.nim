@@ -1,6 +1,6 @@
-import config
-import console
-import files
+import ../config
+import ../console
+import ../files
 
 import std/[os, osproc, parsecfg, sequtils, streams, strutils]
 

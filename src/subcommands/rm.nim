@@ -1,5 +1,5 @@
 import std/[os, parsecfg, strutils, tempfiles]
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../console
 import ../config
 
