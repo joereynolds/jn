@@ -1,11 +1,8 @@
 {.push raises: [].}
 
-import std/parsecfg
-import std/envvars
-import std/os
-import std/paths
-
+import std/[envvars, os, parsecfg, paths, tables]
 import console, validators/[envvar, location, prefix]
+import fuzzy/providers/provider
 
 const
   keyNoteLocation = "notes_location"
@@ -29,8 +26,29 @@ proc getConfig*(filename: string): Config =
 proc getEditor*(): string =
   getEnv("EDITOR", "vi")
 
-proc getFuzzyProvider*(config: Config): string {.raises: [KeyError].} =
-  config.getSectionValue("", keyFuzzyProvider, "fzf")
+proc getFuzzyProvider*(config: Config): FuzzyProvider {.raises: [KeyError].} =
+
+  let providers = {
+
+    "fzf": FuzzyProvider(
+      name: "fzf",
+      flags: @["--multi"]
+    ),
+
+    "fzy": FuzzyProvider(
+      name: "fzy",
+      flags: @[]
+    ),
+
+    "fnf": FuzzyProvider(
+      name: "fnf",
+      flags: @["--multi"]
+    )
+
+  }.toTable
+
+  let configFuzzyProvider = config.getSectionValue("", keyFuzzyProvider, "fzf")
+  return providers[configFuzzyProvider]
 
 proc getNotesSuffix*(config: Config): string {.raises: [KeyError].} =
   config.getSectionValue("", keyNoteSuffix, ".md")
