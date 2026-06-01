@@ -1,5 +1,5 @@
-import std/[cmdline, os, parsecfg, strutils, httpclient]
-import ../config
+import std/[cmdline, os, parsecfg, sequtils, sugar, strutils, httpclient]
+import ../[config, console]
 import ../fuzzy/fuzzy
 
 const name = "share"
@@ -13,17 +13,22 @@ proc process*(config: Config) =
     query
   )
 
-  choice.stripLineEnd()
-
-  if choice == "":
-    quit()
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
 
   let url = "https://paste.rs"
-  let content = readFile(choice)
+
+  var content = ""
   let client = newHttpClient()
 
+  let count = choices.len
+
+  for choice in choices:
+    content &= readFile(choice)
+  
   try:
     let response = client.postContent(url, body=content)
-    echo response
+    success("Shared " & $count & (if count == 1: " note to " else: " notes to ") & response)
   finally:
     client.close()
