@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
 
 ### Requirements
 
-- fzf or fzy (Other fuzzy finders will probably work but are untested)
+- fzf, fnf, or fzy (Other fuzzy finders will probably work but are untested)
 
 `jn` will work without one but be limited.
 
