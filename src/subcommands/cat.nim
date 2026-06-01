@@ -1,5 +1,5 @@
-import std/[cmdline, os, parsecfg, strutils]
-import ../config
+import std/[cmdline, os, parsecfg, sequtils, strutils, sugar]
+import ../[config, console]
 import ../fuzzy/fuzzy
 
 const name = "cat"
@@ -19,5 +19,14 @@ proc process*(config: Config, query: string) =
   if choice == "":
     quit()
 
-  let content = readFile(choice)
-  echo content
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
+
+  for choice in choices:
+    # Don't print filename if we only have one result
+    if choices.len > 1:
+      info(choice)
+
+    let content = readFile(choice)
+    echo content

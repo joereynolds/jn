@@ -32,7 +32,7 @@ proc getFuzzyProvider*(config: Config): FuzzyProvider {.raises: [KeyError].} =
 
     "fzf": FuzzyProvider(
       name: "fzf",
-      flags: @["--multi"]
+      flags: @["--multi", "--print0"]
     ),
 
     "fzy": FuzzyProvider(
@@ -42,7 +42,7 @@ proc getFuzzyProvider*(config: Config): FuzzyProvider {.raises: [KeyError].} =
 
     "fnf": FuzzyProvider(
       name: "fnf",
-      flags: @["--multi"]
+      flags: @["--multi", "--print-null"]
     )
 
   }.toTable
