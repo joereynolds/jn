@@ -117,7 +117,7 @@ proc getDirectories*(dir: string): DirectoryListing =
 
       # and count all notes
       for file in walkDirRec(path, yieldFilter = {pcFile, pcLinkToFile}):
-        if not isHidden(file):
+        if not isHidden(file) and fileExists(file):
           directories[pathAsKey] += 1
 
   return directories
