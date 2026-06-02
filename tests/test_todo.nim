@@ -1,8 +1,14 @@
-import std/[parsecfg, paths, unittest]
+import std/[options, os, parsecfg, paths, strutils, unittest]
 import ../src/[grep, todo]
+import ../src/subcommands/todo
 
 
 suite "Todo tests":
+
+  setup:
+    let todoTestFile = Path("./tests/data/todo/all-states") / Path("todo.md")
+    if fileExists($todoTestFile):
+      removeFile($todoTestFile)
 
   test "It does not return complete todos":
     var c = newConfig()
@@ -133,3 +139,15 @@ suite "Todo tests":
 
     check(len(actual) == 1)
     check(actual[0].lineContent == "- [/] A wip task")
+
+  test "It adds todos with a task (--add) specified":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/all-states")
+    let todoFile = location / Path("todo.md")
+    c.setSectionKey("", "notes_location", $location)
+
+    let taskString = "It's a damn fine day to be nude"
+    process(c, taskString, none(TaskState))
+    let actual = readFile($todoFile)
+    check(taskString in actual)

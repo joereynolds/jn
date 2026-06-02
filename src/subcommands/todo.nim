@@ -53,6 +53,7 @@ proc addTodo(config: Config, todo: string) =
     fmAppend
   )
 
+  defer: handle.close()
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
