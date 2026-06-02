@@ -4,7 +4,7 @@ import ../fuzzy/fuzzy
 
 const name = "todo"
 
-proc completeTodo(config: Config) = 
+proc markTodo(config: Config, state: TaskState) =
   let todos = getTodos(config, TaskState.Todo)
 
   var displayChoices: seq[string] = @[]
@@ -29,20 +29,20 @@ proc completeTodo(config: Config) =
     let matchedLineNumber = matchLookup[choice].lineNumber
     let today = now().format("YYYY-MM-dd")
 
-    matchedContent.add(" " & today)
+    # add a mark of when we changed the task to that state
+    # i.e. (completed 2026-03-03)
+    matchedContent.add(fmt" ({toTodoTask(state)}: {today})")
 
     writeToLine(
       matchedFile,
       matchedLineNumber,
-      matchedContent.replace("[ ]", "[x]")
+      matchedContent.replace("[ ]", fmt"[{toSyntax(state)}]")
     )
 
     let pattern = re"(\d+) - \[ \]"
     let replaced = choice.replace(pattern, "").strip()
 
-    console.success(
-      &"Marked '{replaced}' as complete ({matchedFile})."
-    )
+    console.success(fmt"Marked '{replaced}' as complete ({matchedFile}).")
   
 proc addTodo(config: Config, todo: string) =
   let task = "- [ ] " & todo & "\p"
@@ -57,10 +57,6 @@ proc addTodo(config: Config, todo: string) =
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
-proc listTodos(config: Config, state: TaskState) =
-  for todo in getTodos(config, state):
-    echo todo.lineContent
-
 proc process*(config: Config, task: string, filter: Option[TaskState]) =
 
   if task != "":
@@ -71,4 +67,4 @@ proc process*(config: Config, task: string, filter: Option[TaskState]) =
     listTodos(config, filter.get)
     return
 
-  completeTodo(config)
+  markTodo(config, TaskState.Done)
