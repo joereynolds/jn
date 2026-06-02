@@ -33,15 +33,15 @@ suite "Config tests":
     let expected = "fzf"
     let actual = getFuzzyProvider(c)
 
-    check(expected == actual)
+    check(expected == actual.name)
 
   test "It uses the specified fuzzy provider if set":
     var c = newConfig()
-    c.setSectionKey("", "fuzzy_provider", "test-fuzzy")
-    let expected = "test-fuzzy"
+    c.setSectionKey("", "fuzzy_provider", "fzy")
+    let expected = "fzy"
     let actual = getFuzzyProvider(c)
 
-    check(expected == actual)
+    check(expected == actual.name)
 
   test "It gets note locations from the config":
     var c = newConfig()
