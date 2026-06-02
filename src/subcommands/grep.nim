@@ -6,6 +6,12 @@ import ../grep
 
 const name = "grep"
 
+proc reduceToAscii(input: string): string =
+  result = ""
+  for c in input:
+    if c.ord in 32..126:
+      result.add(c)
+
 proc process*(config: Config, searchTerm: string) =
   if searchTerm.strip() == "":
     echo "Grep is missing the search string"
@@ -21,7 +27,7 @@ proc process*(config: Config, searchTerm: string) =
   var matchLookup = initTable[string, Match]()
 
   for match in matches:
-    let lineDisplay = match.lineContent.replace("\0", "").substr(0, 50) & "..."
+    let lineDisplay = reduceToAscii(match.lineContent).substr(0, 50) & "..."
     let key = match.file & " " & $match.lineNumber & ":" & lineDisplay
     displayChoices.add(key)
     matchLookup[key] = match
