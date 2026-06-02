@@ -55,7 +55,7 @@ proc lsProxy(
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy(query: seq[string] = @[]) = share.process(configuration, query.join(" "))
-proc starProxy() = star.process(configuration)
+proc starProxy(query: seq[string]) = star.process(configuration, query.join(" "))
 proc templateProxy() = tmpl.process(configuration)
 proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
 
