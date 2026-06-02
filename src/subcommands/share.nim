@@ -1,4 +1,4 @@
-import std/[cmdline, os, parsecfg, sequtils, sugar, strutils, httpclient]
+import std/[parsecfg, sequtils, sugar, strutils, httpclient]
 import ../[config, console]
 import ../fuzzy/fuzzy
 

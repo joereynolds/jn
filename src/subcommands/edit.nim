@@ -14,8 +14,7 @@ proc process*(config: Config, query: string) =
 
   choice.stripLineEnd()
 
-  if choice == "":
-    quit()
+  if choice == "": quit()
 
   let choices = choice.split("\0")
                       .map(c => c.strip())

@@ -1,4 +1,4 @@
-import std/[options, parsecfg, re, sequtils, strformat, strutils, sugar, tables, times]
+import std/[options, parsecfg, re, sequtils, strformat, strutils, tables, times]
 import ../[config, console, grep, files, todo]
 import ../fuzzy/fuzzy
 
@@ -19,8 +19,7 @@ proc completeTodo(config: Config) =
 
   choice.stripLineEnd()
 
-  if choice == "":
-    quit()
+  if choice == "": quit()
 
   let choices = choice.split("\0").filterIt(it != "")
 

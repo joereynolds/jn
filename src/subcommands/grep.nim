@@ -1,4 +1,4 @@
-import std/[os, osproc, parsecfg, strutils, tables]
+import std/[os, osproc, parsecfg, sequtils, strutils, sugar, tables]
 
 import ../fuzzy/fuzzy
 import ../config
@@ -34,11 +34,11 @@ proc process*(config: Config, searchTerm: string) =
 
   var choice = selectFromChoice(displayChoices, config)
   choice.stripLineEnd()
-  choice = choice.replace("\0", "")
 
   if choice == "":
     quit()
 
-  let matchedLookup = matchLookup[choice]
+  let choices = choice.split("\0").filterIt(it != "")
+  let quotedFiles = choices.map(f => quoteShell(matchLookup[f].file)).join(" ")
 
-  discard os.execShellCmd(getEditor() & " " & quoteShell(matchedLookup.file))
+  discard os.execShellCmd(getEditor() & " " & quotedFiles)
