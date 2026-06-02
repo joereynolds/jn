@@ -22,28 +22,25 @@ proc completeTodo(config: Config) =
   if choice == "":
     quit()
 
-  let choices = choice.split("\0")
-                      .map(c => c.strip())
-                      .filterIt(it != "")
+  let choices = choice.split("\0").filterIt(it != "")
 
   for choice in choices:
-
     let matchedFile = matchLookup[choice].file
     var matchedContent: string = matchLookup[choice].lineContent
     let matchedLineNumber = matchLookup[choice].lineNumber
     let today = now().format("YYYY-MM-dd")
-  
+
     matchedContent.add(" " & today)
-  
+
     writeToLine(
       matchedFile,
       matchedLineNumber,
       matchedContent.replace("[ ]", "[x]")
     )
-  
+
     let pattern = re"(\d+) - \[ \]"
     let replaced = choice.replace(pattern, "").strip()
-  
+
     console.success(
       &"Marked '{replaced}' as complete ({matchedFile})."
     )
