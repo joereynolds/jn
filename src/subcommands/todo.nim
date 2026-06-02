@@ -1,5 +1,6 @@
-import std/[options, parsecfg, re, strformat, strutils, tables, times]
-import ../[config, console, fuzzy, grep, files, todo]
+import std/[options, parsecfg, re, sequtils, strformat, strutils, tables, times]
+import ../[config, console, grep, files, todo]
+import ../fuzzy/fuzzy
 
 const name = "todo"
 
@@ -18,29 +19,31 @@ proc completeTodo(config: Config) =
 
   choice.stripLineEnd()
 
-  if choice == "":
-    quit()
+  if choice == "": quit()
 
-  let matchedFile = matchLookup[choice].file
-  var matchedContent: string = matchLookup[choice].lineContent
-  let matchedLineNumber = matchLookup[choice].lineNumber
-  let today = now().format("YYYY-MM-dd")
+  let choices = choice.split("\0").filterIt(it != "")
 
-  matchedContent.add(" " & today)
+  for choice in choices:
+    let matchedFile = matchLookup[choice].file
+    var matchedContent: string = matchLookup[choice].lineContent
+    let matchedLineNumber = matchLookup[choice].lineNumber
+    let today = now().format("YYYY-MM-dd")
 
-  writeToLine(
-    matchedFile,
-    matchedLineNumber,
-    matchedContent.replace("[ ]", "[x]")
-  )
+    matchedContent.add(" " & today)
 
-  let pattern = re"(\d+) - \[ \]"
-  let replaced = choice.replace(pattern, "").strip()
+    writeToLine(
+      matchedFile,
+      matchedLineNumber,
+      matchedContent.replace("[ ]", "[x]")
+    )
 
-  console.success(
-    &"Marked '{replaced}' as complete ({matchedFile})."
-  )
+    let pattern = re"(\d+) - \[ \]"
+    let replaced = choice.replace(pattern, "").strip()
 
+    console.success(
+      &"Marked '{replaced}' as complete ({matchedFile})."
+    )
+  
 proc addTodo(config: Config, todo: string) =
   let task = "- [ ] " & todo & "\p"
   let todoFile: string = getNotesPath(config) & "todo.md"

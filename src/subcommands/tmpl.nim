@@ -3,7 +3,7 @@ import std/[osproc, parsecfg, paths, strutils]
 
 import ../config
 import ../templates/templates
-import ../fuzzy
+import ../fuzzy/fuzzy
 
 const name = "template"
 

@@ -1,6 +1,7 @@
-import config
-import console
-import files
+import ../config
+import ../console
+import ../files
+import ../fuzzy/providers/provider
 
 import std/[os, osproc, parsecfg, sequtils, streams, strutils]
 
@@ -9,14 +10,14 @@ proc formatForFuzzy(matches: seq[string]): string =
 
 proc getSelectionFromFuzzy(
   choices: seq[string],
-  fuzzy: string,
+  fuzzy: FuzzyProvider,
   query: string = ""
 ): string =
   var p = startProcess(
-    fuzzy,
+    fuzzy.name,
     # TODO - this will break on any fuzzy finders
     # that don't support --query (thankfully fzy and fzf do)
-    args = ["--query", query],
+    args = fuzzy.flags & @["--query", query],
     options = {poUsePath}
   )
 
@@ -30,9 +31,9 @@ proc getSelectionFromFuzzy(
 
   return choice
 
-proc hasWarnedAboutNoFuzzy(fuzzy: string): bool =
-  if findExe(fuzzy) == "":
-    warn("Fuzzy finder " & fuzzy & " not installed on your system.")
+proc hasWarnedAboutNoFuzzy(fuzzy: FuzzyProvider): bool =
+  if findExe(fuzzy.name) == "":
+    warn("Fuzzy finder " & fuzzy.name & " not installed on your system.")
     warn("Try an alternative (fzf or fzy) for this command to work.")
     return true
 

@@ -1,5 +1,5 @@
-import std/[os, parsecfg, strutils, tempfiles]
-import ../fuzzy
+import std/[os, parsecfg, sequtils, strutils, sugar, tempfiles]
+import ../fuzzy/fuzzy
 import ../console
 import ../config
 
@@ -17,18 +17,24 @@ proc process*(config: Config, query: string) =
   if choice == "":
     quit()
 
-  var content = ""
-  try:
-    content = readFile(choice)
-  except IOError:
-    discard
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
 
-  removeFile(choice)
+  for choice in choices:
 
-  let (tempFile, path) = createTempFile("jn-", "")
-  tempfile.write(content)
+    var content = ""
+    try:
+      content = readFile(choice)
+    except IOError:
+      discard
 
-  let message = "Deleted " & choice & ". Backup is at " & path
-  success(message)
+    removeFile(choice)
 
-  close tempFile
+    let (tempFile, path) = createTempFile("jn-", "")
+    tempfile.write(content)
+
+    let message = "Deleted " & choice & ". Backup is at " & path
+    success(message)
+
+    close tempFile

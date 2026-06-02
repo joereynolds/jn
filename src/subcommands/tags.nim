@@ -1,6 +1,6 @@
 import std/[os, osproc, parsecfg, sequtils, strutils]
 
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../config
 import ../files
 import ../grep

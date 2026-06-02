@@ -1,7 +1,7 @@
-import std/[cmdline, dirs, os, parsecfg, paths, strutils, symlinks]
+import std/[cmdline, dirs, os, parsecfg, paths, sequtils, strutils, sugar, symlinks]
 
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../console
 
 const name = "star"
@@ -17,14 +17,13 @@ proc process*(config: Config) =
     query
   )
 
-  choice.stripLineEnd()
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
 
-  if choice == "":
-    quit()
+  for choice in choices:
+    let filename = extractFilename(choice)
+    createSymlink(Path(choice), Path(getNotesPath(config) & "starred" & DirSep & filename))
 
-  let message = "Starred file " & choice
-  let filename = extractFilename(choice)
-
-  success(message)
-
-  createSymlink(Path(choice), Path(getNotesPath(config) & "starred" & DirSep & filename))
+    let message = "Starred file " & choice
+    success(message)

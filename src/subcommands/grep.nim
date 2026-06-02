@@ -1,10 +1,16 @@
-import std/[os, osproc, parsecfg, strutils, tables]
+import std/[os, osproc, parsecfg, sequtils, strutils, sugar, tables]
 
-import ../fuzzy
+import ../fuzzy/fuzzy
 import ../config
 import ../grep
 
 const name = "grep"
+
+proc reduceToAscii(input: string): string =
+  result = ""
+  for c in input:
+    if c.ord in 32..126:
+      result.add(c)
 
 proc process*(config: Config, searchTerm: string) =
   if searchTerm.strip() == "":
@@ -13,17 +19,18 @@ proc process*(config: Config, searchTerm: string) =
 
   let matches = search(searchTerm, config)
 
+  if matches == @[]:
+    echo "No matches, quitting"
+    quit()
+
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
 
   for match in matches:
-    let key = match.file & " " & $match.lineNumber & ":" & match.lineContent.substr(0, 50) & "..."
+    let lineDisplay = reduceToAscii(match.lineContent).substr(0, 50) & "..."
+    let key = match.file & " " & $match.lineNumber & ":" & lineDisplay
     displayChoices.add(key)
     matchLookup[key] = match
-
-  if matches == @[]:
-    echo "No matches, quitting"
-    quit()
 
   var choice = selectFromChoice(displayChoices, config)
   choice.stripLineEnd()
@@ -31,6 +38,7 @@ proc process*(config: Config, searchTerm: string) =
   if choice == "":
     quit()
 
-  let matchedLookup = matchLookup[choice]
+  let choices = choice.split("\0").filterIt(it != "")
+  let quotedFiles = choices.map(f => quoteShell(matchLookup[f].file)).join(" ")
 
-  discard os.execShellCmd(getEditor() & " " & quoteShell(matchedLookup.file))
+  discard os.execShellCmd(getEditor() & " " & quotedFiles)

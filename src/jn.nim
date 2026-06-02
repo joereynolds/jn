@@ -54,7 +54,7 @@ proc lsProxy(
 
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
-proc shareProxy() = share.process(configuration)
+proc shareProxy(query: seq[string] = @[]) = share.process(configuration, query.join(" "))
 proc starProxy() = star.process(configuration)
 proc templateProxy() = tmpl.process(configuration)
 proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
@@ -118,11 +118,11 @@ dispatchMulti(
     positional = "query",
     help = {"plain": "Prevent implicitly adding prefixes and suffixes to your filename"}
   ],
-  [rmProxy,       cmdName = "rm",   positional = "query"],
-  [shareProxy,    cmdName = "share",                    ],
+  [rmProxy,       cmdName = "rm",    positional = "query"],
+  [shareProxy,    cmdName = "share", positional = "query"],
   [starProxy,     cmdName = "star",                     ],
   [templateProxy, cmdName = "template",                 ],
-  [tagsProxy,     cmdName = "tags", positional = "query"],
+  [tagsProxy,     cmdName = "tags",  positional = "query"],
   [
     todoProxy,
     cmdName = "todo",

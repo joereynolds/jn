@@ -1,7 +1,7 @@
-import std/[os, osproc, parsecfg, strutils]
+import std/[os, osproc, parsecfg, sequtils, strutils, sugar]
 
 import ../config
-import ../fuzzy
+import ../fuzzy/fuzzy
 
 const name = "edit"
 
@@ -14,7 +14,11 @@ proc process*(config: Config, query: string) =
 
   choice.stripLineEnd()
 
-  if choice == "":
-    quit()
+  if choice == "": quit()
 
-  discard os.execShellCmd(getEditor() & " " & quoteShell(choice))
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
+
+  let quotedFiles = choices.map(f => quoteShell(f)).join(" ")
+  discard os.execShellCmd(getEditor() & " " & quotedFiles)
