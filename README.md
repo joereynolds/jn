@@ -10,7 +10,7 @@ A command line notetaker and basic task manager
 - Create, remove, share and search your notes from the comfort of the terminal
 - Small. Like, less than a megabyte
 
-https://github.com/user-attachments/assets/621e4940-ab84-4e12-8599-f601a14df3f5
+https://github.com/user-attachments/assets/2b73cacb-2d75-452e-9c08-1220bc6af82a
 
 ### Requirements
 
