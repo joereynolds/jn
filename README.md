@@ -22,6 +22,12 @@ https://github.com/user-attachments/assets/2b73cacb-2d75-452e-9c08-1220bc6af82a
 
 Download Linux and Mac builds of `jn` from the [releases page](https://github.com/joereynolds/jn/releases).
 
+Also available on AUR as `jn-bin`
+
+```
+yay -S jn-bin
+```
+
 ### Quick start
 
 - `jn "my note title"` creates a note called `2026-01-01-my-note-title.md` and opens it in your `$EDITOR`.
