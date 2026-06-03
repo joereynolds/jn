@@ -56,7 +56,7 @@ proc printFiles(
 
     let name = lastPathPart(Path(note.name))
 
-    stdout.styledWrite({styleDim}, $parentDir(Path(note.name)))
+    dim($parentDir(Path(note.name)))
     stdout.write("/")
 
     if noPrintDate.isSome:
