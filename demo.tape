@@ -57,18 +57,23 @@
 #   ScrollUp[@<time>] [number]      Scroll terminal viewport up by rows
 #   ScrollDown[@<time>] [number]    Scroll terminal viewport down by rows
 
-Output demo.gif
+# Output demo.gif
+Output demo.webm
 
 Require jn
 
 Set Shell "bash"
 Set FontSize 18
-Set Width 1200
+Set Width 1000
 Set Height 600
-Set TypingSpeed 100ms
+Set TypingSpeed 75ms
 
 
 # Show raw invocation
+Sleep 1s
+Type "# jn on its own will give you an overview of your notes"
+Enter
+Sleep 1s
 Type "jn"
 Sleep 1s
 Enter
@@ -76,11 +81,14 @@ Sleep 2s
 Ctrl+l
 
 # Show creating notes
-
+Sleep 1s
+Type "# Give jn a string to start writing notes"
+Enter
 Sleep 1s
 Type "jn 'demo time'"
 Sleep 500ms
 Enter
+Sleep 500ms
 Type "iHello peepers!" 
 Sleep 400ms
 Escape
@@ -105,7 +113,7 @@ Ctrl+l
 
 # Edit the note
 Sleep 1s
-Type "# Edit your notes with jn edit"
+Type "# Edit notes with jn edit"
 Enter
 Type "jn edit" 
 Sleep 500ms
@@ -125,7 +133,7 @@ Ctrl+l
 
 # Grep
 Sleep 1s
-Type "# Search your notes with jn grep"
+Type "# Search notes with jn grep"
 Enter
 Type "jn grep peepers"
 Sleep 500ms
@@ -145,7 +153,7 @@ Ctrl+l
 
 # rm
 Sleep 1s
-Type "# Delete files with jn rm"
+Type "# Delete notes with jn rm"
 Enter
 Type "jn rm"
 Sleep 500ms
@@ -156,4 +164,82 @@ Enter
 Sleep 500ms
 Sleep 2s
 Ctrl+l
+
+
+
+# multi-select cat
+Sleep 1s
+Type "# Did I mention all commands support multi-selection?"
+Enter
+Type "jn cat"
+Sleep 500ms
+Enter
+Type "de"
+Tab
+Sleep 200ms
+Tab
+Sleep 200ms
+Tab
+Sleep 200ms
+Tab
+Sleep 500ms
+Enter
+Sleep 500ms
+Sleep 2s
+Ctrl+l
+
+
+# todos 
+Sleep 1s
+Type "# Oh, you can also manage tasks"
+Enter
+Type "jn todo --add 'bacon'"
+Enter
+Sleep 500ms
+Type "jn todo --add 'sausage'"
+Enter
+Sleep 500ms
+Type "jn todo --add 'eggs'"
+Enter
+Sleep 500ms
+Type "jn todo --add 'bread'"
+Enter
+Sleep 500ms
+Type "jn todo --add 'do NOT forget beans'"
+Enter
+Sleep 2s
+Ctrl+l
+
+
+Sleep 1s
+Type "# Let's complete some tasks"
+Enter
+Type "jn todo"
+Enter
+Sleep 500ms
+Tab
+Sleep 200ms
+Tab
+Sleep 200ms
+Tab
+Sleep 200ms
+Enter
+Sleep 2s
+Ctrl+l
+
+
+Sleep 1s
+Type "# Let's find our 'done' tasks"
+Enter
+Type "jn todo --filter done"
+Enter
+Sleep 3s
+Ctrl+l
+
+
+# The rest
+Sleep 1s
+Type "# There's a lot you can do that I haven't covered. Read the README :)"
+Enter
+Sleep 2s
 
