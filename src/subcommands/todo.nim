@@ -7,6 +7,10 @@ const name = "todo"
 proc markTodo(config: Config, state: TaskState) =
   let todos = getTodos(config, TaskState.Todo)
 
+  if todos == @[]:
+    info("You have 0 pending tasks. Create some with: jn todo --add 'your task here'")
+    return
+
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
 
