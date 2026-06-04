@@ -1,4 +1,4 @@
-version = "1.1.2"
+version = "1.3.1"
 
 author        = "Joe Reynolds"
 description   = "jn - A filebased CLI notetaker"
