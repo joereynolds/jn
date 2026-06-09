@@ -15,8 +15,10 @@ Available Commands:
   @<book>              Show all notes for a book
   c,cat                Fuzzy search and print notes
   conf,config          Open config in $EDITOR (""" & editor & ")" & """
+
   cp                   Fuzzy search and copy notes
   e,edit               Fuzzy search and open notes in $EDITOR (""" & editor & ")" & """
+
   /,grep,rg            Grep for term and fuzzy search to edit
   ls                   List all notes in your notes directory
   mv                   Fuzzy search and rename notes
