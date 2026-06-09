@@ -7,8 +7,8 @@ from ./todo as todoModule import TaskState
 import cligen
 
 import subcommands/[
-  book, cat, config as sconfig, edit,
-  grep, help, ls, mv, rm,
+  book, cat, config as sconfig, cp,
+  edit, grep, help, ls, mv, rm,
   share, star, tags, todo, tmpl,
   macros
 ]
@@ -42,6 +42,7 @@ proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[stri
 
 proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
 proc configProxy() = sconfig.process(configuration)
+proc cpProxy(query: seq[string] = @[]) = cp.process(configuration, query.join(" "))
 proc editProxy(query: seq[string] = @[]) = edit.process(configuration, query.join(" "))
 proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.join(" "))
 
@@ -109,6 +110,7 @@ clCfg.version = ""
 dispatchMulti(
   [catProxy,      cmdName = "cat",  positional = "query",],
   [configProxy,   cmdName = "config",                    ],
+  [cpProxy    ,   cmdName = "cp",   positional = "query" ],
   [editProxy,     cmdName = "edit", positional = "query",],
   [grepProxy,     cmdName = "grep", positional = "query",],
   [lsProxy,       cmdName = "ls",                        ],

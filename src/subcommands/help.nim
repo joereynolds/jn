@@ -13,17 +13,16 @@ Usage:
 
 Available Commands:
   @<book>              Show all notes for a book
-  c,cat                Fuzzy search and print note
+  c,cat                Fuzzy search and print notes
   conf,config          Open config in $EDITOR (""" & editor & ")" & """
-
-  e,edit               Fuzzy search and open note in $EDITOR (""" & editor & ")" & """
-
+  cp                   Fuzzy search and copy notes
+  e,edit               Fuzzy search and open notes in $EDITOR (""" & editor & ")" & """
   /,grep,rg            Grep for term and fuzzy search to edit
   ls                   List all notes in your notes directory
-  mv                   Fuzzy search and rename note
-  rm                   Fuzzy search and delete note
-  share                Share a note online. A permalink is given back (uses paste.rs, be respectful!)
-  star                 Mark a note as "starred"
+  mv                   Fuzzy search and rename notes
+  rm                   Fuzzy search and delete notes
+  share                Share notes online. A permalink is given back (uses paste.rs, be respectful)
+  star                 Mark notes as "starred"
   tags                 Search for notes by tag (e.g. #vim)
   template,temp,tm     Fuzzy search and edit template files
   t,todo               Fuzzy search all incomplete tasks and complete them

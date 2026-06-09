@@ -1,4 +1,4 @@
-import std/[algorithm, options, parsecfg, paths, times, terminal]
+import std/[algorithm, options, parsecfg, paths, times]
 import ../[config, console, files]
 
 const name = "ls"
