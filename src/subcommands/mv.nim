@@ -1,4 +1,4 @@
-import std/[os, parsecfg, sequtils, sugar, strutils, times]
+import std/[os, parsecfg, sequtils, sugar, strutils]
 
 import ../config
 import ../fuzzy/fuzzy
@@ -24,7 +24,15 @@ proc process*(config: Config, query: string, plain: bool) =
 
   for choice in choices:
 
-    stdout.write("Rename " & lastPathPart(choice) & " to ")
+    let dirPath = parentDir(choice)
+    let fileName = lastPathPart(choice)
+
+    stdout.write("Rename ")
+    dim(dirPath & "/")
+    stdout.write(filename)
+    stdout.write(" -> ")
+
+    dim($dirPath & "/")
     stdout.flushFile()
   
     let newName = stdin.readLine().strip()
@@ -33,26 +41,16 @@ proc process*(config: Config, query: string, plain: bool) =
       warn("No name provided, aborting")
       quit()
   
-    let suffix = getNotesSuffix(config)
     let dateFormat = getNotesPrefix(config)
-    let prefix = now().format(dateFormat)
-  
-    var fileName = prefix & "-" & newName.replace(" ", "-") & suffix
-  
-    if plain:
-      fileName = newName
-  
-    let oldPath = choice
-    let dirPath = parentDir(oldPath)
-    let newPath = dirPath / fileName
+    var input = newName.replace(" ", "-")
+    let newPath = dirPath / input
   
     if fileExists(newPath):
       warn("File already exists at: " & newPath)
-      quit()
+      continue
   
     try:
-      moveFile(oldPath, newPath)
-      success("Renamed: " & lastPathPart(oldPath) & " -> " & fileName)
+      moveFile(choice, newPath)
+      success("Renamed: " & choice & " -> " & newPath)
     except OSError as e:
       warn("Failed to rename file: " & e.msg)
-      quit()
