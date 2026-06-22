@@ -18,6 +18,7 @@ proc process*(config: Config, file: string) =
 
   if fileExists(target):
     warn(fmt"File '{file}' already exists.")
+    return
 
   moveFile(file, getNotesPath(config) & file)
 
