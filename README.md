@@ -57,6 +57,7 @@ Detailed info for each command is below this table.
 | `jn rm`              | Delete a note                      |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
 | `jn share`           | Upload a note and get a permalink  |                                                               |
+| `jn store`           | Store a note in your notes dir     |                                                               |
 | `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states |
 | `jn template`        | Edit a template                    |                                                               |
 | `jn config`          | Edit the config file               |                                                               |
