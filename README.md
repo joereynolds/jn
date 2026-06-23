@@ -6,8 +6,8 @@ A command line notetaker and basic task manager
 
 ### Features
 
-- All your notes managed as files. No databases or sign-ups
-- Create, remove, share and search your notes from the comfort of the terminal
+- All your notes managed as files. No databases or weird shenanigans
+- Create, remove, share and search your notes straight from the terminal
 - Small. Like, less than a megabyte
 - Do everything with a fuzzy finder, including multi-selection
 
