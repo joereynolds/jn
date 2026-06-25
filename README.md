@@ -43,20 +43,21 @@ Detailed info for each command is below this table.
 
 | Command              | Description                        | Flags                                                         |
 |----------------------|------------------------------------|---------------------------------------------------------------|
-| `jn`                 | List all books                     |                                                               |
+| `jn`                 | List books                         |                                                               |
 | `jn <title>`         | Create a note                      |                                                               |
 | `jn <title> @<book>` | Create a note in a specific book   |                                                               |
 | `jn @<book>`         | List notes in a book               |                                                               |
 | `jn @starred`        | List bookmarked notes              |                                                               |
-| `jn cat`             | Display a note                     |                                                               |
-| `jn edit`            | Edit a note                        |                                                               |
-| `jn ls`              | List all notes                     | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
+| `jn cat`             | Display noted                      |                                                               |
+| `jn cp `             | Copy notes                         |                                                               |
+| `jn edit`            | Edit notes                         |                                                               |
+| `jn ls`              | List notes                         | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
 | `jn grep <term>`     | Search notes by content            |                                                               |
 | `jn tag <tag>`       | Search notes by tag                |                                                               |
-| `jn mv`              | Rename a note                      | `--plain` Whether to append dates and extension during rename |
-| `jn rm`              | Delete a note                      |                                                               |
+| `jn mv`              | Rename notes                       | `--plain` Whether to append dates and extension during rename |
+| `jn rm`              | Delete notes                       |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
-| `jn share`           | Upload a note and get a permalink  |                                                               |
+| `jn share`           | Upload noted  and get a permalink  |                                                               |
 | `jn store`           | Store a note in your notes dir     |                                                               |
 | `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states |
 | `jn template`        | Edit a template                    |                                                               |
