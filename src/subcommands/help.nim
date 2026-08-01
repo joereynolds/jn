@@ -25,6 +25,7 @@ Available Commands:
   rm                   Fuzzy search and delete notes
   share                Share notes online. A permalink is given back (uses paste.rs, be respectful)
   star                 Mark notes as "starred"
+  store                Store an external note in your notes directory
   tags                 Search for notes by tag (e.g. #vim)
   template,temp,tm     Fuzzy search and edit template files
   t,todo               Fuzzy search all incomplete tasks and complete them

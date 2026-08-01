@@ -9,7 +9,7 @@ import cligen
 import subcommands/[
   book, cat, config as sconfig, cp,
   edit, grep, help, ls, mv, rm,
-  share, star, tags, todo, tmpl,
+  share, star, store, tags, todo, tmpl,
   macros
 ]
 
@@ -57,6 +57,7 @@ proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configu
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))
 proc shareProxy(query: seq[string] = @[]) = share.process(configuration, query.join(" "))
 proc starProxy(query: seq[string]) = star.process(configuration, query.join(" "))
+proc storeProxy(query: seq[string]) = store.process(configuration, query.join(" "))
 proc templateProxy() = tmpl.process(configuration)
 proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.join(" "))
 
@@ -122,8 +123,9 @@ dispatchMulti(
   ],
   [rmProxy,       cmdName = "rm",    positional = "query"],
   [shareProxy,    cmdName = "share", positional = "query"],
-  [starProxy,     cmdName = "star",                     ],
-  [templateProxy, cmdName = "template",                 ],
+  [starProxy,     cmdName = "star",                      ],
+  [storeProxy,    cmdName = "store", positional = "query"],
+  [templateProxy, cmdName = "template",                  ],
   [tagsProxy,     cmdName = "tags",  positional = "query"],
   [
     todoProxy,
