@@ -1,4 +1,4 @@
-import std/[algorithm, os, parsecfg, paths, strutils, tables, times]
+import std/[algorithm, os, parsecfg, paths, strformat, strutils, tables, times]
 import categories, config, console, templates/templates
 
 type DirectoryListing = Table[string, int]
@@ -132,7 +132,9 @@ proc printDirectories*(directories: DirectoryListing) =
 
   for directory in sortedDirs:
     let fileCount = directories[directory]
-    let noteCount = " (" & $fileCount & " notes" & ")"
+
+    let noteDisplay = (if fileCount == 1: "note" else: "notes")
+    let noteCount = fmt" ({$fileCount} {noteDisplay})"
 
     stdout.write(directory)
     info(noteCount)
