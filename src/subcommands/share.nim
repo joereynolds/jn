@@ -30,6 +30,6 @@ proc process*(config: Config, query: string) =
   
   try:
     let response = client.postContent(url, body=content)
-    success("Shared " & $count & (if count == 1: " note to " else: " notes to ") & response)
+    success("Shared " & $count & (if count == 1: " note to " else: " notes to ") & response & ".md")
   finally:
     client.close()
