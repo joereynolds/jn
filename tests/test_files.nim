@@ -29,6 +29,41 @@ suite "Files tests":
 
     check(expected == actual)
 
+  test "It does not added dashes if no prefix is present":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "")
+    c.setSectionKey("", "notes_suffix", ".md")
+
+    let actual = getFullNotePath("test-note-no-prefix", c, "my-book")
+    let expected = Path("/tmp/test-notes/my-book/" & "test-note-no-prefix.md")
+
+    check(expected == actual)
+
+  test "It removes trailing spaces before formatting the name (no notes_prefix)":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "")
+    c.setSectionKey("", "notes_suffix", ".md")
+
+    let actual = getFullNotePath("test note no prefix ", c, "my-book")
+    let expected = Path("/tmp/test-notes/my-book/" & "test-note-no-prefix.md")
+
+    check(expected == actual)
+
+  test "It removes trailing spaces before formatting the name (with notes_prefix)":
+    var c = newConfig()
+    c.setSectionKey("", "notes_location", "/tmp/test-notes/")
+    c.setSectionKey("", "notes_prefix", "YYYY-MM-dd")
+    c.setSectionKey("", "notes_suffix", ".md")
+
+    let actual = getFullNotePath("test note no prefix ", c, "my-book")
+    let today = now().format("YYYY-MM-dd")
+    let expected = Path("/tmp/test-notes/my-book/" & today & "-test-note-no-prefix.md")
+
+    check(expected == actual)
+
+
   test "The correct prefix is in the fullname":
     var c = newConfig()
     c.setSectionKey("", "notes_location", "/tmp/test-notes/")

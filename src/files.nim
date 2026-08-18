@@ -13,7 +13,10 @@ proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let dateFormat = getNotesPrefix(config)
   let prefix = now().format(dateFormat)
   let location = config.getNotesPath()
-  let fileName = prefix & "-" & note.replace(" ", "-") & suffix
+  var fileName = prefix & "-" & note.strip().replace(" ", "-") & suffix
+
+  if getNotesPrefix(config).strip().len == 0:
+    fileName = note.strip().replace(" ", "-") & suffix
 
   let baseLocation = 
     if book != "":
