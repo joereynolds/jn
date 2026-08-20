@@ -15,6 +15,9 @@ proc recentFiles(
 ): seq[FileRecord] =
   let byTime = fromFiles.sortedByIt(it.modifiedTime).reversed()
 
+  # Don't try and show more files than we have
+  var limit = min(limit, byTime.len)
+
   return byTime[0 .. limit - 1]
 
 proc compareDate(
