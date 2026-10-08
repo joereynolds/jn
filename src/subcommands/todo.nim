@@ -1,4 +1,4 @@
-import std/[options, parsecfg, re, sequtils, strformat, strutils, tables, times]
+import std/[os, options, parsecfg, re, sequtils, strformat, strutils, tables, times]
 import ../[config, console, grep, files, todo]
 import ../fuzzy/fuzzy
 
@@ -61,8 +61,19 @@ proc addTodo(config: Config, todo: string) =
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
-proc process*(config: Config, task: string, filter: Option[TaskState]) =
-  console.info(getTodoFile(config))
+proc process*(
+  config: Config,
+  task: string,
+  filter: Option[TaskState],
+  edit: bool
+) =
+  let todoFile = getTodoFile(config)
+
+  console.info(todoFile)
+
+  if edit:
+    discard os.execShellCmd(getEditor() & " " & todoFile)
+    return
 
   if task != "":
     addTodo(config, task)

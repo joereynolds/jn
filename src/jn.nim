@@ -63,11 +63,13 @@ proc tagsProxy(query: seq[string] = @[]) = tags.process(configuration, query.joi
 
 proc todoProxy(
   add: seq[string] = @[],
-  filter: Option[TaskState] = none(TaskState)
+  filter: Option[TaskState] = none(TaskState),
+  edit: bool = false
 ) = todo.process(
   configuration,
   add.join(" "),
-  filter
+  filter,
+  edit
 )
 
 proc fallback(params: seq[string]) =
