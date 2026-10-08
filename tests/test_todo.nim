@@ -148,6 +148,6 @@ suite "Todo tests":
     c.setSectionKey("", "notes_location", $location)
 
     let taskString = "It's a damn fine day to be nude"
-    process(c, taskString, none(TaskState))
+    process(c, taskString, none(TaskState), false)
     let actual = readFile($todoFile)
     check(taskString in actual)
