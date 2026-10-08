@@ -47,21 +47,22 @@ proc markTodo(config: Config, state: TaskState) =
     let replaced = choice.replace(pattern, "").strip()
 
     console.success(fmt"Marked '{replaced}' as complete ({matchedFile}).")
+
+proc getTodoFile(config: Config): string =
+  getNotesPath(config) & "todo.md"
   
 proc addTodo(config: Config, todo: string) =
   let task = "- [ ] " & todo & "\p"
-  let todoFile: string = getNotesPath(config) & "todo.md"
 
-  let handle = open(
-    todoFile,
-    fmAppend
-  )
+  let todoFile = getTodoFile(config)
+  let handle = open(todoFile, fmAppend)
 
   defer: handle.close()
   write(handle, task)
   success("Wrote '" & todo & "' to " & todoFile)
 
 proc process*(config: Config, task: string, filter: Option[TaskState]) =
+  console.info(getTodoFile(config))
 
   if task != "":
     addTodo(config, task)
