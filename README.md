@@ -338,8 +338,8 @@ Saved in ~/Documents/notes/vim/2025-12-07-quitting-vim.md
 `jn todo` is able to manage tasks with markdown checkbox syntax.
 
 When invoked, it will bring up a fuzzy finder containing all of your incomplete
-tasks. When an item is selected, it will mark that item/task as completed along
-with today's date next to the item.
+tasks. When an item is selected, it will mark that task as completed along
+with today's date next to the task.
 
 For example:
 
@@ -367,7 +367,28 @@ You can add todos with the `--add` or `-a` flag.
 jn todo --add "Do the dishes"
 ```
 
-Will add a markdown task in your `notes_location` / todo.md
+Will add a markdown task in your `notes_location` / todo.md along with
+information on when it was created:
+
+```
+- [ ] Do the dishes +2026-12-03
+```
+
+#### Due dates
+
+Let's say a task is due for a certain day. Pass the `--due` or `-d` flag along
+with the rest of the argument and it will append it to the task.
+
+```
+jn todo --add "No seriously, do the dishes" --due "2026-12-04"
+```
+
+Becomes
+
+```
+- [ ] No seriously, do the dishes +2026-12-03 !2026-12-04
+```
+
 
 #### Filtering todos
 
