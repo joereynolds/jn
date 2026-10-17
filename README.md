@@ -59,7 +59,7 @@ Detailed info for each command is below this table.
 | `jn star`            | Bookmark a note                    |                                                               |
 | `jn share`           | Upload noted  and get a permalink  |                                                               |
 | `jn store`           | Store a note in your notes dir     |                                                               |
-| `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states |
+| `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states<br> `--edit` Open the todo file for editing |
 | `jn template`        | Edit a template                    |                                                               |
 | `jn config`          | Edit the config file               |                                                               |
 | `jn help`            | Show help                          |                                                               |
