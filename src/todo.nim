@@ -18,10 +18,15 @@ type
 
 ## The information about when a task was created/due etc... i.e. !2026-01-01
 type 
-  TaskDate* {.pure.} = enum
+  TaskDateMarker* {.pure.} = enum
     Due = "!"
     Created = "+"
     Cancelled = "-"
+    Done = "x"
+
+    # Have to specify these but they are unused
+    Wip = ""
+    Todo = ""
 
 proc toSyntax*(state: TaskState): TaskStateSyntax =
   case state:
@@ -30,14 +35,12 @@ proc toSyntax*(state: TaskState): TaskStateSyntax =
   of Wip: TaskStateSyntax.Wip
   of Todo: TaskStateSyntax.Todo
 
-proc toTodoTask*(state: TaskState): string =
-  ## Render the state to a friendly string
-  ## for the user
+proc toTaskDateMarker*(state: TaskState): TaskDateMarker =
   case state:
-  of Cancelled: "cancelled"
-  of Done: "completed"
-  of Wip: "in-progress"
-  of Todo: "todo"
+  of Cancelled: TaskDateMarker.Cancelled
+  of Done: TaskDateMarker.Done
+  of Wip: TaskDateMarker.Wip
+  of Todo: TaskDateMarker.Todo
 
 proc getTodos*(config: Config, state: TaskState): seq[Match] =
   let pattern = "^- \\[" & $toSyntax(state) & "\\] "

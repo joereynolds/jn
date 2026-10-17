@@ -34,8 +34,8 @@ proc markTodo(config: Config, state: TaskState) =
     let today = now().format("YYYY-MM-dd")
 
     # add a mark of when we changed the task to that state
-    # i.e. (completed 2026-03-03)
-    matchedContent.add(fmt" ({toTodoTask(state)}: {today})")
+    # i.e. x2026-03-03
+    matchedContent.add(fmt" {toTaskDateMarker(state)}{today}")
 
     writeToLine(
       matchedFile,
@@ -51,10 +51,15 @@ proc markTodo(config: Config, state: TaskState) =
 proc getTodoFile(config: Config): string =
   getNotesPath(config) & "todo.md"
   
-proc addTodo(config: Config, todo: string) =
+proc addTodo(config: Config, todo: string, due: Option[string]) =
   let today = now().format("YYYY-MM-dd")
-  let creation = " " & $TaskDate.Created & today
-  let task = "- [ ] " & todo & creation & "\p"
+  let creation = " " & $TaskDateMarker.Created & today
+
+  var dueDate = ""
+  if due.isSome:
+    dueDate = $TaskDateMarker.Due & due.get
+
+  let task = "- [ ] " & todo & creation & " " & dueDate & "\p"
 
   let todoFile = getTodoFile(config)
   let handle = open(todoFile, fmAppend)
@@ -67,8 +72,10 @@ proc process*(
   config: Config,
   task: string,
   filter: Option[TaskState],
-  edit: bool
+  edit: bool,
+  due: Option[string]
 ) =
+
   let todoFile = getTodoFile(config)
 
   console.info(todoFile)
@@ -78,7 +85,7 @@ proc process*(
     return
 
   if task != "":
-    addTodo(config, task)
+    addTodo(config, task, due)
     return
 
   if filter.isSome:
