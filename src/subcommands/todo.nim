@@ -52,7 +52,9 @@ proc getTodoFile(config: Config): string =
   getNotesPath(config) & "todo.md"
   
 proc addTodo(config: Config, todo: string) =
-  let task = "- [ ] " & todo & "\p"
+  let today = now().format("YYYY-MM-dd")
+  let creation = " +" & today
+  let task = "- [ ] " & todo & creation & "\p"
 
   let todoFile = getTodoFile(config)
   let handle = open(todoFile, fmAppend)
