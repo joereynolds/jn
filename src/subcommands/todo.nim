@@ -34,8 +34,8 @@ proc markTodo(config: Config, state: TaskState) =
     let today = now().format("YYYY-MM-dd")
 
     # add a mark of when we changed the task to that state
-    # i.e. (completed 2026-03-03)
-    matchedContent.add(fmt" ({toTodoTask(state)}: {today})")
+    # i.e. x2026-03-03
+    matchedContent.add(fmt" {toTaskDateMarker(state)}{today})")
 
     writeToLine(
       matchedFile,
@@ -53,7 +53,7 @@ proc getTodoFile(config: Config): string =
   
 proc addTodo(config: Config, todo: string) =
   let today = now().format("YYYY-MM-dd")
-  let creation = " " & $TaskDate.Created & today
+  let creation = " " & $TaskDateMarker.Created & today
   let task = "- [ ] " & todo & creation & "\p"
 
   let todoFile = getTodoFile(config)
