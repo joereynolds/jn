@@ -389,10 +389,16 @@ Becomes
 - [ ] No seriously, do the dishes +2026-12-03 !2026-12-04
 ```
 
+#### Editing the todo manually
+
+For convenience, you can do `jn todo --edit` to open up the `todo.md` file.
+`jn` actually pulls all open tasks (not just ones from `todo.md`) so you may
+see more in the fuzzy finder than are present in the `todo.md` file alone.
 
 #### Filtering todos
 
-If you want to see all your done tasks (or other states), you can do with the `--filter` flag.
+If you want to see all your done tasks (or other states), you can do with the
+`--filter` flag.
 
 There are 4 states that a task can be in demonstrated below:
 
