@@ -53,7 +53,7 @@ proc getTodoFile(config: Config): string =
   
 proc addTodo(config: Config, todo: string) =
   let today = now().format("YYYY-MM-dd")
-  let creation = " +" & today
+  let creation = " " & $TaskDate.Created & today
   let task = "- [ ] " & todo & creation & "\p"
 
   let todoFile = getTodoFile(config)

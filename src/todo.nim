@@ -8,12 +8,20 @@ type
     Cancelled = "cancelled"
     Todo = "todo"
 
+## The state of the task itself
 type
-  TaskStateSyntax = enum
+  TaskStateSyntax {.pure.} = enum
     Done = "x"
     Wip = "/"
     Cancelled = "-"
     Todo = " "
+
+## The information about when a task was created/due etc... i.e. !2026-01-01
+type 
+  TaskDate* {.pure.} = enum
+    Due = "!"
+    Created = "+"
+    Cancelled = "-"
 
 proc toSyntax*(state: TaskState): TaskStateSyntax =
   case state:
