@@ -1,4 +1,8 @@
-import std/[os, options, parsecfg, re, sequtils, strformat, strutils, tables, times]
+import std/[
+  os, options, parsecfg, re, 
+  sequtils, strformat, strutils, 
+  tables, terminal, times
+]
 import ../[config, console, grep, files, todo]
 import ../fuzzy/fuzzy
 
@@ -86,6 +90,13 @@ proc process*(
 
   if task != "":
     addTodo(config, task, due)
+    return
+
+  if not stdin.isatty():
+    let stdinTask = stdin.readAll().strip()
+
+    if stdinTask != "":
+      addTodo(config, stdinTask, due)
     return
 
   if filter.isSome:

@@ -48,7 +48,7 @@ Detailed info for each command is below this table.
 | `jn <title> @<book>` | Create a note in a specific book   |                                                               |
 | `jn @<book>`         | List notes in a book               |                                                               |
 | `jn @starred`        | List bookmarked notes              |                                                               |
-| `jn cat`             | Display noted                      |                                                               |
+| `jn cat`             | Display notes                      |                                                               |
 | `jn cp `             | Copy notes                         |                                                               |
 | `jn edit`            | Edit notes                         |                                                               |
 | `jn ls`              | List notes                         | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
@@ -57,7 +57,7 @@ Detailed info for each command is below this table.
 | `jn mv`              | Rename notes                       | `--plain` Whether to append dates and extension during rename |
 | `jn rm`              | Delete notes                       |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
-| `jn share`           | Upload noted  and get a permalink  |                                                               |
+| `jn share`           | Upload notes and get a permalink  |                                                               |
 | `jn store`           | Store a note in your notes dir     |                                                               |
 | `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states<br> `--edit` Open the todo file for editing |
 | `jn template`        | Edit a template                    |                                                               |
@@ -338,27 +338,27 @@ Saved in ~/Documents/notes/vim/2025-12-07-quitting-vim.md
 `jn todo` is able to manage tasks with markdown checkbox syntax.
 
 When invoked, it will bring up a fuzzy finder containing all of your incomplete
-tasks. When an item is selected, it will mark that task as completed along
+tasks. When a task is selected, it will mark that task as completed along
 with today's date next to the task.
 
 For example:
 
 ```
 > jn todo
-user selects and confirms their todo item
+user selects and confirms their task
 > Marked 'drink protein shake' as complete (/home/joe/Documents/jn/notes/Home.md).
 ```
 
 An incomplete task has the following formatting:
 
 ```
-- [ ] This is an incomplete task seen in extended Markdown examples
+- [ ] This is an incomplete task
 ```
 
 A complete task has the following formatting:
 
 ```
-- [x] This is a complete task seen in extended Markdown examples
+- [x] This is a complete task
 ```
 
 You can add todos with the `--add` or `-a` flag.
@@ -372,6 +372,12 @@ information on when it was created:
 
 ```
 - [ ] Do the dishes +2026-12-03
+```
+
+`--add` also accepts stdin if you want to pipe into it:
+
+```
+echo "some really important thing" | jn todo --add
 ```
 
 #### Due dates
