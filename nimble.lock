@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "packages": {
+    "cligen": {
+      "version": "1.9.5",
+      "vcsRevision": "f082560a4bbd4afa1b35e9810b291d17c265b666",
+      "url": "https://github.com/c-blake/cligen.git",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "f7512afc5f8d11e252e2ced2dfdbc251bb575b4c"
+      }
+    }
+  },
+  "tasks": {}
+}

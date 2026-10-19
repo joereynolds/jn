@@ -9,3 +9,6 @@ testresults/
 
 # Nix result
 result
+nimble.develop
+nimble.paths
+nimbledeps
