@@ -1,5 +1,5 @@
 import std/os
-import std/[osproc, parsecfg, paths, strutils]
+import std/[osproc, parsecfg, paths, sequtils, strutils, sugar]
 
 import ../config
 import ../templates/templates
@@ -18,4 +18,9 @@ proc process*(config: Config) =
   if choice == "":
     quit()
 
-  discard os.execShellCmd(getEditor() & " " & quoteShell(choice))
+  let choices = choice.split("\0")
+                      .map(c => c.strip())
+                      .filterIt(it != "")
+
+  let quotedFiles = choices.map(f => quoteShell(f)).join(" ")
+  discard os.execShellCmd(getEditor() & " " & quotedFiles)
