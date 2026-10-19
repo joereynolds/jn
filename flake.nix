@@ -11,7 +11,7 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
-    jn = pkgs.callPackage ./default.nix {};
+    jn = pkgs.callPackage ./nix/default.nix {};
   in {
     packages.${system} = {
       inherit jn;
