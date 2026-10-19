@@ -95,7 +95,7 @@ Complete configuration:
 ; By default this is XDG_DATA_HOME/jn/
 ; e.g. ~/.local/share/jn
 ;
-; templates_location ="~/.local/share/jn"
+; template_location ="~/.local/share/jn"
 
 ; The prefix of the note. I.e. what to prepend the title with.
 ; Meaning that if you create a note called "daily journal",
