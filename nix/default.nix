@@ -5,7 +5,7 @@
 }:
 buildNimPackage {
   pname = "jn";
-  version = "1.3.1";
+  version = "1.5.0";
 
   src = ../.;
   lockFile = ./lock.json;

@@ -13,7 +13,7 @@ import subcommands/[
   macros
 ]
 
-clCfg.version = "1.3.1"
+clCfg.version = "1.5.0"
 clCfg.noHelpHelp = true
 
 let origRender = clCfg.render
