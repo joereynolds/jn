@@ -1,6 +1,5 @@
-import std/[paths, times]
-
-const keyword = "today"
+import std/[paths]
+import ../../date
 
 proc process*(note: Path): string =
-  return now().format("YYYY-MM-dd")
+  getRelativeDate("today")
