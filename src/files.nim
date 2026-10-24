@@ -8,6 +8,9 @@ type
     name*: string
     modifiedTime*: Time
 
+proc getNotesFile(config: Config): string =
+  getNotesPath(config) & "notes.md"
+
 proc getFullNotePath*(note: string, config: Config, book: string = ""): Path =
   let suffix = getNotesSuffix(config)
   let dateFormat = getNotesPrefix(config)
@@ -64,6 +67,16 @@ proc createNote*(noteName: string, config: Config, book: string = "") =
   if exitCode == 0 and fileExists($name):
     let message = "Created " & $name
     success(message)
+
+# Adds a note from the --quick option straight into notes.md
+proc addNote*(config: Config, note: string) =
+  let noteLine = note & "\p"
+  let notes = getNotesFile(config)
+  let handle = open(notes, fmAppend)
+
+  defer: handle.close()
+  write(handle, noteLine)
+  success("Wrote '" & note & "' to " & notes)
 
 proc isSkippable(filename: string): bool =
   let ext = filename.splitFile.ext.toLowerAscii()
