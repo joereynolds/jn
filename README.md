@@ -51,7 +51,7 @@ Detailed info for each command is below this table.
 | `jn cat`             | Display notes                      |                                                               |
 | `jn cp `             | Copy notes                         |                                                               |
 | `jn edit`            | Edit notes                         |                                                               |
-| `jn ls`              | List notes                         | `--recent [n]` Display the N most recently edited notes <br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
+| `jn ls`              | List notes                         | `--recent [n]` Display the N most recently edited notes <br>`--stale [n]` Display the N oldest edited notes<br>`--before` Show notes before this date (yyyy-MM-dd format)<br> `--after` Show notes after this date (yyyy-MM-dd format)<br>`--no-print-date` Hides the date display     |
 | `jn grep <term>`     | Search notes by content            |                                                               |
 | `jn tag <tag>`       | Search notes by tag                |                                                               |
 | `jn mv`              | Rename notes                       | `--plain` Whether to append dates and extension during rename |

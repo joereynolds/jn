@@ -48,10 +48,11 @@ proc grepProxy(query: seq[string] = @[]) = grep.process(configuration, query.joi
 
 proc lsProxy(
   recent: Option[int] = none(int),
+  stale: Option[int] = none(int),
   after: Option[string] = none(string),
   before: Option[string] = none(string),
   noPrintDate: Option[bool] = none(bool),
-) = ls.process(configuration, recent, after, before, noPrintDate)
+) = ls.process(configuration, recent, stale, after, before, noPrintDate)
 
 proc mvProxy(query: seq[string] = @[], plain: bool = false) = mv.process(configuration, query.join(" "), plain)
 proc rmProxy(query: seq[string] = @[]) = rm.process(configuration, query.join(" "))

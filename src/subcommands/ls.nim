@@ -20,6 +20,18 @@ proc recentFiles(
 
   return byTime[0 .. limit - 1]
 
+proc staleFiles(
+  config: Config,
+  limit: int = 15,
+  fromFiles: seq[FileRecord]
+): seq[FileRecord] =
+  let byTime = fromFiles.sortedByIt(it.modifiedTime)
+
+  # Don't try and show more files than we have
+  var limit = min(limit, byTime.len)
+
+  return byTime[0 .. limit - 1]
+
 proc compareDate(
   date: string,
   fromFiles: seq[FileRecord],
@@ -73,6 +85,7 @@ proc printFiles(
 proc process*(
   config: Config,
   recent: Option[int],
+  stale: Option[int],
   after: Option[string],
   before: Option[string],
   noPrintDate: Option[bool]
@@ -89,5 +102,8 @@ proc process*(
 
   if recent.isSome:
     files = recentFiles(config, recent.get, allFiles)
+
+  if stale.isSome:
+    files = staleFiles(config, stale.get, allFiles)
 
   printFiles(files, config, noPrintDate)
