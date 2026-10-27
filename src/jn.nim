@@ -95,6 +95,10 @@ if paramCount() > 0 and params[0].startsWith("@"):
   book.process(configuration, params)
   quit()
 
+if params[0] in @["-q", "--quick"]:
+  files.addNote(configuration, params[1])
+  quit()
+
 # Handle note creation, i.e. "jn 'my super cool note'"
 if paramCount() > 0 and params[0] notin subcommands and params[0] notin aliasMap and not params[0].startsWith("-"):
   fallback(params)
