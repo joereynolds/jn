@@ -57,31 +57,6 @@ proc compareDate(
 
   return datedNotes
 
-proc printFiles(
-  notes: seq[FileRecord],
-  config: Config,
-  noPrintDate: Option[bool],
-) =
-  for note in notes:
-
-    let dir = relativePath(
-      Path(note.name),
-      Path(getNotesPath(config))
-    )
-
-    let name = lastPathPart(Path(note.name))
-
-    dim($parentDir(Path(note.name)))
-    stdout.write("/")
-
-    if noPrintDate.isSome:
-      stdout.writeLine($name)
-
-    if noPrintDate.isNone:
-      stdout.write($name)
-      let mtime = note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
-      info(" (" & mtime & ")")
-
 proc process*(
   config: Config,
   recent: Option[int],

@@ -48,6 +48,7 @@ Detailed info for each command is below this table.
 | `jn <title> @<book>` | Create a note in a specific book   |                                                               |
 | `jn @<book>`         | List notes in a book               |                                                               |
 | `jn @starred`        | List bookmarked notes              |                                                               |
+| `jn archive`         | Archive notes                      | `--ls` Display the archive                                    |
 | `jn cat`             | Display notes                      |                                                               |
 | `jn cp `             | Copy notes                         |                                                               |
 | `jn edit`            | Edit notes                         |                                                               |

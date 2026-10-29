@@ -7,6 +7,7 @@ from ./todo as todoModule import TaskState
 import cligen
 
 import subcommands/[
+  archive,
   book, cat, config as sconfig, cp,
   edit, grep, help, ls, mv, rm,
   share, star, store, tags, todo, tmpl,
@@ -39,6 +40,12 @@ proc mergeParams(cmdNames: seq[string], cmdLine = commandLineParams()): seq[stri
   result = cmdLine
   if result.len > 0 and result[0] in aliasMap:
     result[0] = aliasMap[result[0]]
+
+proc archiveProxy(
+  query: seq[string] = @[],
+  ls: Option[bool] = none(bool),
+  noPrintDate: Option[bool] = none(bool)
+) = archive.process(configuration, query.join(" "), ls, noPrintDate)
 
 proc catProxy(query: seq[string] = @[]) = cat.process(configuration, query.join(" "))
 proc configProxy() = sconfig.process(configuration)
@@ -114,6 +121,7 @@ clCfg.version = ""
 
 # Everything else...
 dispatchMulti(
+  [archiveProxy,  cmdName = "archive",  positional = "query",],
   [catProxy,      cmdName = "cat",  positional = "query",],
   [configProxy,   cmdName = "config",                    ],
   [cpProxy    ,   cmdName = "cp",   positional = "query" ],

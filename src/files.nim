@@ -1,4 +1,4 @@
-import std/[algorithm, os, parsecfg, paths, strformat, strutils, tables, times]
+import std/[algorithm, options, os, parsecfg, paths, strformat, strutils, tables, times]
 import categories, config, console, templates/templates
 
 type DirectoryListing = Table[string, int]
@@ -141,6 +141,31 @@ proc printDirectories*(directories: DirectoryListing) =
 
     stdout.write(directory)
     info(noteCount)
+
+proc printFiles*(
+  notes: seq[FileRecord],
+  config: Config,
+  noPrintDate: Option[bool],
+) =
+  for note in notes:
+
+    let dir = relativePath(
+      Path(note.name),
+      Path(getNotesPath(config))
+    )
+
+    let name = lastPathPart(Path(note.name))
+
+    dim($parentDir(Path(note.name)))
+    stdout.write("/")
+
+    if noPrintDate.isSome:
+      stdout.writeLine($name)
+
+    if noPrintDate.isNone:
+      stdout.write($name)
+      let mtime = note.modifiedTime.format("YYYY-MM-dd HH:mm:ss")
+      info(" (" & mtime & ")")
 
 proc writeToLine*(file: string, lineNumber: int, content: string) =
   var lines = readfile(file).splitLines()
