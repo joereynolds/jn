@@ -19,7 +19,8 @@ proc markTodo(config: Config, state: TaskState) =
   var matchLookup = initTable[string, Match]()
 
   for i, match in todos:
-    let key = $i & " " & match.lineContent
+    let displayContent = match.lineContent[5..^1]
+    let key = $i & "." & displayContent
     displayChoices.add(key)
     matchLookup[key] = match
 
