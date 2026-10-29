@@ -1,5 +1,5 @@
-import std/[algorithm, options, parsecfg, paths, times]
-import ../[config, console, files]
+import std/[algorithm, options, parsecfg, times]
+import ../[config, files]
 
 const name = "ls"
 const dateFormat = "yyyy-MM-dd"

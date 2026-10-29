@@ -13,6 +13,7 @@ Usage:
 
 Available Commands:
   @<book>              Show all notes for a book
+  a,archive            Fuzzy search and archive notes
   c,cat                Fuzzy search and print notes
   conf,config          Open config in $EDITOR (""" & editor & ")" & """
 

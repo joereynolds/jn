@@ -46,4 +46,4 @@ proc process*(
     moveFile(choice, joinPath($archive, filename))
 
   let count = choices.len
-  success("Archived " & $count & " files")
+  success("Archived " & $count & " files into " & $archive)
