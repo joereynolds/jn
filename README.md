@@ -302,6 +302,22 @@ Handy for when you forgot what you were working on.
 jn ls --recent 6 # return the 6 most recently edited notes
 ```
 
+### Archive a note
+
+```
+jn archive
+```
+
+You've deemed a note too old and crusty to serve any real purpose but you have
+a wicked attachment to it.
+
+Run the above command and select a note. Once selected it will archive the
+note. Moving it to your `notes_location`/`.jn-archive`.
+
+Items in the archive don't display in any search results.
+
+To see your archive for a quick sanity check, you can do `jn archive --ls`
+
 ### Share a note
 
 ```
