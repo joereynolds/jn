@@ -140,6 +140,52 @@ suite "Todo tests":
     check(len(actual) == 1)
     check(actual[0].lineContent == "- [/] A wip task")
 
+  test "It only returns todo state from a mixed file":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/all-states")
+    c.setSectionKey("", "notes_location", $location)
+
+    let actual = getTodos(c, TaskState.Todo)
+
+    check(len(actual) == 1)
+    check(actual[0].lineContent == "- [ ] A todo task")
+
+  test "It only returns done state from a mixed file":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/all-states")
+    c.setSectionKey("", "notes_location", $location)
+
+    let actual = getTodos(c, TaskState.Done)
+
+    check(len(actual) == 1)
+    check(actual[0].lineContent == "- [x] A done task")
+
+  test "It only returns cancelled state from a mixed file":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/all-states")
+    c.setSectionKey("", "notes_location", $location)
+
+    let actual = getTodos(c, TaskState.Cancelled)
+
+    check(len(actual) == 1)
+    check(actual[0].lineContent == "- [-] A cancelled task")
+
+  test "It adds todos with a due date (--add with --due) specified":
+    var c = newConfig()
+
+    let location = Path("./tests/data/todo/all-states")
+    let todoFile = location / Path("todo.md")
+    c.setSectionKey("", "notes_location", $location)
+
+    let taskString = "A task with a due date"
+    process(c, taskString, none(TaskState), false, some("2026-12-25"))
+    let actual = readFile($todoFile)
+    check(taskString in actual)
+    check("!2026-12-25" in actual)
+
   test "It adds todos with a task (--add) specified":
     var c = newConfig()
 

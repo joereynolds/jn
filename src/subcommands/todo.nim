@@ -18,8 +18,14 @@ proc markTodo(config: Config, state: TaskState) =
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
 
+  # TODO - Use TaskStateSyntax here for + and x
+  let creationDatePattern = re"\+\d{4}-\d{2}-\d{2}"
+  let completionDatePattern = re"x\d{4}-\d{2}-\d{2}"
+
   for i, match in todos:
     let displayContent = match.lineContent[5..^1]
+      .replace(creationDatePattern, "")
+      .replace(completionDatePattern, "")
     let key = $i & "." & displayContent
     displayChoices.add(key)
     matchLookup[key] = match
