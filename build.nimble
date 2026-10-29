@@ -12,3 +12,6 @@ requires "cligen >= 1.9.5"
 
 task release, "Builds the project for production":
   exec "nimble build -d:ssl -d:danger --passL:-s --mm:arc --opt:size"
+
+task watch, "Watch the project locally and compile when changes are made":
+  exec "git ls-files | entr nimble build"
