@@ -42,8 +42,10 @@ proc process*(
   discard existsOrCreateDir($archive)
 
   for choice in choices:
-    let filename = extractFilename(choice)
-    moveFile(choice, joinPath($archive, filename))
+    let fileName = extractFilename(choice)
+    let fullName = choice.replace("/", "-")[1..^1] # Trim off the '/'
+    let destination = joinPath($archive, fullName)
 
-  let count = choices.len
-  success("Archived " & $count & " files into " & $archive)
+    moveFile(choice, destination)
+
+    success("Archived " & $fileName & " -> " & destination)
