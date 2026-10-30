@@ -1,5 +1,6 @@
 import std/[options, os, parsecfg, paths, strutils, unittest]
-import ../src/[grep, todo]
+import ../src/[grep]
+import ../src/todo/todo
 import ../src/subcommands/todo
 
 
@@ -181,7 +182,7 @@ suite "Todo tests":
     c.setSectionKey("", "notes_location", $location)
 
     let taskString = "A task with a due date"
-    process(c, taskString, none(TaskState), false, some("2026-12-25"))
+    process(c, taskString, none(TaskState), false, some("2026-12-25"), false)
     let actual = readFile($todoFile)
     check(taskString in actual)
     check("!2026-12-25" in actual)
@@ -194,6 +195,13 @@ suite "Todo tests":
     c.setSectionKey("", "notes_location", $location)
 
     let taskString = "It's a damn fine day to be nude"
-    process(c, taskString, none(TaskState), false, none(string))
+    process(c, taskString, none(TaskState), false, none(string), false)
     let actual = readFile($todoFile)
     check(taskString in actual)
+
+  test "It parses out the due date correctly":
+    let task = "- [ ] Greet Santa !2026-12-25"
+    let actual = getDueDate(task)[0]
+    let expected = "!2026-12-25"
+    check(expected == actual)
+

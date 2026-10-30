@@ -3,10 +3,12 @@ import std/[
   sequtils, strformat, strutils, 
   tables, terminal, times
 ]
-import ../[config, console, grep, files, todo]
+import ../[config, console, grep, files]
+import ../todo/[agenda, todo]
 import ../fuzzy/fuzzy
 
 const name = "todo"
+
 
 proc markTodo(config: Config, state: TaskState) =
   let todos = getTodos(config, TaskState.Todo)
@@ -18,15 +20,9 @@ proc markTodo(config: Config, state: TaskState) =
   var displayChoices: seq[string] = @[]
   var matchLookup = initTable[string, Match]()
 
-  # TODO - Use TaskStateSyntax here for + and x
-  let creationDatePattern = re"\+\d{4}-\d{2}-\d{2}"
-  let completionDatePattern = re"x\d{4}-\d{2}-\d{2}"
-
   for i, match in todos:
-    let displayContent = match.lineContent[5..^1]
-      .replace(creationDatePattern, "")
-      .replace(completionDatePattern, "")
-    let key = $i & "." & displayContent
+    let displayContent = cleanTodoItem(match)
+    let key = $i & "." & " " & displayContent
     displayChoices.add(key)
     matchLookup[key] = match
 
@@ -59,6 +55,7 @@ proc markTodo(config: Config, state: TaskState) =
 
     console.success(fmt"Marked '{replaced}' as complete ({matchedFile}).")
 
+
 proc getTodoFile(config: Config): string =
   getNotesPath(config) & "todo.md"
   
@@ -84,7 +81,8 @@ proc process*(
   task: string,
   filter: Option[TaskState],
   edit: bool,
-  due: Option[string]
+  due: Option[string],
+  agenda: bool,
 ) =
 
   let todoFile = getTodoFile(config)
@@ -93,6 +91,12 @@ proc process*(
 
   if edit:
     discard os.execShellCmd(getEditor() & " " & todoFile)
+    return
+
+  if agenda:
+    printAgenda(
+      getAgenda(config, getTodos(config, TaskState.Todo))
+    )
     return
 
   if task != "":

@@ -58,9 +58,9 @@ Detailed info for each command is below this table.
 | `jn mv`              | Rename notes                       | `--plain` Whether to append dates and extension during rename |
 | `jn rm`              | Delete notes                       |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
-| `jn share`           | Upload notes and get a permalink  |                                                               |
+| `jn share`           | Upload notes and get a permalink   |                                                               |
 | `jn store`           | Store a note in your notes dir     |                                                               |
-| `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--filter` Filter on cancelled,completed,wip, and todo states<br> `--edit` Open the todo file for editing |
+| `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--agenda` Display your upcoming tasks<br> `--filter` Filter on cancelled,completed,wip, and todo states<br> `--edit` Open the todo file for editing |
 | `jn template`        | Edit a template                    |                                                               |
 | `jn config`          | Edit the config file               |                                                               |
 | `jn help`            | Show help                          |                                                               |
@@ -410,6 +410,28 @@ Becomes
 
 ```
 - [ ] No seriously, do the dishes +2026-12-03 !2026-12-04
+```
+
+
+#### Agendas
+
+If you have tasks with a due date specified, you can use `jn todo --agenda` to
+display them in a concise format.
+
+Here's an example:
+
+```
+: ./jn todo --agenda
+Sunday 01 November 2026
+  Return books to library
+  Begin my trainspotting journey
+  Pick up dry cleaning 
+Tuesday 03 November 2026
+  Take over the world
+Thursday 05 November 2026
+  Finish the quarterly budget report   
+  Back up phone photos to cloud 
+  Review and sign lease renewal documents 
 ```
 
 #### Editing the todo manually
