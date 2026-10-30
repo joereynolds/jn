@@ -1,5 +1,5 @@
-import std/parsecfg
-import ./[grep]
+import std/[parsecfg, re]
+import ./../grep
 
 type 
   TaskState* = enum
@@ -28,6 +28,18 @@ type
     Wip = ""
     Todo = ""
 
+let creationDatePattern* = re"\+\d{4}-\d{2}-\d{2}"
+let completionDatePattern* = re"x\d{4}-\d{2}-\d{2}"
+let DueDatePattern* = re"!\d{4}-\d{2}-\d{2}"
+
+## Removes all the metadata and markdown syntax from the todo
+## Leaves just the task
+proc cleanTodoItem*(todo: Match): string =
+    todo.lineContent[6..^1] # Trim the '- [ ] '
+      .replace(creationDatePattern, "")
+      .replace(completionDatePattern, "")
+      .replace(DueDatePattern, "")
+
 proc toSyntax*(state: TaskState): TaskStateSyntax =
   case state:
   of Cancelled: TaskStateSyntax.Cancelled
@@ -42,6 +54,12 @@ proc toTaskDateMarker*(state: TaskState): TaskDateMarker =
   of Wip: TaskDateMarker.Wip
   of Todo: TaskDateMarker.Todo
 
+proc hasDueDate*(todo: string): bool =
+  return match(todo, DueDatePattern)
+
+proc getDueDate*(todo: string): seq[string] =
+  return findAll(todo, DueDatePattern)
+  
 proc getTodos*(config: Config, state: TaskState): seq[Match] =
   let pattern = "^- \\[" & $toSyntax(state) & "\\] "
   getMatches(pattern, config)

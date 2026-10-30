@@ -2,7 +2,7 @@ import std/[options, os, strutils, tables]
 import config
 import console
 import files
-from ./todo as todoModule import TaskState
+from ./todo/todo as todoModule import TaskState
 
 import cligen
 
@@ -73,13 +73,15 @@ proc todoProxy(
   add: seq[string] = @[],
   filter: Option[TaskState] = none(TaskState),
   edit: bool = false,
-  due: Option[string] = none(string)
+  due: Option[string] = none(string),
+  agenda: bool = false,
 ) = todo.process(
   configuration,
   add.join(" "),
   filter,
   edit,
-  due
+  due,
+  agenda
 )
 
 proc fallback(params: seq[string]) =

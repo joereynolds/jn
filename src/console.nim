@@ -29,6 +29,13 @@ proc dim*(message: string) =
 
   stdout.styledWrite({styleDim}, message)
 
+proc dimLine*(message: string) =
+  if canDisplayColour():
+    stdout.write(message)
+    return
+
+  stdout.styledWriteLine({styleDim}, message)
+
 proc warn*(message: string) {.raises: [].} =
   if canDisplayColour():
     plain(message)
