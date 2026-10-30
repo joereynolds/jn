@@ -54,9 +54,6 @@ proc toTaskDateMarker*(state: TaskState): TaskDateMarker =
   of Wip: TaskDateMarker.Wip
   of Todo: TaskDateMarker.Todo
 
-proc hasDueDate*(todo: string): bool =
-  return match(todo, DueDatePattern)
-
 proc getDueDate*(todo: string): seq[string] =
   return findAll(todo, DueDatePattern)
   

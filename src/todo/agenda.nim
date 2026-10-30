@@ -1,4 +1,4 @@
-import std/[algorithm, parsecfg, sequtils, tables, terminal, times, strutils]
+import std/[algorithm, parsecfg, sequtils, tables, times]
 import ../[console, grep]
 import ./todo.nim
 
@@ -9,15 +9,13 @@ proc getAgenda*(config: Config, todos: seq[Match]): Agendas =
 
   for todo in todos:
 
-    if "!" in todo.lineContent:
-      var dueDate = getDueDate(todo.lineContent)[0]
+    let dueDate = getDueDate(todo.lineContent)
 
-      if dueDate != "":
-
-        dueDate = dueDate[1..^1] # Trim the '!'
-        agendas
-          .mgetOrPut(dueDate, @[])
-          .add(todo)
+    for date in dueDate:
+      let cleanDueDate = date[1..^1] # Trim the '!'
+      agendas
+        .mgetOrPut(cleanDueDate, @[])
+        .add(todo)
   
   var sortedAgendas = toSeq(agendas.pairs)
   sortedAgendas.sort(proc (a, b: (string, seq[Match])): int = cmp(a[0], b[0]))
