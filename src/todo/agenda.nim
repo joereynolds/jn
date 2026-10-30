@@ -4,6 +4,8 @@ import ./todo.nim
 
 type Agendas = OrderedTable[string, seq[Match]]
 
+const agendaDateFormat = "dddd dd MMMM yyyy"
+
 proc getAgenda*(config: Config, todos: seq[Match]): Agendas =
   var agendas: Agendas = initOrderedTable[string, seq[Match]]()
 
@@ -13,6 +15,10 @@ proc getAgenda*(config: Config, todos: seq[Match]): Agendas =
 
     for date in dueDate:
       let cleanDueDate = date[1..^1] # Trim the '!'
+
+      if cleanDueDate < now().format("YYYY-MM-dd"):
+        continue
+
       agendas
         .mgetOrPut(cleanDueDate, @[])
         .add(todo)
@@ -25,7 +31,7 @@ proc getAgenda*(config: Config, todos: seq[Match]): Agendas =
 proc printAgenda*(agendas: Agendas) =
   for date, todos in agendas:
     let dt = parse(date, "YYYY-MM-dd")
-    echo dt.format("dddd dd MMMM yyyy")
+    echo dt.format(agendaDateFormat)
     for todo in todos:
       stdout.write("  " )
       dim(cleanTodoItem(todo))
