@@ -15,3 +15,6 @@ task release, "Builds the project for production":
 
 task watch, "Watch the project locally and compile when changes are made":
   exec "fd . | entr nimble build"
+
+task watchtest, "Watch the project locally and compile when changes are made":
+  exec "fd . | entr nimble test"

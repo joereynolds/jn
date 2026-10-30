@@ -1,18 +1,10 @@
 import std/[strutils, times]
 
-proc getRelativeDate*(date: string): string =
-  # TODO
-  #
-  # Add support for next/last as well as N 
-  # i.e.
-  # next year (1 * 365) days
-  # last year (-1 * 365) days
-  # 5 weeks ago (5 * -7) days
-  # 5 weeks (5 * 7) days
-  # next week (1 * 7) days
-  # last week (1 * -7) days
-  #
-  # Months will be harder because 28/29/30/31 day months etc...
+## Gets the date from a given date following a human-like spec
+## date is a string like "today"
+## fromDate is when you want to act from. In 99% cases this would just be now()
+## but it gives us more testability to inject it in
+proc getRelativeDate*(date: string, fromDate: DateTime = now()): string =
   var modifier = 0
   case date.strip():
     of "yesterday":
@@ -21,12 +13,9 @@ proc getRelativeDate*(date: string): string =
       modifier = 0
     of "tomorrow":
       modifier = 1
+    of "eom":
+      let lastDay = getDaysInMonth(fromDate.month, fromDate.year)
+      return dateTime(fromDate.year, fromDate.month, lastDay, 23, 59, 59).format("YYYY-MM-dd")
 
-  let today = now() + modifier.days
-
+  let today = fromDate + modifier.days
   return today.format("YYYY-MM-dd")
-
-
-
-  
-
