@@ -511,7 +511,7 @@ title_contains = "exercise,lift,bro,gains"
 use_template = "gym-measurements.md"
 ```
 
-Now everytime you create a title with "exercise" or any of the other words in
+Now every time you create a title with "exercise" or any of the other words in
 that list _somewhere_ in the title, it will populate the note with the content
 of `XDG_DATA_HOME/jn/gym-measurements.md`.
 
@@ -522,7 +522,7 @@ of `XDG_DATA_HOME/jn/gym-measurements.md`.
 
 You can use predefined template variables in your templates.
 
-For example, a template consiting of
+For example, a template consisting of
 
 ```
 Today is {{ today }}
