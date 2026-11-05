@@ -58,7 +58,7 @@ Detailed info for each command is below this table.
 | `jn mv`              | Rename notes                       | `--plain` Whether to append dates and extension during rename |
 | `jn rm`              | Delete notes                       |                                                               |
 | `jn star`            | Bookmark a note                    |                                                               |
-| `jn share`           | Upload notes and get a permalink   |                                                               |
+| `jn share`           | Upload notes and get a permalink (uses paste.rs, be respectful) |                                                               |
 | `jn store`           | Store a note in your notes dir     |                                                               |
 | `jn todo`            | Show and complete incomplete tasks | `--add [task]` Create a task<br> `--agenda` Display your upcoming tasks<br> `--filter` Filter on cancelled,completed,wip, and todo states<br> `--edit` Open the todo file for editing |
 | `jn template`        | Edit a template                    |                                                               |
